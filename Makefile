@@ -1,5 +1,10 @@
 .PHONY: up down logs install build typecheck preview npm lint lint-fix format
 
+# Быстрые проверки идут в уже запущенном контейнере app,
+# если он не поднят - в одноразовом контейнере npm
+APP_RUNNING := $(shell docker compose ps -q --status running app 2>/dev/null)
+NPM_CHECK = $(if $(APP_RUNNING),docker compose exec app npm,docker compose run --rm npm)
+
 up:
 	docker compose up -d app
 
@@ -16,16 +21,16 @@ build:
 	docker compose run --rm npm run build
 
 typecheck:
-	docker compose run --rm npm run typecheck
+	$(NPM_CHECK) run typecheck
 
 lint:
-	docker compose run --rm npm run lint
+	$(NPM_CHECK) run lint
 
 lint-fix:
-	docker compose run --rm npm run lint:fix
+	$(NPM_CHECK) run lint:fix
 
 format:
-	docker compose run --rm npm run format
+	$(NPM_CHECK) run format
 
 # сначала build, затем сервер на http://localhost:4173
 preview: build
