@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
 import AppInput from './ui-kit/AppInput.vue'
+import EmptyState from './EmptyState.vue'
 import AppModal from './ui-kit/AppModal.vue'
 import MasterDetails from './MasterDetails.vue'
 import AppSlider from './ui-kit/AppSlider.vue'
@@ -47,7 +48,7 @@ function book(id: string) {
           autocomplete="off"
         />
       </div>
-      <p v-if="!shown.length" class="empty">Ничего не найдено — попробуйте другое слово.</p>
+      <EmptyState v-if="!shown.length" :query="query" @reset="query = ''" />
       <AppSlider v-else arrows="bottom" :loop="false">
         <article v-for="e in shown" :key="e.id" class="person">
           <div class="photo" :class="`tint-${e.tint}`">
@@ -90,12 +91,6 @@ function book(id: string) {
 </template>
 
 <style scoped lang="scss">
-.empty {
-  margin: 0;
-  color: var(--muted);
-  font-size: 18px;
-}
-
 .person {
   min-width: 0;
   background: $white;

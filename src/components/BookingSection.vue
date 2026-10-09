@@ -2,6 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import AppInput from './ui-kit/AppInput.vue'
+import EmptyState from './EmptyState.vue'
 import AppPhoneInput from './ui-kit/AppPhoneInput.vue'
 import AppSelect from './ui-kit/AppSelect.vue'
 import AppTooltip from './ui-kit/AppTooltip.vue'
@@ -237,7 +238,7 @@ function reset() {
                 autocomplete="off"
               />
             </div>
-            <p v-if="searching && !shownServices.length" class="hint">Ничего не найдено — попробуйте другое слово.</p>
+            <EmptyState v-if="searching && !shownServices.length" compact :query="serviceQuery" @reset="serviceQuery = ''" />
             <div v-else class="services">
               <button
                 v-for="s in shownServices"

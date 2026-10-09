@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import AppInput from './ui-kit/AppInput.vue'
+import EmptyState from './EmptyState.vue'
 import IconBadge from './IconBadge.vue'
 import AppModal from './ui-kit/AppModal.vue'
 import ServiceDetails from './ServiceDetails.vue'
@@ -49,7 +50,7 @@ function book() {
           autocomplete="off"
         />
       </div>
-      <p v-if="!shown.length" class="empty">Ничего не найдено — попробуйте другое слово.</p>
+      <EmptyState v-if="!shown.length" :query="query" @reset="query = ''" />
       <AppSlider v-else arrows="bottom" :loop="false" :rows="2">
         <article
           v-for="s in shown"
@@ -89,12 +90,6 @@ function book() {
 
 .panel :deep(.section-head p) {
   color: #3f5e5f;
-}
-
-.empty {
-  margin: 0;
-  color: var(--muted);
-  font-size: 18px;
 }
 
 .service {
