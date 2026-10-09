@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import IconBadge from './IconBadge.vue'
 import { SERVICES, formatPrice } from '../data/salon'
 </script>

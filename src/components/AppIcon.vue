@@ -1,11 +1,10 @@
-<script setup>
-defineProps({
-  name: { type: String, required: true },
-  size: { type: Number, default: 24 },
-})
+<script setup lang="ts">
+import type { IconName } from '../data/salon'
+
+withDefaults(defineProps<{ name: IconName; size?: number }>(), { size: 24 })
 
 // Контурные иконки 24x24; рисуются stroke-ом, кроме `paw` (заливка).
-const ICONS = {
+const ICONS: Record<IconName, string> = {
   heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>',
   drop: '<path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/>',
   clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',

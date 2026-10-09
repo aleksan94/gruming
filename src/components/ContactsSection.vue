@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
 import IconBadge from './IconBadge.vue'

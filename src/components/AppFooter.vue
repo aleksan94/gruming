@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import PawLogo from './PawLogo.vue'
 import { NAV } from '../data/salon'
 </script>

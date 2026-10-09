@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
 import { SERVICES, PETS, TIMES, FIRST_HOUR, formatPrice } from '../data/salon'
@@ -21,13 +21,13 @@ const days = Array.from({ length: DAYS_AHEAD }, (_, i) => {
 const serviceId = ref('bath')
 const petId = ref('dog')
 const dayIndex = ref(1)
-const time = ref('12:00')
+const time = ref<string | null>('12:00')
 const contact = reactive({ name: '', phone: '' })
 const error = ref('')
 const done = ref(false)
 
-const service = computed(() => SERVICES.find((s) => s.id === serviceId.value))
-const pet = computed(() => PETS.find((p) => p.id === petId.value))
+const service = computed(() => SERVICES.find((s) => s.id === serviceId.value)!)
+const pet = computed(() => PETS.find((p) => p.id === petId.value)!)
 const dateText = computed(() => days[dayIndex.value].label)
 
 // Часть слотов «занята» (имитация расписания); сегодня прошедшие часы тоже недоступны.
@@ -37,7 +37,7 @@ const slots = computed(() => TIMES.map((t, i) => {
   return { time: t, busy }
 }))
 
-function pickDay(i) {
+function pickDay(i: number) {
   dayIndex.value = i
   time.value = null
 }

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import AppHeader from './components/AppHeader.vue'
 import HeroSection from './components/HeroSection.vue'
 import AboutSection from './components/AboutSection.vue'

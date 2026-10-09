@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import AppIcon from './AppIcon.vue'
+import type { IconName, Tint } from '../data/salon'
 
-defineProps({
-  icon: { type: String, required: true },
-  tint: { type: String, default: 'mint' },
-  size: { type: Number, default: 56 },
+withDefaults(defineProps<{ icon: IconName; tint?: Tint; size?: number }>(), {
+  tint: 'mint',
+  size: 56,
 })
 </script>
 
