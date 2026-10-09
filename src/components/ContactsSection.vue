@@ -2,10 +2,12 @@
 import { reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
 import IconBadge from './IconBadge.vue'
+import AppSelect from './ui-kit/AppSelect.vue'
 import MapSketch from '../assets/illustrations/map-sketch.svg?component'
 import { CONTACTS, TOPICS } from '../data/salon'
 
 const form = reactive({ name: '', contact: '', topic: TOPICS[0], message: '', agree: true })
+const topicOptions = TOPICS.map((t) => ({ value: t, label: t }))
 const error = ref('')
 const sent = ref(false)
 const mapLoaded = ref(false)
@@ -94,9 +96,7 @@ function writeAgain() {
             </div>
             <div class="field">
               <label for="f-topic">Тема</label>
-              <select id="f-topic" v-model="form.topic" class="input topic">
-                <option v-for="t in TOPICS" :key="t" :value="t">{{ t }}</option>
-              </select>
+              <AppSelect id="f-topic" v-model="form.topic" :options="topicOptions" />
             </div>
             <div class="field">
               <label for="f-msg">Сообщение</label>
@@ -230,10 +230,6 @@ h3 {
   font-family: var(--font-head);
   font-weight: 700;
   font-size: 24px;
-}
-
-.topic {
-  padding: 0 14px;
 }
 
 .msg {

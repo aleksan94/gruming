@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
+import AppSelect from './ui-kit/AppSelect.vue'
 import { type PetId, SERVICES, PETS, EMPLOYEES, TIMES, FIRST_HOUR, worksAt, formatPrice } from '../data/salon'
 
 const WEEKDAYS = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб']
@@ -46,6 +47,10 @@ const pet = computed(() => PETS.find((p) => p.id === petId.value)!)
 const master = computed(() => EMPLOYEES.find((e) => e.id === masterId.value))
 // Мастера, которые работают с выбранным животным.
 const suitable = computed(() => EMPLOYEES.filter((e) => e.pets.includes(petId.value as PetId)))
+const masterOptions = computed(() => [
+  { value: 'any', label: 'Любой мастер' },
+  ...suitable.value.map((e) => ({ value: e.id, label: e.name, hint: e.role })),
+])
 const masterText = computed(() => master.value?.name ?? 'Любой мастер')
 const dateText = computed(() => days[dayIndex.value].label)
 
@@ -156,18 +161,13 @@ function reset() {
           <div class="step">
             <h3 class="step-title"><span class="num">3</span>Мастер</h3>
             <div class="field">
-              <select
+              <AppSelect
                 id="b-master"
                 v-model="masterId"
-                class="input"
+                :options="masterOptions"
                 aria-label="Мастер"
                 @change="pickMaster"
-              >
-                <option value="any">Любой мастер</option>
-                <option v-for="e in suitable" :key="e.id" :value="e.id">
-                  {{ e.name }} — {{ e.role }}
-                </option>
-              </select>
+              />
             </div>
           </div>
 
