@@ -167,7 +167,11 @@ function selectMaster(id: string) {
   pickMaster()
 }
 
-watch(bookingRequest, (r) => r && selectMaster(r.masterId))
+watch(bookingRequest, (r) => {
+  if (!r) return
+  if (r.serviceId && SERVICES.some((s) => s.id === r.serviceId)) serviceId.value = r.serviceId
+  if (r.masterId) selectMaster(r.masterId)
+})
 
 function pickDay(i: number) {
   dayIndex.value = i

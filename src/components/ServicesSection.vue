@@ -1,6 +1,25 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import IconBadge from './IconBadge.vue'
+import AppModal from './ui-kit/AppModal.vue'
+import ServiceDetails from './ServiceDetails.vue'
+import { requestBooking } from '../composables/bookingRequest'
 import { SERVICES, formatPrice } from '../data/salon'
+
+const selectedId = ref<string | null>(null)
+const selected = computed(() => SERVICES.find((s) => s.id === selectedId.value))
+const isOpen = computed({
+  get: () => !!selected.value,
+  set: (v) => {
+    if (!v) selectedId.value = null
+  },
+})
+
+function book() {
+  const id = selectedId.value ?? undefined
+  selectedId.value = null
+  requestBooking(undefined, id)
+}
 </script>
 
 <template>
@@ -14,17 +33,34 @@ import { SERVICES, formatPrice } from '../data/salon'
         </p>
       </div>
       <div class="grid">
-        <article v-for="s in SERVICES" :key="s.id" class="service">
+        <article
+          v-for="s in SERVICES"
+          :key="s.id"
+          class="service"
+          tabindex="0"
+          role="button"
+          :aria-label="`${s.name}: подробнее`"
+          @click="selectedId = s.id"
+          @keydown.enter.self.prevent="selectedId = s.id"
+          @keydown.space.self.prevent="selectedId = s.id"
+        >
           <IconBadge :icon="s.icon" :tint="s.tint" />
           <h3 class="h3">{{ s.name }}</h3>
-          <p :title="s.text">{{ s.text }}</p>
+          <p>{{ s.text }}</p>
           <div class="meta">
             <span class="price">{{ formatPrice(s.price) }}</span>
             <span class="note">{{ s.dur }} · {{ s.who }}</span>
           </div>
+          <span class="more">Подробнее →</span>
         </article>
       </div>
     </div>
+    <AppModal v-model="isOpen" :title="selected?.name">
+      <ServiceDetails v-if="selected" :service="selected" />
+      <template #footer>
+        <button type="button" class="btn btn--block" @click="book">Записаться на услугу</button>
+      </template>
+    </AppModal>
   </section>
 </template>
 
@@ -53,6 +89,22 @@ import { SERVICES, formatPrice } from '../data/salon'
   flex-direction: column;
   gap: 14px;
   box-sizing: border-box;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgb(31 58 61 / 12%);
+  }
+}
+
+.more {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 15px;
 }
 
 .service p {
