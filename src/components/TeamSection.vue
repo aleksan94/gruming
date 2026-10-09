@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppIcon from './AppIcon.vue'
-import { EMPLOYEES } from '../data/salon'
+import { EMPLOYEES, petsLabel } from '../data/salon'
 </script>
 
 <template>
@@ -19,6 +19,7 @@ import { EMPLOYEES } from '../data/salon'
           <div class="info">
             <h3 class="h3">{{ e.name }}</h3>
             <span class="role">{{ e.role }}</span>
+            <span class="pets"><AppIcon name="paw" :size="18" />{{ petsLabel(e.pets) }}</span>
             <p>{{ e.experience }}</p>
             <div class="schedule">
               <ul class="slots">
@@ -90,6 +91,14 @@ import { EMPLOYEES } from '../data/salon'
 .role {
   font-weight: 700;
   color: var(--accent);
+}
+
+.pets {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 15px;
 }
 
 .schedule {

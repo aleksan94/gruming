@@ -41,6 +41,7 @@ export interface ScheduleSlot {
   days: string
   hours: string
 }
+export type PetId = 'dog' | 'cat'
 export interface Employee {
   id: string
   name: string
@@ -49,6 +50,8 @@ export interface Employee {
   /** Путь к фото (например, /team/anna.jpg из public). Без фото показывается заглушка. */
   photo?: string
   experience: string
+  /** С какими животными работает мастер: собаки, кошки или и те и другие. */
+  pets: PetId[]
   /** Один или несколько интервалов работы (например, пн–вт и чт–пт в разное время). */
   schedule: ScheduleSlot[]
 }
@@ -176,6 +179,7 @@ export const EMPLOYEES: Employee[] = [
     role: 'Старший грумер',
     tint: 'peach',
     experience: 'Опыт 8 лет. Работает со всеми породами, специализируется на стрижках по стандарту.',
+    pets: ['dog', 'cat'],
     schedule: [{ days: 'Пн–Пт', hours: '10:00–18:00' }],
   },
   {
@@ -184,6 +188,7 @@ export const EMPLOYEES: Employee[] = [
     role: 'Грумер-кошатница',
     tint: 'sky',
     experience: 'Опыт 5 лет. Мягко работает с кошками и тревожными питомцами, делает SPA-уход.',
+    pets: ['cat'],
     schedule: [
       { days: 'Пн–Вт', hours: '10:00–14:00' },
       { days: 'Чт–Пт', hours: '15:00–20:00' },
@@ -195,6 +200,7 @@ export const EMPLOYEES: Employee[] = [
     role: 'Грумер-триммингист',
     tint: 'butter',
     experience: 'Опыт 6 лет. Тримминг жёсткошёрстных пород, подготовка к выставкам.',
+    pets: ['dog'],
     schedule: [{ days: 'Ср–Вс', hours: '10:00–18:00' }],
   },
 ]
@@ -203,6 +209,14 @@ export const PETS: Pet[] = [
   { id: 'dog', name: 'Собака' },
   { id: 'cat', name: 'Кошка' },
 ]
+
+const PET_LABELS: Record<PetId, string> = { dog: 'Собаки', cat: 'Кошки' }
+
+/** Подпись для мастера: «Собаки», «Кошки» или «Собаки и кошки». */
+export function petsLabel(pets: PetId[]): string {
+  const names = (['dog', 'cat'] as PetId[]).filter((p) => pets.includes(p)).map((p) => PET_LABELS[p])
+  return names.join(' и ').replace(/ и К/, ' и к')
+}
 
 export const TIMES = [
   '10:00',
