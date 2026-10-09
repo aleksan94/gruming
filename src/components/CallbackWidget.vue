@@ -2,6 +2,8 @@
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
 
+const SHOW_DELAY = 2000
+const shown = ref(false)
 const open = ref(false)
 const done = ref(false)
 const error = ref('')
@@ -34,18 +36,22 @@ const onKey = (e: KeyboardEvent) => {
   if (e.key === 'Escape') open.value = false
 }
 
+let showTimer: ReturnType<typeof setTimeout>
+
 onMounted(() => {
+  showTimer = setTimeout(() => (shown.value = true), SHOW_DELAY)
   document.addEventListener('click', onDocClick)
   document.addEventListener('keydown', onKey)
 })
 onUnmounted(() => {
+  clearTimeout(showTimer)
   document.removeEventListener('click', onDocClick)
   document.removeEventListener('keydown', onKey)
 })
 </script>
 
 <template>
-  <div ref="root" class="callback">
+  <div ref="root" class="callback" :class="{ 'callback--shown': shown }">
     <Transition name="callback-pop">
       <div
         v-if="open"
@@ -112,6 +118,17 @@ onUnmounted(() => {
     display: block;
   }
 
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.4s,
+    visibility 0.4s;
+
+  &--shown {
+    opacity: 1;
+    visibility: visible;
+  }
+
   &-fab {
     display: flex;
     align-items: center;
@@ -163,6 +180,10 @@ onUnmounted(() => {
     .input {
       min-height: 46px;
     }
+
+    .btn {
+      gap: 10px;
+    }
   }
 
   &-error {
@@ -209,6 +230,7 @@ onUnmounted(() => {
 @include reduced-motion {
   .callback-pop-enter-active,
   .callback-pop-leave-active,
+  .callback,
   .callback-fab {
     transition: none;
   }
