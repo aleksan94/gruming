@@ -3,6 +3,7 @@ import AppHeader from './components/AppHeader.vue'
 import HeroSection from './components/HeroSection.vue'
 import AboutSection from './components/AboutSection.vue'
 import ServicesSection from './components/ServicesSection.vue'
+import TeamSection from './components/TeamSection.vue'
 import BookingSection from './components/BookingSection.vue'
 import LiveSection from './components/LiveSection.vue'
 import ContactsSection from './components/ContactsSection.vue'
@@ -17,6 +18,7 @@ import ScrollTopButton from './components/ScrollTopButton.vue'
       <HeroSection />
       <AboutSection />
       <ServicesSection />
+      <TeamSection />
       <BookingSection />
       <LiveSection />
       <ContactsSection />

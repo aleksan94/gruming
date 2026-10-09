@@ -37,6 +37,16 @@ export interface Service {
   who: string
   text: string
 }
+export interface Employee {
+  id: string
+  name: string
+  role: string
+  tint: Tint
+  /** Путь к фото (например, /team/anna.jpg из public). Без фото показывается заглушка. */
+  photo?: string
+  experience: string
+  schedule: string
+}
 export interface Pet {
   id: string
   name: string
@@ -58,6 +68,7 @@ export interface Contact {
 export const NAV: NavItem[] = [
   { href: '#about', label: 'О салоне' },
   { href: '#services', label: 'Услуги' },
+  { href: '#team', label: 'Мастера' },
   { href: '#booking', label: 'Запись' },
   { href: '#live', label: 'Трансляция' },
   { href: '#contacts', label: 'Контакты' },
@@ -150,6 +161,33 @@ export const SERVICES: Service[] = [
     dur: '1,5 ч',
     who: 'собаки и кошки',
     text: 'Питательная маска, расслабляющий массаж и ароматерапия для спокойной шёрстки.',
+  },
+]
+
+export const EMPLOYEES: Employee[] = [
+  {
+    id: 'anna',
+    name: 'Иванова Анна Сергеевна',
+    role: 'Старший грумер',
+    tint: 'peach',
+    experience: 'Опыт 8 лет. Работает со всеми породами, специализируется на стрижках по стандарту.',
+    schedule: 'Пн–Пт, 10:00–18:00',
+  },
+  {
+    id: 'maria',
+    name: 'Петрова Мария Олеговна',
+    role: 'Грумер-кошатница',
+    tint: 'sky',
+    experience: 'Опыт 5 лет. Мягко работает с кошками и тревожными питомцами, делает SPA-уход.',
+    schedule: 'Вт–Сб, 11:00–19:00',
+  },
+  {
+    id: 'dmitry',
+    name: 'Соколов Дмитрий Андреевич',
+    role: 'Грумер-триммингист',
+    tint: 'butter',
+    experience: 'Опыт 6 лет. Тримминг жёсткошёрстных пород, подготовка к выставкам.',
+    schedule: 'Ср–Вс, 10:00–18:00',
   },
 ]
 
