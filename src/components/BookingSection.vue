@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import AppSelect from './ui-kit/AppSelect.vue'
+import { bookingRequest } from '../composables/bookingRequest'
 import { type PetId, SERVICES, PETS, EMPLOYEES, TIMES, FIRST_HOUR, worksAt, formatPrice } from '../data/salon'
 
 const WEEKDAYS = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб']
@@ -55,17 +56,20 @@ const masterText = computed(() => master.value?.name ?? 'Любой мастер
 const dateText = computed(() => days[dayIndex.value].label)
 
 // Часть слотов «занята» (имитация расписания); сегодня прошедшие часы тоже недоступны.
+function slotState(dIdx: number, i: number, mId: string) {
+  const hour = FIRST_HOUR + i
+  const m = EMPLOYEES.find((e) => e.id === mId)
+  const past = dIdx === 0 && hour <= now.getHours()
+  const staff = m ? [m] : suitable.value
+  const works = staff.some((e) => worksAt(e, days[dIdx].weekday, hour))
+  const shift = EMPLOYEES.findIndex((e) => e.id === mId) + 1
+  const off = !past && !works
+  const busy = past || (works && (dIdx * 5 + i * 7 + shift * 3) % 4 === 0)
+  return { busy, off }
+}
+
 const slots = computed(() =>
-  TIMES.map((t, i) => {
-    const past = dayIndex.value === 0 && FIRST_HOUR + i <= now.getHours()
-    const hour = FIRST_HOUR + i
-    const staff = master.value ? [master.value] : suitable.value
-    const works = staff.some((e) => worksAt(e, days[dayIndex.value].weekday, hour))
-    const shift = EMPLOYEES.findIndex((e) => e.id === masterId.value) + 1
-    const off = !past && !works
-    const busy = past || (works && (dayIndex.value * 5 + i * 7 + shift * 3) % 4 === 0)
-    return { time: t, busy, off }
-  }),
+  TIMES.map((t, i) => ({ time: t, ...slotState(dayIndex.value, i, masterId.value) })),
 )
 
 // Дни, в которые выбранный мастер вообще не работает, недоступны.
@@ -89,6 +93,28 @@ function pickMaster() {
     if (first >= 0) dayIndex.value = first
   }
 }
+
+// Выбирает мастера и ближайшие свободные день и время.
+function selectMaster(id: string) {
+  const m = EMPLOYEES.find((e) => e.id === id)
+  if (!m) return
+  if (!m.pets.includes(petId.value as PetId)) petId.value = m.pets[0]
+  masterId.value = id
+  for (let d = 0; d < days.length; d++) {
+    const i = TIMES.findIndex((_, k) => {
+      const st = slotState(d, k, id)
+      return !st.busy && !st.off
+    })
+    if (i >= 0) {
+      dayIndex.value = d
+      time.value = TIMES[i]
+      return
+    }
+  }
+  pickMaster()
+}
+
+watch(bookingRequest, (r) => r && selectMaster(r.masterId))
 
 function pickDay(i: number) {
   dayIndex.value = i

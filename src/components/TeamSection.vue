@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppIcon from './AppIcon.vue'
 import AppSlider from './ui-kit/AppSlider.vue'
+import { requestBooking } from '../composables/bookingRequest'
 import { EMPLOYEES, petsLabel } from '../data/salon'
 </script>
 
@@ -31,6 +32,9 @@ import { EMPLOYEES, petsLabel } from '../data/salon'
                 </li>
               </ul>
             </div>
+            <button type="button" class="btn hov book" @click="requestBooking(e.id)">
+              Записаться к мастеру
+            </button>
           </div>
         </article>
       </AppSlider>
@@ -93,6 +97,11 @@ import { EMPLOYEES, petsLabel } from '../data/salon'
   gap: 6px;
   font-weight: 700;
   font-size: 15px;
+}
+
+.book {
+  margin-top: 8px;
+  cursor: pointer;
 }
 
 .schedule {
