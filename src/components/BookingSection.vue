@@ -2,6 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import AppInput from './ui-kit/AppInput.vue'
+import AppModal from './ui-kit/AppModal.vue'
 import EmptyState from './EmptyState.vue'
 import AppPhoneInput from './ui-kit/AppPhoneInput.vue'
 import AppSelect from './ui-kit/AppSelect.vue'
@@ -49,6 +50,8 @@ const week = ref(0)
 const time = ref<string | null>('12:00')
 const contact = reactive({ name: '', phone: '' })
 const error = ref('')
+const contactError = ref('')
+const confirmOpen = ref(false)
 const done = ref(false)
 
 // Услуг много: по умолчанию показываем первые, остальные раскрываются кнопкой.
@@ -195,15 +198,25 @@ function pickDay(i: number) {
   time.value = null
 }
 
+// Кнопка в сводке проверяет выбор времени и открывает окно с контактами.
 function book() {
   if (!time.value) {
     error.value = 'Выберите свободное время визита.'
-  } else if (!contact.name.trim() || !contact.phone.trim()) {
-    error.value = 'Укажите имя и телефон, чтобы администратор мог подтвердить запись.'
-  } else {
-    error.value = ''
-    done.value = true
+    return
   }
+  error.value = ''
+  contactError.value = ''
+  confirmOpen.value = true
+}
+
+function confirm() {
+  if (!contact.name.trim() || !contact.phone.trim()) {
+    contactError.value = 'Укажите имя и телефон, чтобы администратор мог подтвердить запись.'
+    return
+  }
+  contactError.value = ''
+  confirmOpen.value = false
+  done.value = true
 }
 
 function reset() {
@@ -366,26 +379,6 @@ function reset() {
               Зачёркнутое время или день уже заняты, серое с пунктиром — мастер в это время не работает.
             </p>
           </div>
-
-          <div class="step">
-            <h3 class="step-title"><span class="num">6</span>Ваши контакты</h3>
-            <div class="row gap-16">
-              <div class="field contact">
-                <label for="b-name">Имя</label>
-                <AppInput
-                  id="b-name"
-                  v-model="contact.name"
-                  type="text"
-                  autocomplete="name"
-                  placeholder="Как к вам обращаться"
-                />
-              </div>
-              <div class="field contact">
-                <label for="b-phone">Телефон</label>
-                <AppPhoneInput id="b-phone" v-model="contact.phone" />
-              </div>
-            </div>
-          </div>
         </div>
 
         <aside class="summary">
@@ -440,6 +433,31 @@ function reset() {
         </aside>
       </div>
     </div>
+
+    <AppModal v-model="confirmOpen" title="Подтверждение записи" :width="480">
+      <form class="confirm" novalidate @submit.prevent="confirm">
+        <h3 class="confirm-title">Как с вами связаться?</h3>
+        <p class="confirm-text">
+          {{ service.name }}, {{ dateText }}, {{ time }}. Администратор перезвонит и подтвердит запись.
+        </p>
+        <div class="field">
+          <label for="b-name">Имя</label>
+          <AppInput
+            id="b-name"
+            v-model="contact.name"
+            type="text"
+            autocomplete="name"
+            placeholder="Как к вам обращаться"
+          />
+        </div>
+        <div class="field">
+          <label for="b-phone">Телефон</label>
+          <AppPhoneInput id="b-phone" v-model="contact.phone" />
+        </div>
+        <p v-if="contactError" role="alert" class="confirm-error">{{ contactError }}</p>
+        <button type="submit" class="confirm-btn hov">Подтвердить запись</button>
+      </form>
+    </AppModal>
   </section>
 </template>
 
@@ -697,8 +715,44 @@ function reset() {
   cursor: default;
 }
 
-.contact {
-  flex: 1 1 220px;
+/* Окно с контактами */
+.confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+}
+
+.confirm-title {
+  margin: 0;
+  padding-right: 40px;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.confirm-text {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.confirm-error {
+  margin: 0;
+  font-size: 14px;
+  color: #b3402a;
+}
+
+.confirm-btn {
+  min-height: 56px;
+  border: 0;
+  border-radius: $radius-pill;
+  background: var(--sun);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 17px;
+  cursor: pointer;
 }
 
 /* Сводка */
