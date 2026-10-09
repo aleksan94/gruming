@@ -50,6 +50,15 @@ const contact = reactive({ name: '', phone: '' })
 const error = ref('')
 const done = ref(false)
 
+// Услуг много: по умолчанию показываем первые, остальные раскрываются кнопкой.
+const SERVICES_COLLAPSED = 6
+const servicesOpen = ref(false)
+const shownServices = computed(() => {
+  const idx = SERVICES.findIndex((s) => s.id === serviceId.value)
+  return servicesOpen.value || idx >= SERVICES_COLLAPSED ? SERVICES : SERVICES.slice(0, SERVICES_COLLAPSED)
+})
+const canCollapse = computed(() => SERVICES.findIndex((s) => s.id === serviceId.value) < SERVICES_COLLAPSED)
+
 const service = computed(() => SERVICES.find((s) => s.id === serviceId.value)!)
 const pet = computed(() => PETS.find((p) => p.id === petId.value)!)
 const master = computed(() => EMPLOYEES.find((e) => e.id === masterId.value))
@@ -211,9 +220,9 @@ function reset() {
         <div class="card steps">
           <div class="step">
             <h3 class="step-title"><span class="num">1</span>Услуга</h3>
-            <div class="row gap-10">
+            <div class="services">
               <button
-                v-for="s in SERVICES"
+                v-for="s in shownServices"
                 :key="s.id"
                 type="button"
                 class="choice hov service"
@@ -221,9 +230,21 @@ function reset() {
                 @click="serviceId = s.id"
               >
                 <span class="service-name">{{ s.name }}</span>
-                <span class="service-dur">{{ s.dur }}</span>
+                <span class="service-meta">
+                  <span>{{ s.dur }}</span>
+                  <span class="service-price">{{ formatPrice(s.price) }}</span>
+                </span>
               </button>
             </div>
+            <button
+              v-if="canCollapse"
+              type="button"
+              class="next-free"
+              :aria-expanded="servicesOpen"
+              @click="servicesOpen = !servicesOpen"
+            >
+              {{ servicesOpen ? 'Свернуть' : `Показать все услуги (${SERVICES.length})` }}
+            </button>
           </div>
 
           <div class="step">
@@ -528,23 +549,41 @@ function reset() {
   color: var(--muted);
 }
 
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
 .service {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 2px;
-  padding: 12px 18px;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px 16px;
   border-radius: 20px;
+  text-align: left;
 }
 
 .service-name {
   font-weight: 800;
   font-size: 16px;
+  line-height: 1.25;
 }
 
-.service-dur {
+.service-meta {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
   font-size: 14px;
   opacity: 0.85;
+}
+
+.service-price {
+  font-weight: 700;
 }
 
 .pet {
