@@ -1,21 +1,10 @@
-# Одностраничный сайт — design reference
+# Тёплая лапка — сайт груминг-салона
 
-This is a design mockup created in a visual design tool, exported as a
-standalone page. Treat it as a REFERENCE MOCKUP, not production code:
-the markup and inline styles carry the design's precise values — colors,
-font sizes, spacing, radii, shadows, layout — which an implementation
-should replicate faithfully in its own components and styling system
-rather than copy wholesale.
+Vue 3 + Vite. Исходный дизайн-макет (React-рантайм) сохранён в `Main.dc.html` как справочник.
 
-## Contents
+    npm install
+    npm run dev      # разработка
+    npm run build    # сборка в dist/
 
-- `Main.dc.html` — the artboard (a Design Component: an `<x-dc>`
-  template + a small logic class). The values to replicate live in its
-  inline `style="…"` attributes and the `<helmet><style>` block.
-- `support.js`, `vendor/react*.js` — the runtime that renders the
-  component in a browser; not part of the design.
-
-## Viewing
-
-Serve the folder (e.g. `python3 -m http.server`) and open `Main.dc.html`;
-some browsers block the scripts over file://.
+Структура: `src/components/` — секции страницы, `src/data/salon.js` — услуги, камеры, контакты,
+`src/style.css` — дизайн-токены (цвета, шрифты) и общие классы. Акцентный цвет — `--accent`.
