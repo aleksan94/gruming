@@ -1,6 +1,17 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import AppIcon from './AppIcon.vue'
 import { EMPLOYEES, petsLabel } from '../data/salon'
+
+const track = ref<HTMLElement | null>(null)
+
+function scrollByCard(dir: 1 | -1) {
+  const el = track.value
+  if (!el) return
+  const card = el.querySelector<HTMLElement>('.person')
+  const step = card ? card.offsetWidth + 24 : el.clientWidth
+  el.scrollBy({ left: dir * step, behavior: 'smooth' })
+}
 </script>
 
 <template>
@@ -10,7 +21,11 @@ import { EMPLOYEES, petsLabel } from '../data/salon'
         <h2 class="h2">Наши мастера</h2>
         <p>Опытные грумеры, которые любят свою работу и находят подход к любому питомцу.</p>
       </div>
-      <div class="grid">
+      <div class="slider">
+        <button type="button" class="nav prev" aria-label="Назад" @click="scrollByCard(-1)">
+          <AppIcon name="arrow-up" :size="22" />
+        </button>
+        <div ref="track" class="grid">
         <article v-for="e in EMPLOYEES" :key="e.id" class="person">
           <div class="photo" :class="`tint-${e.tint}`">
             <img v-if="e.photo" :src="e.photo" :alt="e.name" loading="lazy" />
@@ -32,20 +47,68 @@ import { EMPLOYEES, petsLabel } from '../data/salon'
             </div>
           </div>
         </article>
+        </div>
+        <button type="button" class="nav next" aria-label="Вперёд" @click="scrollByCard(1)">
+          <AppIcon name="arrow-up" :size="22" />
+        </button>
       </div>
     </div>
   </section>
 </template>
 
 <style scoped lang="scss">
+.slider {
+  position: relative;
+}
+
 .grid {
   display: flex;
-  flex-wrap: wrap;
   gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 2px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--card-border);
+  background: $white;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &.prev {
+    left: -12px;
+    svg,
+    :deep(svg) {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &.next {
+    right: -12px;
+    :deep(svg) {
+      transform: rotate(90deg);
+    }
+  }
 }
 
 .person {
-  flex: 1 1 320px;
+  flex: 0 0 min(340px, 85%);
+  scroll-snap-align: start;
   min-width: 0;
   background: $white;
   border: 2px solid var(--card-border);

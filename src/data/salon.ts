@@ -203,6 +203,18 @@ export const EMPLOYEES: Employee[] = [
     pets: ['dog'],
     schedule: [{ days: 'Ср–Вс', hours: '10:00–18:00' }],
   },
+  {
+    id: 'elena',
+    name: 'Кузнецова Елена Викторовна',
+    role: 'Грумер-стилист',
+    tint: 'mint',
+    experience: 'Опыт 4 года. Креативные стрижки, окрашивание и уход за мелкими породами.',
+    pets: ['dog', 'cat'],
+    schedule: [
+      { days: 'Пн–Ср', hours: '12:00–19:00' },
+      { days: 'Сб', hours: '10:00–16:00' },
+    ],
+  },
 ]
 
 export const PETS: Pet[] = [
