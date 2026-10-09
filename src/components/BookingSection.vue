@@ -26,6 +26,7 @@ const MONTHS = [
   'декабря',
 ]
 const WEEK = 7
+const PHONE_DIGITS = 11 // +7 и 10 цифр номера
 const WEEKS_AHEAD = 4
 const DAYS_AHEAD = WEEK * WEEKS_AHEAD
 
@@ -210,8 +211,12 @@ function book() {
 }
 
 function confirm() {
-  if (!contact.name.trim() || !contact.phone.trim()) {
-    contactError.value = 'Укажите имя и телефон, чтобы администратор мог подтвердить запись.'
+  if (!contact.name.trim()) {
+    contactError.value = 'Укажите имя, чтобы администратор знал, как к вам обращаться.'
+    return
+  }
+  if (contact.phone.replace(/\D/g, '').length < PHONE_DIGITS) {
+    contactError.value = 'Введите телефон полностью, чтобы администратор мог подтвердить запись.'
     return
   }
   contactError.value = ''
@@ -424,9 +429,22 @@ function reset() {
           <div v-else class="summary-body">
             <span class="done-icon"><AppIcon name="check" :size="32" /></span>
             <h3>Заявка принята</h3>
+            <dl class="recap">
+              <div>
+                <dt>Услуга</dt>
+                <dd>{{ service.name }}</dd>
+              </div>
+              <div>
+                <dt>Мастер</dt>
+                <dd>{{ masterText }}</dd>
+              </div>
+              <div>
+                <dt>Когда</dt>
+                <dd>{{ dateText }}, {{ time }}</dd>
+              </div>
+            </dl>
             <p class="thanks">
-              Ждём вас: {{ dateText }}, {{ time }}. Услуга: {{ service.name }}. Мастер: {{ masterText }}. Администратор
-              позвонит по номеру {{ contact.phone }} и подтвердит запись.
+              Администратор позвонит по номеру <strong>{{ contact.phone }}</strong> и подтвердит запись.
             </p>
             <button type="button" class="again hov on-dark" @click="reset">Новая запись</button>
           </div>
@@ -876,10 +894,21 @@ hr {
   color: $border-soft;
 }
 
+.recap {
+  padding: 16px;
+  border-radius: 20px;
+  background: rgb(255 255 255 / 8%);
+}
+
 .thanks {
   margin: 0;
   line-height: 1.6;
   color: #d8e8e4;
+
+  strong {
+    color: $white;
+    white-space: nowrap;
+  }
 }
 
 .submit,
