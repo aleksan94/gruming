@@ -9,6 +9,7 @@ import LiveSection from './components/LiveSection.vue'
 import ContactsSection from './components/ContactsSection.vue'
 import AppFooter from './components/AppFooter.vue'
 import ScrollTopButton from './components/ScrollTopButton.vue'
+import CallbackWidget from './components/CallbackWidget.vue'
 </script>
 
 <template>
@@ -25,5 +26,6 @@ import ScrollTopButton from './components/ScrollTopButton.vue'
     </main>
     <AppFooter />
     <ScrollTopButton />
+    <CallbackWidget />
   </div>
 </template>
