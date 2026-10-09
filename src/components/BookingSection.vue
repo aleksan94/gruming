@@ -55,8 +55,9 @@ const slots = computed(() =>
     const staff = master.value ? [master.value] : EMPLOYEES
     const works = staff.some((e) => worksAt(e, days[dayIndex.value].weekday, hour))
     const shift = EMPLOYEES.findIndex((e) => e.id === masterId.value) + 1
-    const busy = past || !works || (dayIndex.value * 5 + i * 7 + shift * 3) % 4 === 0
-    return { time: t, busy }
+    const off = !past && !works
+    const busy = past || (works && (dayIndex.value * 5 + i * 7 + shift * 3) % 4 === 0)
+    return { time: t, busy, off }
   }),
 )
 
@@ -189,15 +190,18 @@ function reset() {
                 :key="s.time"
                 type="button"
                 class="choice hov slot"
-                :class="{ busy: s.busy }"
-                :disabled="s.busy"
-                :aria-pressed="!s.busy && s.time === time"
+                :class="{ busy: s.busy, off: s.off }"
+                :disabled="s.busy || s.off"
+                :aria-pressed="!s.busy && !s.off && s.time === time"
+                :title="s.off ? 'Мастер в это время не работает' : s.busy ? 'Время занято' : undefined"
                 @click="time = s.time"
               >
                 {{ s.time }}
               </button>
             </div>
-            <p class="hint">Зачёркнутое время занято или вне графика мастера.</p>
+            <p class="hint">
+              Зачёркнутое время уже занято, серое с пунктиром — мастер в это время не работает.
+            </p>
           </div>
 
           <div class="step">
@@ -390,7 +394,9 @@ function reset() {
 }
 
 .day:disabled {
-  opacity: 0.4;
+  background: transparent;
+  border: 2px dashed #c5d4d0;
+  color: #9db1ad;
   cursor: default;
 }
 
@@ -427,6 +433,13 @@ function reset() {
   border-color: #edf3f0;
   color: #7c9390;
   text-decoration: line-through;
+  cursor: default;
+}
+
+.slot.off {
+  background: transparent;
+  border: 2px dashed #c5d4d0;
+  color: #9db1ad;
   cursor: default;
 }
 
