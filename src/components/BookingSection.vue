@@ -23,7 +23,9 @@ const MONTHS = [
   'ноября',
   'декабря',
 ]
-const DAYS_AHEAD = 7
+const WEEK = 7
+const WEEKS_AHEAD = 4
+const DAYS_AHEAD = WEEK * WEEKS_AHEAD
 
 const now = new Date()
 const days = Array.from({ length: DAYS_AHEAD }, (_, i) => {
@@ -33,6 +35,7 @@ const days = Array.from({ length: DAYS_AHEAD }, (_, i) => {
     weekday: d.getDay(),
     wd: i === 0 ? 'сегодня' : wd,
     num: d.getDate(),
+    month: d.getMonth(),
     label: `${wd}, ${d.getDate()} ${MONTHS[d.getMonth()]}`,
   }
 })
@@ -41,6 +44,7 @@ const serviceId = ref('bath')
 const petId = ref('dog')
 const masterId = ref('any')
 const dayIndex = ref(1)
+const week = ref(0)
 const time = ref<string | null>('12:00')
 const contact = reactive({ name: '', phone: '' })
 const error = ref('')
@@ -57,6 +61,37 @@ const masterOptions = computed(() => [
 ])
 const masterText = computed(() => master.value?.name ?? 'Любой мастер')
 const dateText = computed(() => days[dayIndex.value].label)
+
+// Неделя, в которой лежит выбранный день, всегда показана (мастер, заявка, «ближайшая дата»).
+watch(dayIndex, (i) => (week.value = Math.floor(i / WEEK)))
+const visibleDays = computed(() =>
+  days
+    .slice(week.value * WEEK, (week.value + 1) * WEEK)
+    .map((d, k) => ({ ...d, index: week.value * WEEK + k })),
+)
+const weekLabel = computed(() => {
+  const first = visibleDays.value[0]
+  const last = visibleDays.value[visibleDays.value.length - 1]
+  return first.month === last.month
+    ? `${first.num} – ${last.num} ${MONTHS[last.month]}`
+    : `${first.num} ${MONTHS[first.month]} – ${last.num} ${MONTHS[last.month]}`
+})
+
+function shiftWeek(delta: number) {
+  week.value = Math.min(WEEKS_AHEAD - 1, Math.max(0, week.value + delta))
+}
+
+// Свайп по полоске дней переключает неделю.
+let touchX: number | null = null
+function onTouchStart(e: TouchEvent) {
+  touchX = e.touches[0].clientX
+}
+function onTouchEnd(e: TouchEvent) {
+  if (touchX === null) return
+  const dx = e.changedTouches[0].clientX - touchX
+  touchX = null
+  if (Math.abs(dx) > 50) shiftWeek(dx < 0 ? 1 : -1)
+}
 
 // Часть слотов «занята» (имитация расписания); сегодня прошедшие часы тоже недоступны.
 function slotState(dIdx: number, i: number, mId: string) {
@@ -88,6 +123,13 @@ const dayStates = computed(() =>
     return hasFree ? ('ok' as const) : ('full' as const)
   }),
 )
+// Если на показанной неделе нет свободных дней — предлагаем ближайший свободный день.
+const nextFreeDay = computed(() => {
+  const from = (week.value + 1) * WEEK
+  if (visibleDays.value.some((d) => dayStates.value[d.index] === 'ok')) return null
+  const i = dayStates.value.findIndex((st, k) => k >= from && st === 'ok')
+  return i >= 0 ? { index: i, label: days[i].label } : null
+})
 const DAY_TIPS = { off: 'Мастер в этот день не работает', full: 'Все время занято', ok: undefined }
 
 function pickPet(id: string) {
@@ -208,23 +250,49 @@ function reset() {
           </div>
 
           <div class="step">
-            <h3 class="step-title"><span class="num">4</span>День</h3>
-            <div class="row gap-8">
-              <AppTooltip v-for="(d, i) in days" :key="i" class="day-wrap" :text="DAY_TIPS[dayStates[i]]">
+            <div class="step-head">
+              <h3 class="step-title"><span class="num">4</span>День</h3>
+              <div class="week-nav">
+                <button
+                  type="button"
+                  class="week-btn prev hov"
+                  aria-label="Предыдущая неделя"
+                  :disabled="week === 0"
+                  @click="shiftWeek(-1)"
+                >
+                  <AppIcon name="chevron-right" :size="20" />
+                </button>
+                <span class="week-label" aria-live="polite">{{ weekLabel }}</span>
+                <button
+                  type="button"
+                  class="week-btn hov"
+                  aria-label="Следующая неделя"
+                  :disabled="week === WEEKS_AHEAD - 1"
+                  @click="shiftWeek(1)"
+                >
+                  <AppIcon name="chevron-right" :size="20" />
+                </button>
+              </div>
+            </div>
+            <div class="row gap-8" @touchstart.passive="onTouchStart" @touchend.passive="onTouchEnd">
+              <AppTooltip v-for="d in visibleDays" :key="d.index" class="day-wrap" :text="DAY_TIPS[dayStates[d.index]]">
                 <button
                   type="button"
                   class="choice hov day"
-                  :class="{ full: dayStates[i] === 'full' }"
-                  :aria-pressed="dayStates[i] === 'ok' && i === dayIndex"
+                  :class="{ full: dayStates[d.index] === 'full' }"
+                  :aria-pressed="dayStates[d.index] === 'ok' && d.index === dayIndex"
                   :aria-label="d.label"
-                  :disabled="dayStates[i] !== 'ok'"
-                  @click="pickDay(i)"
+                  :disabled="dayStates[d.index] !== 'ok'"
+                  @click="pickDay(d.index)"
                 >
                   <span class="day-wd">{{ d.wd }}</span>
                   <span class="day-num">{{ d.num }}</span>
                 </button>
               </AppTooltip>
             </div>
+            <button v-if="nextFreeDay" type="button" class="next-free" @click="pickDay(nextFreeDay.index)">
+              Ближайшая свободная дата — {{ nextFreeDay.label }} →
+            </button>
           </div>
 
           <div class="step">
@@ -358,6 +426,64 @@ function reset() {
   font-family: var(--font-head);
   font-weight: 700;
   font-size: 20px;
+}
+
+.step-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+}
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.week-label {
+  min-width: 150px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.week-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: $white;
+  color: var(--ink);
+  cursor: pointer;
+
+  &.prev :deep(svg) {
+    transform: scaleX(-1);
+  }
+
+  &:disabled {
+    border-color: #edf3f0;
+    color: #9db1ad;
+    cursor: default;
+  }
+}
+
+.next-free {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
 }
 
 .num {

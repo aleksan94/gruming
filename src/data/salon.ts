@@ -15,6 +15,7 @@ export type IconName =
   | 'pause'
   | 'paw'
   | 'arrow-up'
+  | 'chevron-right'
 export type Tint = 'peach' | 'sky' | 'butter' | 'mint' | 'green'
 
 export interface NavItem {
