@@ -7,15 +7,17 @@
           Уютный салон для собак и кошек. Спокойный подход, мягкая косметика и мастера, которые
           никуда не торопятся.
         </p>
-        <div class="actions">
-          <a href="#booking" class="btn btn--lg hov">Записаться онлайн</a>
-          <a href="#live" class="btn btn--lg btn--outline hov">Смотреть трансляцию</a>
+        <div class="controls">
+          <div class="actions">
+            <a href="#booking" class="btn btn--lg hov">Записаться онлайн</a>
+            <a href="#live" class="btn btn--lg btn--outline hov">Смотреть трансляцию</a>
+          </div>
+          <ul class="tags">
+            <li class="tint-mint">Собаки и кошки</li>
+            <li class="tint-butter">Мягкая косметика</li>
+            <li class="tint-sky">Трансляция из зала</li>
+          </ul>
         </div>
-        <ul class="tags">
-          <li class="tint-mint">Собаки и кошки</li>
-          <li class="tint-butter">Мягкая косметика</li>
-          <li class="tint-sky">Трансляция из зала</li>
-        </ul>
       </div>
       <div class="art">
         <svg
@@ -161,10 +163,24 @@ p {
   max-width: 520px;
 }
 
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: fit-content;
+  max-width: 100%;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+
+  .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+    text-align: center;
+  }
 }
 
 .tags {
@@ -173,6 +189,7 @@ p {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: 10px;
 }
 
