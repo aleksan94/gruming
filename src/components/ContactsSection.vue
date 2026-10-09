@@ -52,7 +52,7 @@ function writeAgain() {
         </div>
 
         <div class="card form">
-          <form v-if="!sent" @submit.prevent="send" novalidate>
+          <form v-if="!sent" novalidate @submit.prevent="send">
             <h3>Напишите нам</h3>
             <div class="field">
               <label for="f-name">Имя</label>
