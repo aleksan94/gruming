@@ -37,6 +37,10 @@ export interface Service {
   who: string
   text: string
 }
+export interface ScheduleSlot {
+  days: string
+  hours: string
+}
 export interface Employee {
   id: string
   name: string
@@ -45,7 +49,8 @@ export interface Employee {
   /** Путь к фото (например, /team/anna.jpg из public). Без фото показывается заглушка. */
   photo?: string
   experience: string
-  schedule: string
+  /** Один или несколько интервалов работы (например, пн–вт и чт–пт в разное время). */
+  schedule: ScheduleSlot[]
 }
 export interface Pet {
   id: string
@@ -171,7 +176,7 @@ export const EMPLOYEES: Employee[] = [
     role: 'Старший грумер',
     tint: 'peach',
     experience: 'Опыт 8 лет. Работает со всеми породами, специализируется на стрижках по стандарту.',
-    schedule: 'Пн–Пт, 10:00–18:00',
+    schedule: [{ days: 'Пн–Пт', hours: '10:00–18:00' }],
   },
   {
     id: 'maria',
@@ -179,7 +184,10 @@ export const EMPLOYEES: Employee[] = [
     role: 'Грумер-кошатница',
     tint: 'sky',
     experience: 'Опыт 5 лет. Мягко работает с кошками и тревожными питомцами, делает SPA-уход.',
-    schedule: 'Вт–Сб, 11:00–19:00',
+    schedule: [
+      { days: 'Пн–Вт', hours: '10:00–14:00' },
+      { days: 'Чт–Пт', hours: '15:00–20:00' },
+    ],
   },
   {
     id: 'dmitry',
@@ -187,7 +195,7 @@ export const EMPLOYEES: Employee[] = [
     role: 'Грумер-триммингист',
     tint: 'butter',
     experience: 'Опыт 6 лет. Тримминг жёсткошёрстных пород, подготовка к выставкам.',
-    schedule: 'Ср–Вс, 10:00–18:00',
+    schedule: [{ days: 'Ср–Вс', hours: '10:00–18:00' }],
   },
 ]
 

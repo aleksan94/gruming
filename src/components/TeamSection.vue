@@ -22,7 +22,12 @@ import { EMPLOYEES } from '../data/salon'
             <p>{{ e.experience }}</p>
             <div class="schedule">
               <AppIcon name="clock" :size="20" />
-              <span>{{ e.schedule }}</span>
+              <ul class="slots">
+                <li v-for="s in e.schedule" :key="s.days + s.hours">
+                  <span class="days">{{ s.days }}</span>
+                  <span class="hours">{{ s.hours }}</span>
+                </li>
+              </ul>
             </div>
           </div>
         </article>
@@ -89,14 +94,48 @@ import { EMPLOYEES } from '../data/salon'
 
 .schedule {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 10px;
   margin-top: 6px;
   padding: 10px 14px;
   border-radius: 16px;
   background: var(--mint);
   font-weight: 700;
   font-size: 15px;
+}
+
+.schedule :deep(svg),
+.schedule > :first-child {
+  flex: none;
+  margin-top: 1px;
+}
+
+.slots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2px 12px;
+  }
+
+  li + li {
+    padding-top: 6px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
+  }
+}
+
+.hours {
+  font-variant-numeric: tabular-nums;
 }
 
 .tint-peach {
