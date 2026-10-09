@@ -15,6 +15,10 @@ install:
 build:
 	docker compose run --rm npm run build
 
+# сначала build, затем сервер на http://localhost:4173
+preview: build
+	docker compose run --rm --service-ports preview
+
 # произвольная команда: make npm ARGS="install axios"
 npm:
 	docker compose run --rm npm $(ARGS)
