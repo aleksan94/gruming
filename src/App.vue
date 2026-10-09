@@ -7,6 +7,7 @@ import BookingSection from './components/BookingSection.vue'
 import LiveSection from './components/LiveSection.vue'
 import ContactsSection from './components/ContactsSection.vue'
 import AppFooter from './components/AppFooter.vue'
+import ScrollTopButton from './components/ScrollTopButton.vue'
 </script>
 
 <template>
@@ -21,5 +22,6 @@ import AppFooter from './components/AppFooter.vue'
       <ContactsSection />
     </main>
     <AppFooter />
+    <ScrollTopButton />
   </div>
 </template>
