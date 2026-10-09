@@ -133,7 +133,8 @@ function writeAgain() {
 .map {
   position: relative;
   width: 100%;
-  height: 360px;
+  flex: 1 1 auto;
+  min-height: 320px;
   overflow: hidden;
   border-radius: 32px;
 }
@@ -160,7 +161,7 @@ function writeAgain() {
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .info {
@@ -211,6 +212,22 @@ li > div {
 .form {
   flex: 1 1 400px;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+form {
+  flex: 1;
+}
+
+.field:has(.msg) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.field:has(.msg) .msg {
+  flex: 1;
 }
 
 form,
