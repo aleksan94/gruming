@@ -56,11 +56,25 @@ function writeAgain() {
             <h3>Напишите нам</h3>
             <div class="field">
               <label for="f-name">Имя</label>
-              <input id="f-name" v-model="form.name" class="input" type="text" autocomplete="name" placeholder="Как к вам обращаться">
+              <input
+                id="f-name"
+                v-model="form.name"
+                class="input"
+                type="text"
+                autocomplete="name"
+                placeholder="Как к вам обращаться"
+              />
             </div>
             <div class="field">
               <label for="f-contact">Телефон или e-mail</label>
-              <input id="f-contact" v-model="form.contact" class="input" type="text" autocomplete="email" placeholder="Куда ответить">
+              <input
+                id="f-contact"
+                v-model="form.contact"
+                class="input"
+                type="text"
+                autocomplete="email"
+                placeholder="Куда ответить"
+              />
             </div>
             <div class="field">
               <label for="f-topic">Тема</label>
@@ -70,10 +84,16 @@ function writeAgain() {
             </div>
             <div class="field">
               <label for="f-msg">Сообщение</label>
-              <textarea id="f-msg" v-model="form.message" class="input msg" rows="4" placeholder="Расскажите, чем помочь" />
+              <textarea
+                id="f-msg"
+                v-model="form.message"
+                class="input msg"
+                rows="4"
+                placeholder="Расскажите, чем помочь"
+              />
             </div>
             <div class="agree">
-              <input id="f-agree" v-model="form.agree" type="checkbox">
+              <input id="f-agree" v-model="form.agree" type="checkbox" />
               <label for="f-agree">Согласен на обработку персональных данных</label>
             </div>
             <p v-if="error" role="alert" class="alert">{{ error }}</p>
@@ -84,7 +104,9 @@ function writeAgain() {
             <span class="done-icon"><AppIcon name="check" :size="32" /></span>
             <h3>Сообщение отправлено</h3>
             <p>Спасибо, {{ form.name }}! Мы ответим вам в рабочее время на {{ form.contact }}.</p>
-            <button type="button" class="btn btn--outline hov" @click="writeAgain">Написать ещё</button>
+            <button type="button" class="btn btn--outline hov" @click="writeAgain">
+              Написать ещё
+            </button>
           </div>
         </div>
       </div>
@@ -93,27 +115,108 @@ function writeAgain() {
 </template>
 
 <style scoped>
-.layout { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
-.info { flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
-ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
-li { display: flex; align-items: flex-start; gap: 16px; }
-li > div { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.label { font-size: 14px; color: var(--muted); }
-.value { font-weight: 800; font-size: 18px; line-height: 1.4; }
-.value.wrap { overflow-wrap: anywhere; }
+.layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: flex-start;
+}
+.info {
+  flex: 1 1 400px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+li {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+li > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.label {
+  font-size: 14px;
+  color: var(--muted);
+}
+.value {
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.4;
+}
+.value.wrap {
+  overflow-wrap: anywhere;
+}
 
-.form { flex: 1 1 400px; min-width: 0; }
-form, .done { display: flex; flex-direction: column; gap: 20px; }
-.done { align-items: flex-start; }
-h3 { margin: 0; font-family: var(--font-head); font-weight: 700; font-size: 24px; }
-.topic { padding: 0 14px; }
-.msg { min-height: 120px; padding: 14px 18px; line-height: 1.5; resize: vertical; }
-.agree { display: flex; align-items: flex-start; gap: 12px; }
-.agree input { width: 22px; height: 22px; margin: 2px 0 0; flex: none; accent-color: var(--accent); }
-.agree label { font-size: 15px; line-height: 1.5; color: var(--muted); }
-.done p { margin: 0; line-height: 1.6; color: var(--muted); }
+.form {
+  flex: 1 1 400px;
+  min-width: 0;
+}
+form,
+.done {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.done {
+  align-items: flex-start;
+}
+h3 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 24px;
+}
+.topic {
+  padding: 0 14px;
+}
+.msg {
+  min-height: 120px;
+  padding: 14px 18px;
+  line-height: 1.5;
+  resize: vertical;
+}
+.agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.agree input {
+  width: 22px;
+  height: 22px;
+  margin: 2px 0 0;
+  flex: none;
+  accent-color: var(--accent);
+}
+.agree label {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.done p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--muted);
+}
 .done-icon {
-  width: 64px; height: 64px; border-radius: 50%; background: var(--mint);
-  display: flex; align-items: center; justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

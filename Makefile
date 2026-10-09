@@ -1,4 +1,4 @@
-.PHONY: up down logs install build typecheck preview npm lint lint-fix
+.PHONY: up down logs install build typecheck preview npm lint lint-fix format
 
 up:
 	docker compose up -d app
@@ -23,6 +23,9 @@ lint:
 
 lint-fix:
 	docker compose run --rm npm run lint:fix
+
+format:
+	docker compose run --rm npm run format
 
 # сначала build, затем сервер на http://localhost:4173
 preview: build

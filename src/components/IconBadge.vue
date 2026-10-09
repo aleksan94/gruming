@@ -16,12 +16,28 @@ withDefaults(defineProps<{ icon: IconName; tint?: Tint; size?: number }>(), {
 
 <style scoped>
 .badge {
-  width: var(--size); height: var(--size); flex: none; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; color: var(--ink);
+  width: var(--size);
+  height: var(--size);
+  flex: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
 }
-.tint-mint { background: var(--mint); }
-.tint-sky { background: var(--sky); }
-.tint-peach { background: var(--peach); }
-.tint-butter { background: var(--butter); }
-.tint-green { background: #CDEBDD; }
+.tint-mint {
+  background: var(--mint);
+}
+.tint-sky {
+  background: var(--sky);
+}
+.tint-peach {
+  background: var(--peach);
+}
+.tint-butter {
+  background: var(--butter);
+}
+.tint-green {
+  background: #cdebdd;
+}
 </style>
