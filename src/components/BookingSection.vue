@@ -72,13 +72,20 @@ const slots = computed(() =>
   TIMES.map((t, i) => ({ time: t, ...slotState(dayIndex.value, i, masterId.value) })),
 )
 
-// Дни, в которые выбранный мастер вообще не работает, недоступны.
-const workingDays = computed(() =>
-  days.map((d) => {
+// Состояние дня: 'off' — мастер не работает, 'full' — работает, но все слоты заняты.
+const dayStates = computed(() =>
+  days.map((d, dIdx) => {
     const staff = master.value ? [master.value] : suitable.value
-    return TIMES.some((_, i) => staff.some((e) => worksAt(e, d.weekday, FIRST_HOUR + i)))
+    const works = TIMES.some((_, i) => staff.some((e) => worksAt(e, d.weekday, FIRST_HOUR + i)))
+    if (!works) return 'off' as const
+    const hasFree = TIMES.some((_, i) => {
+      const st = slotState(dIdx, i, masterId.value)
+      return !st.busy && !st.off
+    })
+    return hasFree ? ('ok' as const) : ('full' as const)
   }),
 )
+const DAY_TIPS = { off: 'Мастер в этот день не работает', full: 'Все время занято', ok: undefined }
 
 function pickPet(id: string) {
   petId.value = id
@@ -88,8 +95,8 @@ function pickPet(id: string) {
 
 function pickMaster() {
   time.value = null
-  if (!workingDays.value[dayIndex.value]) {
-    const first = workingDays.value.indexOf(true)
+  if (dayStates.value[dayIndex.value] !== 'ok') {
+    const first = dayStates.value.indexOf('ok')
     if (first >= 0) dayIndex.value = first
   }
 }
@@ -200,19 +207,27 @@ function reset() {
           <div class="step">
             <h3 class="step-title"><span class="num">4</span>День</h3>
             <div class="row gap-8">
-              <button
+              <span
                 v-for="(d, i) in days"
                 :key="i"
-                type="button"
-                class="choice hov day"
-                :aria-pressed="i === dayIndex"
-                :aria-label="d.label"
-                :disabled="!workingDays[i]"
-                @click="pickDay(i)"
+                class="tip-wrap day-wrap"
+                :class="{ 'has-tip': dayStates[i] !== 'ok' }"
+                :data-tip="DAY_TIPS[dayStates[i]]"
+                :tabindex="dayStates[i] !== 'ok' ? 0 : undefined"
               >
-                <span class="day-wd">{{ d.wd }}</span>
-                <span class="day-num">{{ d.num }}</span>
-              </button>
+                <button
+                  type="button"
+                  class="choice hov day"
+                  :class="{ full: dayStates[i] === 'full' }"
+                  :aria-pressed="dayStates[i] === 'ok' && i === dayIndex"
+                  :aria-label="d.label"
+                  :disabled="dayStates[i] !== 'ok'"
+                  @click="pickDay(i)"
+                >
+                  <span class="day-wd">{{ d.wd }}</span>
+                  <span class="day-num">{{ d.num }}</span>
+                </button>
+              </span>
             </div>
           </div>
 
@@ -222,7 +237,7 @@ function reset() {
               <span
                 v-for="s in slots"
                 :key="s.time"
-                class="slot-wrap"
+                class="tip-wrap slot-wrap"
                 :class="{ 'has-tip': s.busy || s.off }"
                 :data-tip="s.off ? 'Мастер в это время не работает' : s.busy ? 'Время занято' : undefined"
                 :tabindex="s.busy || s.off ? 0 : undefined"
@@ -240,7 +255,7 @@ function reset() {
               </span>
             </div>
             <p class="hint">
-              Зачёркнутое время уже занято, серое с пунктиром — мастер в это время не работает.
+              Зачёркнутое время или день уже заняты, серое с пунктиром — мастер в это время не работает.
             </p>
           </div>
 
@@ -422,8 +437,12 @@ function reset() {
   font-size: 16px;
 }
 
-.day {
+.day-wrap {
   flex: 1 1 76px;
+}
+
+.day {
+  flex: 1 1 auto;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -440,6 +459,16 @@ function reset() {
   cursor: default;
 }
 
+.day.full:disabled {
+  background: #edf3f0;
+  border: 2px solid #edf3f0;
+  color: #7c9390;
+}
+
+.day.full .day-num {
+  text-decoration: line-through;
+}
+
 .day-wd {
   font-size: 13px;
   font-weight: 700;
@@ -453,15 +482,18 @@ function reset() {
   line-height: 1.2;
 }
 
-.slot-wrap {
+.tip-wrap {
   position: relative;
-  flex: 1 1 92px;
   min-width: 0;
   display: flex;
   outline: none;
 }
 
-.slot-wrap.has-tip::after {
+.slot-wrap {
+  flex: 1 1 92px;
+}
+
+.tip-wrap.has-tip::after {
   content: attr(data-tip);
   position: absolute;
   bottom: calc(100% + 8px);
@@ -485,8 +517,8 @@ function reset() {
   transition: opacity 0.15s;
 }
 
-.slot-wrap.has-tip:hover::after,
-.slot-wrap.has-tip:focus-visible::after {
+.tip-wrap.has-tip:hover::after,
+.tip-wrap.has-tip:focus-visible::after {
   opacity: 1;
   visibility: visible;
 }
