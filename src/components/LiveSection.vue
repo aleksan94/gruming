@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
-import CamBath from './CamBath.vue'
-import CamTable from './CamTable.vue'
-import CamRest from './CamRest.vue'
+import CamBath from '../assets/illustrations/cam-bath.svg?component'
+import CamTable from '../assets/illustrations/cam-table.svg?component'
+import CamRest from '../assets/illustrations/cam-rest.svg?component'
 import { CAMS } from '../data/salon'
 
-const VIEWS = [CamBath, CamTable, CamRest]
+const VIEWS = [
+  { view: CamBath, label: 'Собака в ванне с пенной шапкой' },
+  { view: CamTable, label: 'Кошка сидит на столе для стрижки' },
+  { view: CamRest, label: 'Собака спит на мягкой лежанке' },
+]
 
 const camIndex = ref(0)
 const playing = ref(true)
@@ -30,7 +34,12 @@ const toggleLabel = computed(() =>
       <div class="layout">
         <div class="player-col">
           <div class="player">
-            <component :is="VIEWS[camIndex]" />
+            <component
+              :is="VIEWS[camIndex].view"
+              class="view"
+              role="img"
+              :aria-label="VIEWS[camIndex].label"
+            />
 
             <div class="live-badge"><span class="dot" />В эфире</div>
 
@@ -106,6 +115,13 @@ const toggleLabel = computed(() =>
   border-radius: 32px;
   overflow: hidden;
   background: #cfe9f5;
+}
+.view {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .live-badge {
   position: absolute;

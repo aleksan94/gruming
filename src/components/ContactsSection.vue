@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
 import IconBadge from './IconBadge.vue'
-import MapSketch from './MapSketch.vue'
+import MapSketch from '../assets/illustrations/map-sketch.svg?component'
 import { CONTACTS, TOPICS } from '../data/salon'
 
 const form = reactive({ name: '', contact: '', topic: TOPICS[0], message: '', agree: true })
@@ -48,7 +48,7 @@ function writeAgain() {
               </div>
             </li>
           </ul>
-          <MapSketch />
+          <MapSketch class="map" role="img" aria-label="Схема расположения салона" />
         </div>
 
         <div class="card form">
@@ -115,6 +115,12 @@ function writeAgain() {
 </template>
 
 <style scoped>
+.map {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 32px;
+}
 .layout {
   display: flex;
   flex-wrap: wrap;

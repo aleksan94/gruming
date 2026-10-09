@@ -1,5 +1,4 @@
-<template>
-  <svg viewBox="0 0 520 300" role="img" aria-label="Схема расположения салона">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 300">
     <rect width="520" height="300" fill="#E6F2EC" />
     <path
       d="M-10 230 C120 190 220 270 330 220 S480 150 540 170"
@@ -27,14 +26,3 @@
     />
     <circle cx="247" cy="98" r="11" fill="#FFFFFF" />
   </svg>
-</template>
-
-<style scoped>
-svg {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 32px;
-}
-</style>
