@@ -1,4 +1,5 @@
 export type IconName =
+  | 'search'
   | 'heart'
   | 'drop'
   | 'clock'
