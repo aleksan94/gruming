@@ -53,7 +53,13 @@ const done = ref(false)
 // Услуг много: по умолчанию показываем первые, остальные раскрываются кнопкой.
 const SERVICES_COLLAPSED = 6
 const servicesOpen = ref(false)
+const serviceQuery = ref('')
+const searching = computed(() => serviceQuery.value.trim() !== '')
 const shownServices = computed(() => {
+  if (searching.value) {
+    const q = serviceQuery.value.trim().toLowerCase()
+    return SERVICES.filter((s) => s.name.toLowerCase().includes(q))
+  }
   const idx = SERVICES.findIndex((s) => s.id === serviceId.value)
   return servicesOpen.value || idx >= SERVICES_COLLAPSED ? SERVICES : SERVICES.slice(0, SERVICES_COLLAPSED)
 })
@@ -219,8 +225,19 @@ function reset() {
       <div class="layout">
         <div class="card steps">
           <div class="step">
-            <h3 class="step-title"><span class="num">1</span>Услуга</h3>
-            <div class="services">
+            <div class="step-head">
+              <h3 class="step-title"><span class="num">1</span>Услуга</h3>
+              <AppInput
+                v-model="serviceQuery"
+                type="search"
+                class="service-search"
+                placeholder="Найти услугу"
+                aria-label="Поиск услуги"
+                autocomplete="off"
+              />
+            </div>
+            <p v-if="searching && !shownServices.length" class="hint">Ничего не найдено — попробуйте другое слово.</p>
+            <div v-else class="services">
               <button
                 v-for="s in shownServices"
                 :key="s.id"
@@ -237,7 +254,7 @@ function reset() {
               </button>
             </div>
             <button
-              v-if="canCollapse"
+              v-if="canCollapse && !searching"
               type="button"
               class="next-free"
               :aria-expanded="servicesOpen"
@@ -461,6 +478,11 @@ function reset() {
   align-items: center;
   justify-content: space-between;
   gap: 10px 16px;
+}
+
+.service-search {
+  flex: 0 1 260px;
+  min-width: 0;
 }
 
 .week-nav {
