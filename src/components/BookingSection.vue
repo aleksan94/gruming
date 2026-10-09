@@ -193,19 +193,25 @@ function reset() {
           <div class="step">
             <h3 class="step-title"><span class="num">5</span>Время</h3>
             <div class="row gap-8">
-              <button
+              <span
                 v-for="s in slots"
                 :key="s.time"
-                type="button"
-                class="choice hov slot"
-                :class="{ busy: s.busy, off: s.off }"
-                :disabled="s.busy || s.off"
-                :aria-pressed="!s.busy && !s.off && s.time === time"
-                :title="s.off ? 'Мастер в это время не работает' : s.busy ? 'Время занято' : undefined"
-                @click="time = s.time"
+                class="slot-wrap"
+                :class="{ 'has-tip': s.busy || s.off }"
+                :data-tip="s.off ? 'Мастер в это время не работает' : s.busy ? 'Время занято' : undefined"
+                :tabindex="s.busy || s.off ? 0 : undefined"
               >
-                {{ s.time }}
-              </button>
+                <button
+                  type="button"
+                  class="choice hov slot"
+                  :class="{ busy: s.busy, off: s.off }"
+                  :disabled="s.busy || s.off"
+                  :aria-pressed="!s.busy && !s.off && s.time === time"
+                  @click="time = s.time"
+                >
+                  {{ s.time }}
+                </button>
+              </span>
             </div>
             <p class="hint">
               Зачёркнутое время уже занято, серое с пунктиром — мастер в это время не работает.
@@ -421,8 +427,46 @@ function reset() {
   line-height: 1.2;
 }
 
-.slot {
+.slot-wrap {
+  position: relative;
   flex: 1 1 92px;
+  min-width: 0;
+  display: flex;
+  outline: none;
+}
+
+.slot-wrap.has-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: max-content;
+  max-width: 220px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--ink);
+  color: $white;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s;
+}
+
+.slot-wrap.has-tip:hover::after,
+.slot-wrap.has-tip:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.slot {
+  flex: 1 1 auto;
   min-width: 0;
   min-height: 48px;
   border-radius: 16px;
