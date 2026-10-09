@@ -6,15 +6,16 @@ Vue 3 + Vite. Исходный дизайн-макет (React-рантайм) с
 
 ### Локально (Node.js)
 
+    cp .env.example .env   # порт задаётся в .env
     npm install
-    npm run dev      # разработка, http://localhost:5173
+    npm run dev      # разработка, http://localhost:$PORT (по умолчанию 5173)
     npm run build    # сборка в dist/
 
 ### Через Docker
 
 Нужен Docker с плагином Compose. Два сервиса:
 
-- `app` — dev-сервер Vite на http://localhost:5173, работает постоянно, без прокси;
+- `app` — dev-сервер Vite на http://localhost:${PORT} (по умолчанию 5173), работает постоянно, без прокси;
 - `npm` — разовые команды (установка зависимостей, сборка), запускается вручную.
 
 Оба используют общий том `node_modules`, поэтому зависимости нужно поставить до первого старта:
