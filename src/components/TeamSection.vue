@@ -21,9 +21,9 @@ import { EMPLOYEES } from '../data/salon'
             <span class="role">{{ e.role }}</span>
             <p>{{ e.experience }}</p>
             <div class="schedule">
-              <AppIcon name="clock" :size="20" />
               <ul class="slots">
                 <li v-for="s in e.schedule" :key="s.days + s.hours">
+                  <AppIcon name="clock" :size="20" />
                   <span class="days">{{ s.days }}</span>
                   <span class="hours">{{ s.hours }}</span>
                 </li>
@@ -93,9 +93,6 @@ import { EMPLOYEES } from '../data/salon'
 }
 
 .schedule {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
   margin-top: 6px;
   padding: 10px 14px;
   border-radius: 16px;
@@ -104,28 +101,26 @@ import { EMPLOYEES } from '../data/salon'
   font-size: 15px;
 }
 
-.schedule :deep(svg),
-.schedule > :first-child {
-  flex: none;
-  margin-top: 1px;
-}
-
 .slots {
   list-style: none;
   margin: 0;
   padding: 0;
-  flex: 1;
-  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 6px;
 
   li {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 2px 12px;
+    align-items: center;
+    gap: 8px;
+  }
+
+  li > :first-child {
+    flex: none;
+  }
+
+  .hours {
+    margin-left: auto;
   }
 
   li + li {
