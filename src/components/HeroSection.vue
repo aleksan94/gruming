@@ -200,6 +200,12 @@ p {
   font-size: 15px;
 }
 
+@media (width <= 760px) {
+  .tags {
+    display: none;
+  }
+}
+
 .tint-mint {
   background: var(--mint);
 }
