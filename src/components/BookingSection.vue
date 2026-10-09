@@ -8,7 +8,16 @@ import AppPhoneInput from './ui-kit/AppPhoneInput.vue'
 import AppSelect from './ui-kit/AppSelect.vue'
 import AppTooltip from './ui-kit/AppTooltip.vue'
 import { bookingRequest } from '../composables/bookingRequest'
-import { type PetId, SERVICES, PETS, EMPLOYEES, TIMES, FIRST_HOUR, worksAt, formatPrice } from '../data/salon'
+import {
+  type PetId,
+  SERVICES,
+  PETS,
+  EMPLOYEES,
+  TIMES,
+  FIRST_HOUR,
+  worksAt,
+  formatPrice,
+} from '../data/salon'
 
 const WEEKDAYS = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб']
 const MONTHS = [
@@ -48,7 +57,7 @@ const petId = ref('dog')
 const masterId = ref('any')
 const dayIndex = ref(1)
 const week = ref(0)
-const time = ref<string | null>('12:00')
+const time = ref<string | null>(null)
 const contact = reactive({ name: '', phone: '' })
 const error = ref('')
 const contactError = ref('')
@@ -66,9 +75,13 @@ const shownServices = computed(() => {
     return SERVICES.filter((s) => s.name.toLowerCase().includes(q))
   }
   const idx = SERVICES.findIndex((s) => s.id === serviceId.value)
-  return servicesOpen.value || idx >= SERVICES_COLLAPSED ? SERVICES : SERVICES.slice(0, SERVICES_COLLAPSED)
+  return servicesOpen.value || idx >= SERVICES_COLLAPSED
+    ? SERVICES
+    : SERVICES.slice(0, SERVICES_COLLAPSED)
 })
-const canCollapse = computed(() => SERVICES.findIndex((s) => s.id === serviceId.value) < SERVICES_COLLAPSED)
+const canCollapse = computed(
+  () => SERVICES.findIndex((s) => s.id === serviceId.value) < SERVICES_COLLAPSED,
+)
 
 const service = computed(() => SERVICES.find((s) => s.id === serviceId.value)!)
 const pet = computed(() => PETS.find((p) => p.id === petId.value)!)
@@ -256,7 +269,12 @@ function reset() {
                 autocomplete="off"
               />
             </div>
-            <EmptyState v-if="searching && !shownServices.length" compact :query="serviceQuery" @reset="serviceQuery = ''" />
+            <EmptyState
+              v-if="searching && !shownServices.length"
+              compact
+              :query="serviceQuery"
+              @reset="serviceQuery = ''"
+            />
             <div v-else class="services">
               <button
                 v-for="s in shownServices"
@@ -338,8 +356,17 @@ function reset() {
                 </button>
               </div>
             </div>
-            <div class="row gap-8" @touchstart.passive="onTouchStart" @touchend.passive="onTouchEnd">
-              <AppTooltip v-for="d in visibleDays" :key="d.index" class="day-wrap" :text="DAY_TIPS[dayStates[d.index]]">
+            <div
+              class="row gap-8"
+              @touchstart.passive="onTouchStart"
+              @touchend.passive="onTouchEnd"
+            >
+              <AppTooltip
+                v-for="d in visibleDays"
+                :key="d.index"
+                class="day-wrap"
+                :text="DAY_TIPS[dayStates[d.index]]"
+              >
                 <button
                   type="button"
                   class="choice hov day"
@@ -354,7 +381,12 @@ function reset() {
                 </button>
               </AppTooltip>
             </div>
-            <button v-if="nextFreeDay" type="button" class="next-free" @click="pickDay(nextFreeDay.index)">
+            <button
+              v-if="nextFreeDay"
+              type="button"
+              class="next-free"
+              @click="pickDay(nextFreeDay.index)"
+            >
               Ближайшая свободная дата — {{ nextFreeDay.label }} →
             </button>
           </div>
@@ -366,7 +398,9 @@ function reset() {
                 v-for="s in slots"
                 :key="s.time"
                 class="slot-wrap"
-                :text="s.off ? 'Мастер в это время не работает' : s.busy ? 'Время занято' : undefined"
+                :text="
+                  s.off ? 'Мастер в это время не работает' : s.busy ? 'Время занято' : undefined
+                "
               >
                 <button
                   type="button"
@@ -381,7 +415,8 @@ function reset() {
               </AppTooltip>
             </div>
             <p class="hint">
-              Зачёркнутое время или день уже заняты, серое с пунктиром — мастер в это время не работает.
+              Зачёркнутое время или день уже заняты, серое с пунктиром — мастер в это время не
+              работает.
             </p>
           </div>
         </div>
@@ -444,7 +479,8 @@ function reset() {
               </div>
             </dl>
             <p class="thanks">
-              Администратор позвонит по номеру <strong>{{ contact.phone }}</strong> и подтвердит запись.
+              Администратор позвонит по номеру <strong>{{ contact.phone }}</strong> и подтвердит
+              запись.
             </p>
             <button type="button" class="again hov on-dark" @click="reset">Новая запись</button>
           </div>
