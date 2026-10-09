@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
 import IconBadge from './IconBadge.vue'
+import AppInput from './ui-kit/AppInput.vue'
 import AppSelect from './ui-kit/AppSelect.vue'
 import MapSketch from '../assets/illustrations/map-sketch.svg?component'
 import { CONTACTS, TOPICS } from '../data/salon'
@@ -74,10 +75,9 @@ function writeAgain() {
             <h3>Напишите нам</h3>
             <div class="field">
               <label for="f-name">Имя</label>
-              <input
+              <AppInput
                 id="f-name"
                 v-model="form.name"
-                class="input"
                 type="text"
                 autocomplete="name"
                 placeholder="Как к вам обращаться"
@@ -85,10 +85,9 @@ function writeAgain() {
             </div>
             <div class="field">
               <label for="f-contact">Телефон или e-mail</label>
-              <input
+              <AppInput
                 id="f-contact"
                 v-model="form.contact"
-                class="input"
                 type="text"
                 autocomplete="email"
                 placeholder="Куда ответить"

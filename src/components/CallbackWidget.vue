@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
+import AppInput from './ui-kit/AppInput.vue'
+import AppPhoneInput from './ui-kit/AppPhoneInput.vue'
 
 const SHOW_DELAY = 2000
 const shown = ref(false)
@@ -63,20 +65,13 @@ onUnmounted(() => {
         <template v-if="!done">
           <p class="callback-title">Перезвоним за 5 минут</p>
           <form class="callback-form" novalidate @submit.prevent="submit">
-            <input
+            <AppInput
               v-model="form.name"
-              class="input"
               type="text"
               autocomplete="name"
               placeholder="Ваше имя"
             />
-            <input
-              v-model="form.phone"
-              class="input"
-              type="tel"
-              autocomplete="tel"
-              placeholder="+7 (000) 000-00-00"
-            />
+            <AppPhoneInput v-model="form.phone" />
             <p v-if="error" class="callback-error">{{ error }}</p>
             <button class="btn" type="submit">
               <AppIcon name="phone" :size="20" />

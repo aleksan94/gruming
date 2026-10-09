@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
+import AppInput from './ui-kit/AppInput.vue'
+import AppPhoneInput from './ui-kit/AppPhoneInput.vue'
 import AppSelect from './ui-kit/AppSelect.vue'
 import AppTooltip from './ui-kit/AppTooltip.vue'
 import { bookingRequest } from '../composables/bookingRequest'
@@ -256,10 +258,9 @@ function reset() {
             <div class="row gap-16">
               <div class="field contact">
                 <label for="b-name">Имя</label>
-                <input
+                <AppInput
                   id="b-name"
                   v-model="contact.name"
-                  class="input"
                   type="text"
                   autocomplete="name"
                   placeholder="Как к вам обращаться"
@@ -267,14 +268,7 @@ function reset() {
               </div>
               <div class="field contact">
                 <label for="b-phone">Телефон</label>
-                <input
-                  id="b-phone"
-                  v-model="contact.phone"
-                  class="input"
-                  type="tel"
-                  autocomplete="tel"
-                  placeholder="+7 (000) 000-00-00"
-                />
+                <AppPhoneInput id="b-phone" v-model="contact.phone" />
               </div>
             </div>
           </div>
