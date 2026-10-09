@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import IconBadge from './IconBadge.vue'
 import AppModal from './ui-kit/AppModal.vue'
 import ServiceDetails from './ServiceDetails.vue'
+import AppSlider from './ui-kit/AppSlider.vue'
 import { requestBooking } from '../composables/bookingRequest'
 import { SERVICES, formatPrice } from '../data/salon'
 
@@ -32,7 +33,7 @@ function book() {
           сумму при осмотре.
         </p>
       </div>
-      <div class="grid">
+      <AppSlider arrows="bottom" :loop="false" :rows="2">
         <article
           v-for="s in SERVICES"
           :key="s.id"
@@ -53,7 +54,7 @@ function book() {
           </div>
           <span class="more">Подробнее →</span>
         </article>
-      </div>
+      </AppSlider>
     </div>
     <AppModal v-model="isOpen" :title="selected?.name">
       <ServiceDetails v-if="selected" :service="selected" />
@@ -71,13 +72,6 @@ function book() {
 
 .panel :deep(.section-head p) {
   color: #3f5e5f;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  grid-auto-rows: 1fr;
-  gap: 24px;
 }
 
 .service {

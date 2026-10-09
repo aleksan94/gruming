@@ -5,9 +5,10 @@ import AppIcon from '../AppIcon.vue'
 export type SliderArrows =
   'sides' | 'top' | 'top-left' | 'top-right' | 'bottom' | 'bottom-left' | 'bottom-right'
 
-const props = withDefaults(defineProps<{ arrows?: SliderArrows; loop?: boolean }>(), {
+const props = withDefaults(defineProps<{ arrows?: SliderArrows; loop?: boolean; rows?: number }>(), {
   arrows: 'sides',
   loop: false,
+  rows: 1,
 })
 
 const GAP = 24
@@ -57,7 +58,7 @@ onBeforeUnmount(() => observer?.disconnect())
 
 <template>
   <div class="slider" :class="`arrows-${arrows}`">
-    <div ref="track" class="track" @scroll.passive="update">
+    <div ref="track" class="track" :style="{ '--rows': rows }" @scroll.passive="update">
       <slot />
     </div>
     <div class="controls">
@@ -98,6 +99,7 @@ onBeforeUnmount(() => observer?.disconnect())
 
   display: grid;
   grid-auto-flow: column;
+  grid-template-rows: repeat(var(--rows, 1), auto);
   grid-auto-columns: calc((100% - (var(--slides) - 1) * var(--gap)) / var(--slides));
   gap: var(--gap);
   min-width: 0;
