@@ -1,4 +1,4 @@
-.PHONY: up down logs install build typecheck preview npm
+.PHONY: up down logs install build typecheck preview npm lint lint-fix
 
 up:
 	docker compose up -d app
@@ -17,6 +17,12 @@ build:
 
 typecheck:
 	docker compose run --rm npm run typecheck
+
+lint:
+	docker compose run --rm npm run lint
+
+lint-fix:
+	docker compose run --rm npm run lint:fix
 
 # сначала build, затем сервер на http://localhost:4173
 preview: build
