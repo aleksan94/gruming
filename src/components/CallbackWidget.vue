@@ -30,7 +30,7 @@ function reset() {
 }
 
 const onDocClick = (e: MouseEvent) => {
-  if (open.value && root.value && !root.value.contains(e.target as Node)) open.value = false
+  if (open.value && root.value && !e.composedPath().includes(root.value)) open.value = false
 }
 const onKey = (e: KeyboardEvent) => {
   if (e.key === 'Escape') open.value = false
