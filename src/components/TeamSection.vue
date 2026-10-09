@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
+import AppInput from './ui-kit/AppInput.vue'
 import AppModal from './ui-kit/AppModal.vue'
 import MasterDetails from './MasterDetails.vue'
 import AppSlider from './ui-kit/AppSlider.vue'
 import { requestBooking } from '../composables/bookingRequest'
+import { textMatch } from '../composables/textMatch'
 import { EMPLOYEES, petsLabel } from '../data/salon'
+
+const query = ref('')
+const shown = computed(() =>
+  EMPLOYEES.filter((e) => textMatch(query.value, e.name, e.role, e.experience)),
+)
 
 const selectedId = ref<string | null>(null)
 const selected = computed(() => EMPLOYEES.find((e) => e.id === selectedId.value))
@@ -25,12 +32,24 @@ function book(id: string) {
 <template>
   <section id="team" class="section">
     <div class="container stack-40">
-      <div class="section-head">
-        <h2 class="h2">Наши мастера</h2>
-        <p>Опытные грумеры, которые любят свою работу и находят подход к любому питомцу.</p>
+      <div class="section-bar">
+        <div class="section-head">
+          <h2 class="h2">Наши мастера</h2>
+          <p>Опытные грумеры, которые любят свою работу и находят подход к любому питомцу.</p>
+        </div>
+        <AppInput
+          v-model="query"
+          icon="search"
+          type="search"
+          class="section-search"
+          placeholder="Найти мастера"
+          aria-label="Поиск мастера"
+          autocomplete="off"
+        />
       </div>
-      <AppSlider arrows="bottom" :loop="false">
-        <article v-for="e in EMPLOYEES" :key="e.id" class="person">
+      <p v-if="!shown.length" class="empty">Ничего не найдено — попробуйте другое слово.</p>
+      <AppSlider v-else arrows="bottom" :loop="false">
+        <article v-for="e in shown" :key="e.id" class="person">
           <div class="photo" :class="`tint-${e.tint}`">
             <img v-if="e.photo" :src="e.photo" :alt="e.name" loading="lazy" />
             <AppIcon v-else name="paw" :size="64" />
@@ -71,6 +90,12 @@ function book(id: string) {
 </template>
 
 <style scoped lang="scss">
+.empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 18px;
+}
+
 .person {
   min-width: 0;
   background: $white;

@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import AppInput from './ui-kit/AppInput.vue'
 import IconBadge from './IconBadge.vue'
 import AppModal from './ui-kit/AppModal.vue'
 import ServiceDetails from './ServiceDetails.vue'
 import AppSlider from './ui-kit/AppSlider.vue'
 import { requestBooking } from '../composables/bookingRequest'
+import { textMatch } from '../composables/textMatch'
 import { SERVICES, formatPrice } from '../data/salon'
+
+const query = ref('')
+const shown = computed(() => SERVICES.filter((s) => textMatch(query.value, s.name, s.text)))
 
 const selectedId = ref<string | null>(null)
 const selected = computed(() => SERVICES.find((s) => s.id === selectedId.value))
@@ -26,16 +31,28 @@ function book() {
 <template>
   <section id="services" class="section section--panel panel">
     <div class="container stack-40">
-      <div class="section-head">
-        <h2 class="h2">Услуги и цены</h2>
-        <p>
-          Итоговая стоимость зависит от породы, размера и состояния шерсти. Мастер назовёт точную
-          сумму при осмотре.
-        </p>
+      <div class="section-bar">
+        <div class="section-head">
+          <h2 class="h2">Услуги и цены</h2>
+          <p>
+            Итоговая стоимость зависит от породы, размера и состояния шерсти. Мастер назовёт точную
+            сумму при осмотре.
+          </p>
+        </div>
+        <AppInput
+          v-model="query"
+          icon="search"
+          type="search"
+          class="section-search"
+          placeholder="Найти услугу"
+          aria-label="Поиск услуги"
+          autocomplete="off"
+        />
       </div>
-      <AppSlider arrows="bottom" :loop="false" :rows="2">
+      <p v-if="!shown.length" class="empty">Ничего не найдено — попробуйте другое слово.</p>
+      <AppSlider v-else arrows="bottom" :loop="false" :rows="2">
         <article
-          v-for="s in SERVICES"
+          v-for="s in shown"
           :key="s.id"
           class="service"
           tabindex="0"
@@ -72,6 +89,12 @@ function book() {
 
 .panel :deep(.section-head p) {
   color: #3f5e5f;
+}
+
+.empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 18px;
 }
 
 .service {

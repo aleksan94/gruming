@@ -44,16 +44,26 @@ function scrollByCard(dir: 1 | -1) {
 }
 
 let observer: ResizeObserver | undefined
+let mutations: MutationObserver | undefined
 
 onMounted(() => {
   update()
   if (track.value) {
     observer = new ResizeObserver(update)
     observer.observe(track.value)
+    // Состав карточек может меняться (поиск, фильтры): возвращаемся к началу и пересчитываем стрелки.
+    mutations = new MutationObserver(() => {
+      track.value?.scrollTo({ left: 0 })
+      update()
+    })
+    mutations.observe(track.value, { childList: true })
   }
 })
 
-onBeforeUnmount(() => observer?.disconnect())
+onBeforeUnmount(() => {
+  observer?.disconnect()
+  mutations?.disconnect()
+})
 </script>
 
 <template>

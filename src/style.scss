@@ -85,6 +85,20 @@ textarea {
   }
 }
 
+/* Заголовок секции с полем поиска справа */
+.section-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 32px;
+}
+
+.section-search {
+  flex: 0 1 320px;
+  min-width: 0;
+}
+
 .h2 {
   margin: 0;
   font-family: var(--font-head);
