@@ -8,6 +8,7 @@ import { CONTACTS, TOPICS } from '../data/salon'
 const form = reactive({ name: '', contact: '', topic: TOPICS[0], message: '', agree: true })
 const error = ref('')
 const sent = ref(false)
+const mapLoaded = ref(false)
 
 function send() {
   if (!form.name.trim() || !form.contact.trim() || !form.message.trim()) {
@@ -48,7 +49,22 @@ function writeAgain() {
               </div>
             </li>
           </ul>
-          <MapSketch class="map" role="img" aria-label="Схема расположения салона" />
+          <div class="map">
+            <MapSketch
+              v-show="!mapLoaded"
+              class="map-layer"
+              role="img"
+              aria-label="Схема расположения салона"
+            />
+            <iframe
+              class="map-layer map-frame"
+              :class="{ loaded: mapLoaded }"
+              src="https://yandex.ru/map-widget/v1/?ll=37.369368%2C55.819233&z=17&pt=37.369368%2C55.819233%2Cpm2rdm"
+              title="Расположение салона на Яндекс Картах"
+              allowfullscreen
+              @load="mapLoaded = true"
+            />
+          </div>
         </div>
 
         <div class="card form">
@@ -116,10 +132,29 @@ function writeAgain() {
 
 <style scoped lang="scss">
 .map {
+  position: relative;
   width: 100%;
-  height: auto;
-  display: block;
+  height: 360px;
+  overflow: hidden;
   border-radius: 32px;
+}
+
+.map-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}
+
+.map-frame {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.map-frame.loaded {
+  opacity: 1;
 }
 
 .layout {
