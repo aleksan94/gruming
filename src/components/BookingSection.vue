@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { SERVICES, PETS, EMPLOYEES, TIMES, FIRST_HOUR, worksAt, formatPrice } from '../data/salon'
+import { type PetId, SERVICES, PETS, EMPLOYEES, TIMES, FIRST_HOUR, worksAt, formatPrice } from '../data/salon'
 
 const WEEKDAYS = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб']
 const MONTHS = [
@@ -44,6 +44,8 @@ const done = ref(false)
 const service = computed(() => SERVICES.find((s) => s.id === serviceId.value)!)
 const pet = computed(() => PETS.find((p) => p.id === petId.value)!)
 const master = computed(() => EMPLOYEES.find((e) => e.id === masterId.value))
+// Мастера, которые работают с выбранным животным.
+const suitable = computed(() => EMPLOYEES.filter((e) => e.pets.includes(petId.value as PetId)))
 const masterText = computed(() => master.value?.name ?? 'Любой мастер')
 const dateText = computed(() => days[dayIndex.value].label)
 
@@ -52,7 +54,7 @@ const slots = computed(() =>
   TIMES.map((t, i) => {
     const past = dayIndex.value === 0 && FIRST_HOUR + i <= now.getHours()
     const hour = FIRST_HOUR + i
-    const staff = master.value ? [master.value] : EMPLOYEES
+    const staff = master.value ? [master.value] : suitable.value
     const works = staff.some((e) => worksAt(e, days[dayIndex.value].weekday, hour))
     const shift = EMPLOYEES.findIndex((e) => e.id === masterId.value) + 1
     const off = !past && !works
@@ -64,10 +66,16 @@ const slots = computed(() =>
 // Дни, в которые выбранный мастер вообще не работает, недоступны.
 const workingDays = computed(() =>
   days.map((d) => {
-    const staff = master.value ? [master.value] : EMPLOYEES
+    const staff = master.value ? [master.value] : suitable.value
     return TIMES.some((_, i) => staff.some((e) => worksAt(e, d.weekday, FIRST_HOUR + i)))
   }),
 )
+
+function pickPet(id: string) {
+  petId.value = id
+  if (master.value && !master.value.pets.includes(id as PetId)) masterId.value = 'any'
+  pickMaster()
+}
 
 function pickMaster() {
   time.value = null
@@ -138,7 +146,7 @@ function reset() {
                 type="button"
                 class="choice hov pet"
                 :aria-pressed="p.id === petId"
-                @click="petId = p.id"
+                @click="pickPet(p.id)"
               >
                 {{ p.name }}
               </button>
@@ -156,7 +164,7 @@ function reset() {
                 @change="pickMaster"
               >
                 <option value="any">Любой мастер</option>
-                <option v-for="e in EMPLOYEES" :key="e.id" :value="e.id">
+                <option v-for="e in suitable" :key="e.id" :value="e.id">
                   {{ e.name }} — {{ e.role }}
                 </option>
               </select>
