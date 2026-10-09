@@ -257,7 +257,7 @@ h3 {
 
 .agree {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
 }
 
