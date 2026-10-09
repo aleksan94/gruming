@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { SERVICES, PETS, EMPLOYEES, TIMES, FIRST_HOUR, formatPrice } from '../data/salon'
+import { SERVICES, PETS, EMPLOYEES, TIMES, FIRST_HOUR, worksAt, formatPrice } from '../data/salon'
 
 const WEEKDAYS = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб']
 const MONTHS = [
@@ -25,6 +25,7 @@ const days = Array.from({ length: DAYS_AHEAD }, (_, i) => {
   const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i)
   const wd = WEEKDAYS[d.getDay()]
   return {
+    weekday: d.getDay(),
     wd: i === 0 ? 'сегодня' : wd,
     num: d.getDate(),
     label: `${wd}, ${d.getDate()} ${MONTHS[d.getMonth()]}`,
@@ -50,11 +51,30 @@ const dateText = computed(() => days[dayIndex.value].label)
 const slots = computed(() =>
   TIMES.map((t, i) => {
     const past = dayIndex.value === 0 && FIRST_HOUR + i <= now.getHours()
+    const hour = FIRST_HOUR + i
+    const staff = master.value ? [master.value] : EMPLOYEES
+    const works = staff.some((e) => worksAt(e, days[dayIndex.value].weekday, hour))
     const shift = EMPLOYEES.findIndex((e) => e.id === masterId.value) + 1
-    const busy = past || (dayIndex.value * 5 + i * 7 + shift * 3) % 4 === 0
+    const busy = past || !works || (dayIndex.value * 5 + i * 7 + shift * 3) % 4 === 0
     return { time: t, busy }
   }),
 )
+
+// Дни, в которые выбранный мастер вообще не работает, недоступны.
+const workingDays = computed(() =>
+  days.map((d) => {
+    const staff = master.value ? [master.value] : EMPLOYEES
+    return TIMES.some((_, i) => staff.some((e) => worksAt(e, d.weekday, FIRST_HOUR + i)))
+  }),
+)
+
+function pickMaster() {
+  time.value = null
+  if (!workingDays.value[dayIndex.value]) {
+    const first = workingDays.value.indexOf(true)
+    if (first >= 0) dayIndex.value = first
+  }
+}
 
 function pickDay(i: number) {
   dayIndex.value = i
@@ -132,7 +152,7 @@ function reset() {
                 v-model="masterId"
                 class="input"
                 aria-label="Мастер"
-                @change="time = null"
+                @change="pickMaster"
               >
                 <option value="any">Любой мастер</option>
                 <option v-for="e in EMPLOYEES" :key="e.id" :value="e.id">
@@ -152,6 +172,7 @@ function reset() {
                 class="choice hov day"
                 :aria-pressed="i === dayIndex"
                 :aria-label="d.label"
+                :disabled="!workingDays[i]"
                 @click="pickDay(i)"
               >
                 <span class="day-wd">{{ d.wd }}</span>
@@ -176,7 +197,7 @@ function reset() {
                 {{ s.time }}
               </button>
             </div>
-            <p class="hint">Зачёркнутое время уже занято.</p>
+            <p class="hint">Зачёркнутое время занято или вне графика мастера.</p>
           </div>
 
           <div class="step">
@@ -366,6 +387,11 @@ function reset() {
   gap: 2px;
   padding: 10px 6px;
   border-radius: 22px;
+}
+
+.day:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 .day-wd {

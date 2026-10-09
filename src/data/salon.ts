@@ -214,8 +214,24 @@ export const TIMES = [
   '16:00',
   '17:00',
   '18:00',
+  '19:00',
 ]
 export const FIRST_HOUR = 10
+
+const WEEK = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+
+/** Сотрудник работает в этот день недели (0 = вс … 6 = сб, как в Date.getDay) в этот час (слот длится час). */
+export function worksAt(e: Employee, weekday: number, hour: number): boolean {
+  const wd = (weekday + 6) % 7
+  return e.schedule.some((s) => {
+    const [from, to = from] = s.days.toLowerCase().split('–')
+    const a = WEEK.indexOf(from)
+    const b = WEEK.indexOf(to)
+    const [start, end] = s.hours.split('–').map((h) => parseInt(h, 10))
+    const inDays = a <= b ? wd >= a && wd <= b : wd >= a || wd <= b
+    return inDays && hour >= start && hour + 1 <= end
+  })
+}
 
 export const CAMS: Cam[] = [
   { id: 'bath', name: 'Ванная', title: 'Камера 1 · Ванная', desc: 'Купание и сушка' },
