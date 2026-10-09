@@ -437,9 +437,17 @@ function reset() {
     <AppModal v-model="confirmOpen" title="Подтверждение записи" :width="480">
       <form class="confirm" novalidate @submit.prevent="confirm">
         <h3 class="confirm-title">Как с вами связаться?</h3>
-        <p class="confirm-text">
-          {{ service.name }}, {{ dateText }}, {{ time }}. Администратор перезвонит и подтвердит запись.
-        </p>
+        <div class="confirm-recap">
+          <span class="confirm-service">{{ service.name }}</span>
+          <span class="confirm-when">
+            <AppIcon name="clock" :size="16" />
+            {{ dateText }}, {{ time }}
+          </span>
+          <span class="confirm-meta">
+            <span>{{ pet.name }} · {{ masterText }} · {{ service.dur }}</span>
+            <strong>{{ formatPrice(service.price) }}</strong>
+          </span>
+        </div>
         <div class="field">
           <label for="b-name">Имя</label>
           <AppInput
@@ -456,6 +464,7 @@ function reset() {
         </div>
         <p v-if="contactError" role="alert" class="confirm-error">{{ contactError }}</p>
         <button type="submit" class="confirm-btn hov">Подтвердить запись</button>
+        <p class="confirm-fine">Администратор перезвонит и подтвердит запись.</p>
       </form>
     </AppModal>
   </section>
@@ -732,10 +741,46 @@ function reset() {
   line-height: 1.25;
 }
 
-.confirm-text {
-  margin: 0;
+.confirm-recap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 20px;
+  background: var(--mint);
+}
+
+.confirm-service {
+  font-weight: 800;
+  font-size: 17px;
+}
+
+.confirm-when {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.confirm-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 14px;
   color: var(--muted);
-  line-height: 1.5;
+
+  strong {
+    color: var(--ink);
+  }
+}
+
+.confirm-fine {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
 }
 
 .confirm-error {
