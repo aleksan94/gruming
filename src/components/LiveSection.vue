@@ -88,26 +88,31 @@ const toggleLabel = computed(() =>
   </section>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .panel {
   background: var(--sky);
 }
+
 .panel :deep(.section-head) {
   max-width: 680px;
 }
+
 .panel :deep(.section-head p) {
   color: #3b5a66;
 }
+
 .layout {
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
   align-items: flex-start;
 }
+
 .player-col {
   flex: 3 1 480px;
   min-width: 0;
 }
+
 .player {
   position: relative;
   width: 100%;
@@ -116,6 +121,7 @@ const toggleLabel = computed(() =>
   overflow: hidden;
   background: #cfe9f5;
 }
+
 .view {
   position: absolute;
   inset: 0;
@@ -123,6 +129,7 @@ const toggleLabel = computed(() =>
   height: 100%;
   display: block;
 }
+
 .live-badge {
   position: absolute;
   top: 16px;
@@ -139,6 +146,7 @@ const toggleLabel = computed(() =>
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+
 .dot {
   width: 9px;
   height: 9px;
@@ -146,12 +154,14 @@ const toggleLabel = computed(() =>
   background: #fff;
   animation: pulse 1.6s ease-in-out infinite;
 }
+
 @keyframes pulse {
   0%,
   100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.35;
     transform: scale(0.7);
@@ -165,11 +175,12 @@ const toggleLabel = computed(() =>
   height: 100%;
   border: 0;
   cursor: pointer;
-  background: rgba(31, 58, 61, 0.45);
+  background: rgb(31 58 61 / 45%);
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .resume span {
   width: 84px;
   height: 84px;
@@ -180,6 +191,7 @@ const toggleLabel = computed(() =>
   align-items: center;
   justify-content: center;
 }
+
 .bar {
   position: absolute;
   left: 14px;
@@ -190,14 +202,16 @@ const toggleLabel = computed(() =>
   gap: 12px;
   padding: 6px 18px 6px 6px;
   border-radius: 999px;
-  background: rgba(31, 58, 61, 0.78);
+  background: rgb(31 58 61 / 78%);
   color: #fff;
   font-weight: 700;
   font-size: 15px;
 }
+
 .bar span {
   min-width: 0;
 }
+
 .toggle {
   width: 44px;
   height: 44px;
@@ -219,9 +233,11 @@ const toggleLabel = computed(() =>
   flex-direction: column;
   gap: 12px;
 }
+
 .cams .h3 {
   margin-bottom: 4px;
 }
+
 .cam {
   display: flex;
   flex-direction: column;
@@ -229,22 +245,26 @@ const toggleLabel = computed(() =>
   gap: 2px;
   padding: 16px 20px;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.45);
+  background: rgb(255 255 255 / 45%);
   border-color: transparent;
 }
+
 .cam.active {
   background: #fff;
   border-color: var(--ink);
   color: var(--ink);
 }
+
 .cam-name {
   font-weight: 800;
   font-size: 17px;
 }
+
 .cam-desc {
   font-size: 14px;
   color: var(--muted);
 }
+
 .hint {
   margin: 8px 0 0;
   font-size: 14px;

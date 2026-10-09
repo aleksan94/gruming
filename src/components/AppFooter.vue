@@ -15,12 +15,13 @@ import { NAV } from '../data/salon'
   </footer>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .footer {
   background: var(--ink);
   color: #fff;
   padding-block: 40px;
 }
+
 .bar {
   display: flex;
   flex-wrap: wrap;
@@ -28,16 +29,19 @@ import { NAV } from '../data/salon'
   justify-content: space-between;
   gap: 20px 32px;
 }
+
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
 }
+
 .brand span {
   font-family: var(--font-head);
   font-weight: 700;
   font-size: 20px;
 }
+
 nav {
   display: flex;
   flex-wrap: wrap;
@@ -45,17 +49,21 @@ nav {
   font-weight: 700;
   font-size: 15px;
 }
+
 .lnk {
   color: #fff;
   text-decoration: none;
 }
+
 .lnk:hover {
   text-decoration: underline;
   text-underline-offset: 6px;
 }
+
 .lnk:focus-visible {
   outline-color: var(--sun);
 }
+
 .copy {
   font-size: 14px;
   color: #bfd8d2;

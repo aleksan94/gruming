@@ -114,19 +114,21 @@ function writeAgain() {
   </section>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .map {
   width: 100%;
   height: auto;
   display: block;
   border-radius: 32px;
 }
+
 .layout {
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
   align-items: flex-start;
 }
+
 .info {
   flex: 1 1 400px;
   min-width: 0;
@@ -134,6 +136,7 @@ function writeAgain() {
   flex-direction: column;
   gap: 24px;
 }
+
 ul {
   list-style: none;
   margin: 0;
@@ -142,26 +145,31 @@ ul {
   flex-direction: column;
   gap: 18px;
 }
+
 li {
   display: flex;
   align-items: flex-start;
   gap: 16px;
 }
+
 li > div {
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
+
 .label {
   font-size: 14px;
   color: var(--muted);
 }
+
 .value {
   font-weight: 800;
   font-size: 18px;
   line-height: 1.4;
 }
+
 .value.wrap {
   overflow-wrap: anywhere;
 }
@@ -170,35 +178,42 @@ li > div {
   flex: 1 1 400px;
   min-width: 0;
 }
+
 form,
 .done {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
+
 .done {
   align-items: flex-start;
 }
+
 h3 {
   margin: 0;
   font-family: var(--font-head);
   font-weight: 700;
   font-size: 24px;
 }
+
 .topic {
   padding: 0 14px;
 }
+
 .msg {
   min-height: 120px;
   padding: 14px 18px;
   line-height: 1.5;
   resize: vertical;
 }
+
 .agree {
   display: flex;
   align-items: flex-start;
   gap: 12px;
 }
+
 .agree input {
   width: 22px;
   height: 22px;
@@ -206,16 +221,19 @@ h3 {
   flex: none;
   accent-color: var(--accent);
 }
+
 .agree label {
   font-size: 15px;
   line-height: 1.5;
   color: var(--muted);
 }
+
 .done p {
   margin: 0;
   line-height: 1.6;
   color: var(--muted);
 }
+
 .done-icon {
   width: 64px;
   height: 64px;

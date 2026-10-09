@@ -237,7 +237,7 @@ function reset() {
   </section>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .layout {
   display: flex;
   flex-wrap: wrap;
@@ -251,11 +251,13 @@ function reset() {
   min-width: 0;
   gap: 32px;
 }
+
 .step {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
+
 .step-title {
   margin: 0;
   display: flex;
@@ -265,6 +267,7 @@ function reset() {
   font-weight: 700;
   font-size: 20px;
 }
+
 .num {
   width: 32px;
   height: 32px;
@@ -277,19 +280,24 @@ function reset() {
   font-weight: 800;
   font-size: 16px;
 }
+
 .row {
   display: flex;
   flex-wrap: wrap;
 }
+
 .gap-8 {
   gap: 8px;
 }
+
 .gap-10 {
   gap: 10px;
 }
+
 .gap-16 {
   gap: 16px;
 }
+
 .hint {
   margin: 0;
   font-size: 14px;
@@ -304,10 +312,12 @@ function reset() {
   padding: 12px 18px;
   border-radius: 20px;
 }
+
 .service-name {
   font-weight: 800;
   font-size: 16px;
 }
+
 .service-dur {
   font-size: 14px;
   opacity: 0.85;
@@ -331,11 +341,13 @@ function reset() {
   padding: 10px 6px;
   border-radius: 22px;
 }
+
 .day-wd {
   font-size: 13px;
   font-weight: 700;
   opacity: 0.85;
 }
+
 .day-num {
   font-family: var(--font-head);
   font-weight: 700;
@@ -352,10 +364,12 @@ function reset() {
   font-size: 16px;
   text-align: center;
 }
+
 .slot[aria-pressed='true'] {
   background: var(--accent);
   border-color: var(--accent);
 }
+
 .slot.busy {
   background: #edf3f0;
   border-color: #edf3f0;
@@ -378,11 +392,13 @@ function reset() {
   border-radius: 36px;
   padding: clamp(22px, 3vw, 36px);
 }
+
 .summary-body {
   display: flex;
   flex-direction: column;
   gap: 22px;
 }
+
 .summary h3 {
   margin: 0;
   font-family: var(--font-head);
@@ -390,12 +406,14 @@ function reset() {
   font-size: 24px;
   line-height: 1.25;
 }
+
 dl {
   margin: 0;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
+
 dl div,
 .total {
   display: flex;
@@ -403,14 +421,17 @@ dl div,
   justify-content: space-between;
   gap: 4px 16px;
 }
+
 dt,
 .total span {
   color: #bfd8d2;
 }
+
 dd {
   margin: 0;
   font-weight: 800;
 }
+
 hr {
   width: 100%;
   height: 2px;
@@ -419,20 +440,24 @@ hr {
   border-radius: 2px;
   background: #35575a;
 }
+
 .total {
   align-items: baseline;
 }
+
 .total strong {
   font-family: var(--font-head);
   font-weight: 700;
   font-size: 28px;
 }
+
 .fine {
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
   color: #bfd8d2;
 }
+
 .thanks {
   margin: 0;
   line-height: 1.6;
@@ -447,11 +472,13 @@ hr {
   cursor: pointer;
   font-size: 17px;
 }
+
 .submit {
   border: 0;
   background: var(--sun);
   color: var(--ink);
 }
+
 .again {
   min-height: 52px;
   font-size: 16px;
@@ -459,6 +486,7 @@ hr {
   background: transparent;
   color: var(--sun);
 }
+
 .done-icon {
   width: 64px;
   height: 64px;

@@ -124,16 +124,18 @@
   </section>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .hero {
   padding: clamp(24px, 5vw, 56px) var(--gutter) clamp(48px, 7vw, 88px);
 }
+
 .row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 40px;
 }
+
 .text {
   flex: 1 1 420px;
   min-width: 0;
@@ -141,6 +143,7 @@
   flex-direction: column;
   gap: 24px;
 }
+
 h1 {
   margin: 0;
   font-family: var(--font-head);
@@ -149,6 +152,7 @@ h1 {
   line-height: 1.1;
   text-wrap: balance;
 }
+
 p {
   margin: 0;
   font-size: clamp(17px, 1.6vw, 20px);
@@ -156,11 +160,13 @@ p {
   color: var(--muted);
   max-width: 520px;
 }
+
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
 }
+
 .tags {
   list-style: none;
   margin: 0;
@@ -169,27 +175,33 @@ p {
   flex-wrap: wrap;
   gap: 10px;
 }
+
 .tags li {
   padding: 8px 16px;
   border-radius: 999px;
   font-weight: 700;
   font-size: 15px;
 }
+
 .tint-mint {
   background: var(--mint);
 }
+
 .tint-butter {
   background: var(--butter);
 }
+
 .tint-sky {
   background: var(--sky);
 }
+
 .art {
   flex: 1 1 360px;
   min-width: 0;
   max-width: 560px;
   margin-inline: auto;
 }
+
 .art svg {
   width: 100%;
   height: auto;

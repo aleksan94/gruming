@@ -14,7 +14,7 @@ withDefaults(defineProps<{ icon: IconName; tint?: Tint; size?: number }>(), {
   </span>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .badge {
   width: var(--size);
   height: var(--size);
@@ -25,18 +25,23 @@ withDefaults(defineProps<{ icon: IconName; tint?: Tint; size?: number }>(), {
   justify-content: center;
   color: var(--ink);
 }
+
 .tint-mint {
   background: var(--mint);
 }
+
 .tint-sky {
   background: var(--sky);
 }
+
 .tint-peach {
   background: var(--peach);
 }
+
 .tint-butter {
   background: var(--butter);
 }
+
 .tint-green {
   background: #cdebdd;
 }

@@ -15,10 +15,11 @@ import { NAV } from '../data/salon'
   </header>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .header {
   padding-block: 20px;
 }
+
 .bar {
   display: flex;
   flex-wrap: wrap;
@@ -26,17 +27,20 @@ import { NAV } from '../data/salon'
   justify-content: space-between;
   gap: 16px 28px;
 }
+
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
   text-decoration: none;
 }
+
 .brand span {
   font-family: var(--font-head);
   font-weight: 700;
   font-size: 22px;
 }
+
 nav {
   display: flex;
   flex-wrap: wrap;
@@ -44,9 +48,11 @@ nav {
   gap: 8px 28px;
   font-weight: 700;
 }
+
 .lnk {
   text-decoration: none;
 }
+
 .lnk:hover {
   text-decoration: underline;
   text-underline-offset: 6px;
