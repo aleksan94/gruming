@@ -1,8 +1,25 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
+import AppModal from './ui-kit/AppModal.vue'
+import MasterDetails from './MasterDetails.vue'
 import AppSlider from './ui-kit/AppSlider.vue'
 import { requestBooking } from '../composables/bookingRequest'
 import { EMPLOYEES, petsLabel } from '../data/salon'
+
+const selectedId = ref<string | null>(null)
+const selected = computed(() => EMPLOYEES.find((e) => e.id === selectedId.value))
+const isOpen = computed({
+  get: () => !!selected.value,
+  set: (v) => {
+    if (!v) selectedId.value = null
+  },
+})
+
+function book(id: string) {
+  selectedId.value = null
+  requestBooking(id)
+}
 </script>
 
 <template>
@@ -32,13 +49,24 @@ import { EMPLOYEES, petsLabel } from '../data/salon'
                 </li>
               </ul>
             </div>
-            <button type="button" class="btn hov book" @click="requestBooking(e.id)">
+            <button type="button" class="btn btn--outline hov book" @click="selectedId = e.id">
+              Подробнее о мастере
+            </button>
+            <button type="button" class="btn hov" @click="requestBooking(e.id)">
               Записаться к мастеру
             </button>
           </div>
         </article>
       </AppSlider>
     </div>
+    <AppModal v-model="isOpen" :title="selected?.name">
+      <MasterDetails v-if="selected" :master="selected" />
+      <template #footer>
+        <button type="button" class="btn btn--block" @click="selected && book(selected.id)">
+          Записаться к мастеру
+        </button>
+      </template>
+    </AppModal>
   </section>
 </template>
 
@@ -99,9 +127,12 @@ import { EMPLOYEES, petsLabel } from '../data/salon'
   font-size: 15px;
 }
 
+.btn {
+  cursor: pointer;
+}
+
 .book {
   margin-top: 8px;
-  cursor: pointer;
 }
 
 .schedule {
