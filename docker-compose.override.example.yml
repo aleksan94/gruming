@@ -1,0 +1,12 @@
+# Локальные настройки прокси для установки зависимостей и сборки.
+# Скопируйте в docker-compose.override.yml (он в .gitignore) и поправьте адрес/порт:
+#   cp docker-compose.override.example.yml docker-compose.override.yml
+# Compose подхватывает override-файл автоматически.
+services:
+  npm:
+    # прокси слушает только на 127.0.0.1 хоста, поэтому host-сеть
+    network_mode: host
+    environment:
+      - HTTP_PROXY=http://127.0.0.1:10808
+      - HTTPS_PROXY=http://127.0.0.1:10808
+      - NO_PROXY=localhost,127.0.0.1

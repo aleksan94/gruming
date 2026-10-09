@@ -1,0 +1,30 @@
+services:
+  # Dev-сервер: зависимости должны быть уже установлены
+  app:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    ports:
+      - "5173:5173"
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    restart: unless-stopped
+
+  # Установка зависимостей и сборка, запускается вручную:
+  #   docker compose run --rm npm install
+  #   docker compose run --rm npm run build
+  # Если нужен прокси - см. docker-compose.override.example.yml
+  npm:
+    profiles: [tools]
+    image: node:22-alpine
+    working_dir: /app
+    entrypoint: [npm]
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+
+volumes:
+  node_modules:
