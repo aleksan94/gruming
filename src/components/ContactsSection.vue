@@ -7,7 +7,7 @@ import AppSelect from './ui-kit/AppSelect.vue'
 import MapSketch from '../assets/illustrations/map-sketch.svg?component'
 import { CONTACTS, TOPICS } from '../data/salon'
 
-const form = reactive({ name: '', contact: '', topic: TOPICS[0], message: '', agree: true })
+const form = reactive({ name: '', contact: '', topic: TOPICS[0], message: '', agree: false })
 const topicOptions = TOPICS.map((t) => ({ value: t, label: t }))
 const error = ref('')
 const sent = ref(false)
