@@ -1,4 +1,4 @@
-.PHONY: up down logs install build preview npm
+.PHONY: up down logs install build typecheck preview npm
 
 up:
 	docker compose up -d app
@@ -14,6 +14,9 @@ install:
 
 build:
 	docker compose run --rm npm run build
+
+typecheck:
+	docker compose run --rm npm run typecheck
 
 # сначала build, затем сервер на http://localhost:4173
 preview: build
