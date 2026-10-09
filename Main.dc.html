@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Тёплая лапка</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&amp;family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Nunito,system-ui,sans-serif;color:#1F3A3D;background:#F6FBF8}
+a{color:#1F3A3D}
+a.lnk:hover{text-decoration:underline;text-underline-offset:6px}
+.hov{transition:transform .15s ease,filter .15s ease}
+.hov:hover{transform:translateY(-2px);filter:brightness(1.04)}
+.hov:disabled:hover{transform:none;filter:none}
+.hov:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #1F3A3D;outline-offset:3px}
+.hov.dk:focus-visible{outline:3px solid #FFD66B}
+.pulse{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+@media (prefers-reduced-motion:reduce){.hov{transition:none}.hov:hover{transform:none}.pulse{animation:none}}
+</style>
+</helmet>
+
+<div id="top" style="font-family: Nunito, system-ui, sans-serif; color: #1F3A3D; background: #F6FBF8; display: flex; flex-direction: column; min-width: 0;">
+
+<!-- ШАПКА -->
+<header style="padding: 20px clamp(16px, 4vw, 48px); display: flex; justify-content: center;">
+<div style="width: 100%; max-width: 1200px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 28px;">
+<a href="#top" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #1F3A3D;">
+<svg width="44" height="44" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#FFD66B"></circle><g fill="#1F3A3D"><ellipse cx="20" cy="25" rx="6.5" ry="5.2"></ellipse><circle cx="11.5" cy="19" r="2.6"></circle><circle cx="16.5" cy="13.5" r="2.7"></circle><circle cx="23.5" cy="13.5" r="2.7"></circle><circle cx="28.5" cy="19" r="2.6"></circle></g></svg>
+<span style="font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 22px;">Тёплая лапка</span>
+</a>
+<nav aria-label="Разделы сайта" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; font-weight: 700; font-size: 16px;">
+<a class="lnk" href="#about" style="color: #1F3A3D; text-decoration: none;">О салоне</a>
+<a class="lnk" href="#services" style="color: #1F3A3D; text-decoration: none;">Услуги</a>
+<a class="lnk" href="#booking" style="color: #1F3A3D; text-decoration: none;">Запись</a>
+<a class="lnk" href="#live" style="color: #1F3A3D; text-decoration: none;">Трансляция</a>
+<a class="lnk" href="#contacts" style="color: #1F3A3D; text-decoration: none;">Контакты</a>
+</nav>
+<a class="hov" href="#booking" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 26px; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-weight: 800; font-size: 16px; text-decoration: none; box-sizing: border-box;">Записаться</a>
+</div>
+</header>
+
+<!-- ГЛАВНЫЙ ЭКРАН -->
+<section style="padding: clamp(24px, 5vw, 56px) clamp(16px, 4vw, 48px) clamp(48px, 7vw, 88px); display: flex; justify-content: center;">
+<div style="width: 100%; max-width: 1200px; display: flex; flex-wrap: wrap; align-items: center; gap: 40px;">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 24px;">
+<h1 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: clamp(34px, 5.6vw, 66px); line-height: 1.1; text-wrap: balance;">Груминг, после которого хвост виляет сам</h1>
+<p style="margin: 0; font-size: clamp(17px, 1.6vw, 20px); line-height: 1.6; color: #4A6668; max-width: 520px;">Уютный салон для собак и кошек. Спокойный подход, мягкая косметика и мастера, которые никуда не торопятся.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px;">
+<a class="hov" href="#booking" style="display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 32px; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-weight: 800; font-size: 17px; text-decoration: none; box-sizing: border-box;">Записаться онлайн</a>
+<a class="hov" href="#live" style="display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 32px; border-radius: 999px; background: #FFFFFF; color: #1F3A3D; border: 2px solid #CFE3DA; font-weight: 800; font-size: 17px; text-decoration: none; box-sizing: border-box;">Смотреть трансляцию</a>
+</div>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px;">
+<li style="padding: 8px 16px; border-radius: 999px; background: #DDF1E8; font-weight: 700; font-size: 15px;">Собаки и кошки</li>
+<li style="padding: 8px 16px; border-radius: 999px; background: #FFF0C2; font-weight: 700; font-size: 15px;">Мягкая косметика</li>
+<li style="padding: 8px 16px; border-radius: 999px; background: #DCEEF8; font-weight: 700; font-size: 15px;">Трансляция из зала</li>
+</ul>
+</div>
+<div style="flex: 1 1 360px; min-width: 0; max-width: 560px; margin-inline: auto;">
+<svg viewBox="0 0 520 440" role="img" aria-label="Улыбающаяся собака в голубой бандане и белая кошка" style="width: 100%; height: auto; display: block;">
+<circle cx="270" cy="230" r="205" fill="#DDF1E8"></circle>
+<circle cx="440" cy="88" r="52" fill="#FFD66B"></circle>
+<circle cx="70" cy="122" r="30" fill="#FFE1D6"></circle>
+<ellipse cx="270" cy="408" rx="205" ry="18" fill="#BFE0D0"></ellipse>
+<g>
+<path d="M452 372 Q508 360 494 296" fill="none" stroke="#E4EBEF" stroke-width="24" stroke-linecap="round"></path>
+<ellipse cx="388" cy="338" rx="72" ry="72" fill="#E4EBEF"></ellipse>
+<path d="M334 208 L338 148 L378 186 Z" fill="#F4F7F9"></path>
+<path d="M440 208 L436 148 L396 186 Z" fill="#F4F7F9"></path>
+<path d="M345 190 L346 164 L364 183 Z" fill="#FFC9C4"></path>
+<path d="M429 190 L428 164 L410 183 Z" fill="#FFC9C4"></path>
+<circle cx="387" cy="236" r="62" fill="#F4F7F9"></circle>
+<path d="M362 230 q9 -10 18 0" fill="none" stroke="#1F3A3D" stroke-width="4" stroke-linecap="round"></path>
+<path d="M394 230 q9 -10 18 0" fill="none" stroke="#1F3A3D" stroke-width="4" stroke-linecap="round"></path>
+<path d="M380 248 L394 248 L387 257 Z" fill="#F29A9A"></path>
+<path d="M387 257 q-6 8 -14 4 M387 257 q6 8 14 4" fill="none" stroke="#1F3A3D" stroke-width="3" stroke-linecap="round"></path>
+<path d="M344 250 l-24 -4 M344 258 l-24 6 M430 250 l24 -4 M430 258 l24 6" fill="none" stroke="#9BB0B3" stroke-width="2.5" stroke-linecap="round"></path>
+<circle cx="354" cy="252" r="9" fill="#FFC9C4" opacity="0.7"></circle>
+<circle cx="420" cy="252" r="9" fill="#FFC9C4" opacity="0.7"></circle>
+</g>
+<g>
+<ellipse cx="205" cy="338" rx="96" ry="78" fill="#F2C98B"></ellipse>
+<ellipse cx="160" cy="398" rx="32" ry="17" fill="#F5D6A1"></ellipse>
+<ellipse cx="252" cy="398" rx="32" ry="17" fill="#F5D6A1"></ellipse>
+<path d="M146 266 Q205 304 264 266 L205 336 Z" fill="#7FC4E8"></path>
+<ellipse cx="132" cy="196" rx="27" ry="54" transform="rotate(14 132 196)" fill="#C98F4E"></ellipse>
+<ellipse cx="278" cy="196" rx="27" ry="54" transform="rotate(-14 278 196)" fill="#C98F4E"></ellipse>
+<circle cx="205" cy="200" r="80" fill="#F5D6A1"></circle>
+<ellipse cx="205" cy="226" rx="40" ry="30" fill="#FFF1D6"></ellipse>
+<ellipse cx="205" cy="212" rx="14" ry="10" fill="#1F3A3D"></ellipse>
+<circle cx="174" cy="184" r="8" fill="#1F3A3D"></circle>
+<circle cx="236" cy="184" r="8" fill="#1F3A3D"></circle>
+<circle cx="177" cy="181" r="2.6" fill="#FFFFFF"></circle>
+<circle cx="239" cy="181" r="2.6" fill="#FFFFFF"></circle>
+<path d="M190 236 q15 14 30 0" fill="none" stroke="#1F3A3D" stroke-width="4" stroke-linecap="round"></path>
+<path d="M199 242 q6 20 12 0 Z" fill="#FF9FA8"></path>
+<circle cx="150" cy="218" r="11" fill="#FFB8A8" opacity="0.55"></circle>
+<circle cx="260" cy="218" r="11" fill="#FFB8A8" opacity="0.55"></circle>
+</g>
+<g fill="#FFFFFF" stroke="#8CCBE6" stroke-width="3" opacity="0.95">
+<circle cx="92" cy="300" r="22"></circle>
+<circle cx="64" cy="352" r="12"></circle>
+<circle cx="118" cy="244" r="9"></circle>
+<circle cx="470" cy="190" r="14"></circle>
+</g>
+</svg>
+</div>
+</div>
+</section>
+
+<!-- О САЛОНЕ -->
+<section id="about" style="padding: clamp(40px, 6vw, 80px) clamp(16px, 4vw, 48px); display: flex; justify-content: center;">
+<div style="width: 100%; max-width: 1200px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px 56px;">
+<div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+<h2 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; text-wrap: balance;">Здесь не страшно</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.65; color: #4A6668;">Мы принимаем одного питомца за раз и никуда не торопимся. Если нужно, делаем перерыв, даём воды и возвращаемся к процессу, когда хвост снова спокоен.</p>
+<p style="margin: 0; font-size: 18px; line-height: 1.65; color: #4A6668;">Всё, что происходит в зале, можно посмотреть онлайн. Вы видите, что с питомцем всё хорошо, и приходите за ним к назначенному времени.</p>
+</div>
+<div style="flex: 1.4 1 420px; min-width: 0; display: flex; flex-wrap: wrap; gap: 16px;">
+<div style="flex: 1 1 220px; min-width: 0; background: #FFE1D6; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box;">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"></path></svg>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 18px; line-height: 1.3;">Один мастер, один питомец</h3>
+<p style="margin: 0; line-height: 1.55; color: #4A6668;">Без очередей в клетках и без спешки между клиентами.</p>
+</div>
+<div style="flex: 1 1 220px; min-width: 0; background: #DCEEF8; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box;">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"></path></svg>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 18px; line-height: 1.3;">Мягкая косметика</h3>
+<p style="margin: 0; line-height: 1.55; color: #4A6668;">Шампуни и маски подбираем по типу шерсти и состоянию кожи.</p>
+</div>
+<div style="flex: 1 1 220px; min-width: 0; background: #FFF0C2; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box;">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 18px; line-height: 1.3;">Перерывы по запросу</h3>
+<p style="margin: 0; line-height: 1.55; color: #4A6668;">Отдых, вода и поглаживания, если питомец устал.</p>
+</div>
+<div style="flex: 1 1 220px; min-width: 0; background: #DDF1E8; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box;">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="13" height="10" rx="3"></rect><path d="M16 11l5-3v8l-5-3z"></path></svg>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 18px; line-height: 1.3;">Эфир и фото</h3>
+<p style="margin: 0; line-height: 1.55; color: #4A6668;">Смотрите процесс онлайн и получайте фото после груминга.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- УСЛУГИ -->
+<section id="services" style="margin: 0 clamp(8px, 2vw, 24px); border-radius: clamp(28px, 5vw, 64px); background: #E3F4EA; padding: clamp(48px, 7vw, 88px) clamp(16px, 4vw, 48px); display: flex; justify-content: center;">
+<div style="width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 640px;">
+<h2 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; text-wrap: balance;">Услуги и цены</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #3F5E5F;">Итоговая стоимость зависит от породы, размера и состояния шерсти. Мастер назовёт точную сумму при осмотре.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px;">
+<article style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box;">
+<div style="width: 56px; height: 56px; border-radius: 50%; background: #DCEEF8; display: flex; align-items: center; justify-content: center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"></path></svg></div>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">Купание и сушка</h3>
+<p style="margin: 0; flex: 1; line-height: 1.55; color: #4A6668;">Шампунь по типу шерсти, питательная маска, сушка феном и вычёсывание.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 12px;"><span style="font-weight: 800; font-size: 20px;">от 1&nbsp;800&nbsp;₽</span><span style="color: #4A6668; font-size: 15px;">1,5 ч · собаки и кошки</span></div>
+</article>
+<article style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box;">
+<div style="width: 56px; height: 56px; border-radius: 50%; background: #FFE1D6; display: flex; align-items: center; justify-content: center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M8.5 7.5L20 18M8.5 16.5L20 6"></path></svg></div>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">Гигиеническая стрижка</h3>
+<p style="margin: 0; flex: 1; line-height: 1.55; color: #4A6668;">Аккуратно убираем шерсть на лапах, животе и вокруг глаз и ушей.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 12px;"><span style="font-weight: 800; font-size: 20px;">от 1&nbsp;500&nbsp;₽</span><span style="color: #4A6668; font-size: 15px;">1 ч · собаки и кошки</span></div>
+</article>
+<article style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box;">
+<div style="width: 56px; height: 56px; border-radius: 50%; background: #FFF0C2; display: flex; align-items: center; justify-content: center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15c3-6 6-6 9 0s6 6 9 0"></path><path d="M3 9c3-6 6-6 9 0s6 6 9 0"></path></svg></div>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">Стрижка по породе</h3>
+<p style="margin: 0; flex: 1; line-height: 1.55; color: #4A6668;">Полный образ: купание, стрижка по стандарту породы и аккуратная укладка.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 12px;"><span style="font-weight: 800; font-size: 20px;">от 3&nbsp;200&nbsp;₽</span><span style="color: #4A6668; font-size: 15px;">3 ч · собаки и кошки</span></div>
+</article>
+<article style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box;">
+<div style="width: 56px; height: 56px; border-radius: 50%; background: #CDEBDD; display: flex; align-items: center; justify-content: center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4v16M9 4v16M13 4v16M17 4v10"></path></svg></div>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">Тримминг</h3>
+<p style="margin: 0; flex: 1; line-height: 1.55; color: #4A6668;">Ручное удаление отмершей шерсти для жёсткошёрстных пород и вычёсывание подшёрстка.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 12px;"><span style="font-weight: 800; font-size: 20px;">от 3&nbsp;000&nbsp;₽</span><span style="color: #4A6668; font-size: 15px;">2,5 ч · собаки</span></div>
+</article>
+<article style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box;">
+<div style="width: 56px; height: 56px; border-radius: 50%; background: #FFE1D6; display: flex; align-items: center; justify-content: center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="#1F3A3D" aria-hidden="true"><ellipse cx="12" cy="16" rx="5" ry="4"></ellipse><circle cx="5.5" cy="11.5" r="2"></circle><circle cx="9.5" cy="6.5" r="2.1"></circle><circle cx="14.5" cy="6.5" r="2.1"></circle><circle cx="18.5" cy="11.5" r="2"></circle></svg></div>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">Когти и уши</h3>
+<p style="margin: 0; flex: 1; line-height: 1.55; color: #4A6668;">Подстригаем когти, чистим уши и убираем лишнюю шерсть между подушечками.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 12px;"><span style="font-weight: 800; font-size: 20px;">от 600&nbsp;₽</span><span style="color: #4A6668; font-size: 15px;">30 мин · собаки и кошки</span></div>
+</article>
+<article style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box;">
+<div style="width: 56px; height: 56px; border-radius: 50%; background: #DCEEF8; display: flex; align-items: center; justify-content: center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path><path d="M19 17v4M17 19h4"></path></svg></div>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">SPA-уход</h3>
+<p style="margin: 0; flex: 1; line-height: 1.55; color: #4A6668;">Питательная маска, расслабляющий массаж и ароматерапия для спокойной шёрстки.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 12px;"><span style="font-weight: 800; font-size: 20px;">от 2&nbsp;200&nbsp;₽</span><span style="color: #4A6668; font-size: 15px;">1,5 ч · собаки и кошки</span></div>
+</article>
+</div>
+</div>
+</section>
+
+<!-- ОНЛАЙН-ЗАПИСЬ -->
+<section id="booking" style="padding: clamp(56px, 8vw, 96px) clamp(16px, 4vw, 48px); display: flex; justify-content: center;">
+<div style="width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 640px;">
+<h2 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; text-wrap: balance;">Онлайн-запись</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #4A6668;">Выберите услугу и свободное время. Администратор перезвонит и подтвердит визит.</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+
+<!-- Левая часть: шаги -->
+<div style="flex: 3 1 480px; min-width: 0; background: #FFFFFF; border: 2px solid #E1EFE8; border-radius: 36px; padding: clamp(20px, 3vw, 36px); display: flex; flex-direction: column; gap: 32px; box-sizing: border-box;">
+
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px; height: 32px; border-radius: 50%; background: #FFD66B; display: flex; align-items: center; justify-content: center; font-weight: 800;">1</span><h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">Услуга</h3></div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+<sc-for list="{{services}}" as="x" hint-placeholder-count="6">
+<button type="button" class="hov" onClick="{{x.pick}}" aria-pressed="{{x.on}}" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 18px; border-radius: 20px; border: 2px solid {{x.bd}}; background: {{x.bg}}; color: {{x.fg}}; font-family: Nunito, system-ui, sans-serif; text-align: left; cursor: pointer; box-sizing: border-box;"><span style="font-weight: 800; font-size: 16px;">{{x.name}}</span><span style="font-size: 14px; opacity: 0.85;">{{x.dur}}</span></button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px; height: 32px; border-radius: 50%; background: #FFD66B; display: flex; align-items: center; justify-content: center; font-weight: 800;">2</span><h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">Питомец</h3></div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+<sc-for list="{{pets}}" as="p" hint-placeholder-count="2">
+<button type="button" class="hov" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="min-height: 48px; padding: 0 28px; border-radius: 999px; border: 2px solid {{p.bd}}; background: {{p.bg}}; color: {{p.fg}}; font-family: Nunito, system-ui, sans-serif; font-weight: 800; font-size: 16px; cursor: pointer; box-sizing: border-box;">{{p.name}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px; height: 32px; border-radius: 50%; background: #FFD66B; display: flex; align-items: center; justify-content: center; font-weight: 800;">3</span><h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">День</h3></div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<button type="button" class="hov" onClick="{{d.pick}}" aria-pressed="{{d.on}}" aria-label="{{d.label}}" style="flex: 1 1 76px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 6px; border-radius: 22px; border: 2px solid {{d.bd}}; background: {{d.bg}}; color: {{d.fg}}; font-family: Nunito, system-ui, sans-serif; cursor: pointer; box-sizing: border-box;"><span style="font-size: 13px; font-weight: 700; opacity: 0.85;">{{d.wd}}</span><span style="font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 24px; line-height: 1.2;">{{d.num}}</span></button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px; height: 32px; border-radius: 50%; background: #FFD66B; display: flex; align-items: center; justify-content: center; font-weight: 800;">4</span><h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">Время</h3></div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{slots}}" as="t" hint-placeholder-count="9">
+<button type="button" class="hov" onClick="{{t.pick}}" disabled="{{t.busy}}" aria-pressed="{{t.on}}" style="flex: 1 1 92px; min-width: 0; min-height: 48px; border-radius: 16px; border: 2px solid {{t.bd}}; background: {{t.bg}}; color: {{t.fg}}; text-decoration: {{t.deco}}; font-family: Nunito, system-ui, sans-serif; font-weight: 800; font-size: 16px; cursor: pointer; box-sizing: border-box;">{{t.time}}</button>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 14px; color: #4A6668;">Зачёркнутое время уже занято.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: center; gap: 12px;"><span style="width: 32px; height: 32px; border-radius: 50%; background: #FFD66B; display: flex; align-items: center; justify-content: center; font-weight: 800;">5</span><h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">Ваши контакты</h3></div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px;">
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
+<label for="b-name" style="font-weight: 700; font-size: 15px;">Имя</label>
+<input id="b-name" type="text" autocomplete="name" placeholder="Как к вам обращаться" value="{{name}}" onChange="{{onName}}" style="width: 100%; min-height: 52px; padding: 0 18px; border-radius: 16px; border: 2px solid #CFE3DA; background: #FFFFFF; color: #1F3A3D; font-family: Nunito, system-ui, sans-serif; font-size: 16px; box-sizing: border-box;">
+</div>
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
+<label for="b-phone" style="font-weight: 700; font-size: 15px;">Телефон</label>
+<input id="b-phone" type="tel" autocomplete="tel" placeholder="+7 (000) 000-00-00" value="{{phone}}" onChange="{{onPhone}}" style="width: 100%; min-height: 52px; padding: 0 18px; border-radius: 16px; border: 2px solid #CFE3DA; background: #FFFFFF; color: #1F3A3D; font-family: Nunito, system-ui, sans-serif; font-size: 16px; box-sizing: border-box;">
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- Правая часть: сводка записи -->
+<div style="flex: 2 1 300px; min-width: 0; background: #1F3A3D; color: #FFFFFF; border-radius: 36px; padding: clamp(22px, 3vw, 36px); display: flex; flex-direction: column; gap: 22px; box-sizing: border-box;">
+
+<sc-if value="{{notDone}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 22px;">
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 24px;">Ваша запись</h3>
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px;"><span style="color: #BFD8D2;">Услуга</span><span style="font-weight: 800;">{{svcName}}</span></div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px;"><span style="color: #BFD8D2;">Питомец</span><span style="font-weight: 800;">{{petName}}</span></div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px;"><span style="color: #BFD8D2;">Дата</span><span style="font-weight: 800;">{{dateText}}</span></div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px;"><span style="color: #BFD8D2;">Время</span><span style="font-weight: 800;">{{timeText}}</span></div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px;"><span style="color: #BFD8D2;">Длительность</span><span style="font-weight: 800;">{{svcDur}}</span></div>
+</div>
+<div style="height: 2px; background: #35575A; border-radius: 2px;"></div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px;"><span style="color: #BFD8D2;">Стоимость</span><span style="font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 28px;">{{svcPrice}}</span></div>
+<sc-if value="{{hasBookErr}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 0; padding: 12px 16px; border-radius: 16px; background: #FFE1D6; color: #1F3A3D; font-weight: 700; line-height: 1.45;">{{bookErr}}</p>
+</sc-if>
+<button type="button" class="hov dk" onClick="{{book}}" style="min-height: 56px; border-radius: 999px; border: 0; background: #FFD66B; color: #1F3A3D; font-family: Nunito, system-ui, sans-serif; font-weight: 800; font-size: 17px; cursor: pointer;">Записаться</button>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #BFD8D2;">Оплата после груминга. Отменить или перенести запись можно по телефону.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 20px;">
+<div style="width: 64px; height: 64px; border-radius: 50%; background: #FFD66B; display: flex; align-items: center; justify-content: center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 24px; line-height: 1.25;">Заявка принята</h3>
+<p style="margin: 0; line-height: 1.6; color: #D8E8E4;">Ждём вас: {{dateText}}, {{timeText}}. Услуга: {{svcName}}. Администратор позвонит по номеру {{phone}} и подтвердит запись.</p>
+<button type="button" class="hov dk" onClick="{{again}}" style="min-height: 52px; border-radius: 999px; border: 2px solid #FFD66B; background: transparent; color: #FFD66B; font-family: Nunito, system-ui, sans-serif; font-weight: 800; font-size: 16px; cursor: pointer;">Новая запись</button>
+</div>
+</sc-if>
+
+</div>
+</div>
+</div>
+</section>
+
+<!-- ОНЛАЙН-ТРАНСЛЯЦИЯ -->
+<section id="live" style="margin: 0 clamp(8px, 2vw, 24px); border-radius: clamp(28px, 5vw, 64px); background: #DCEEF8; padding: clamp(48px, 7vw, 88px) clamp(16px, 4vw, 48px); display: flex; justify-content: center;">
+<div style="width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 680px;">
+<h2 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; text-wrap: balance;">Прямой эфир из салона</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #3B5A66;">Камеры работают в часы приёма. Смотрите, как проходит груминг, и не волнуйтесь за питомца.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+
+<!-- Плеер -->
+<div style="flex: 3 1 480px; min-width: 0;">
+<div style="position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: 32px; overflow: hidden; background: #CFE9F5;">
+
+<sc-if value="{{cam0}}" hint-placeholder-val="{{ true }}">
+<svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Собака в ванне с пенной шапкой" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;">
+<rect width="640" height="360" fill="#CFE9F5"></rect>
+<rect y="262" width="640" height="98" fill="#B9DCEB"></rect>
+<rect x="64" y="38" width="130" height="150" rx="18" fill="#EAF6FB"></rect>
+<path d="M129 38 V188 M64 113 H194" stroke="#CFE9F5" stroke-width="6"></path>
+<rect x="150" y="196" width="340" height="124" rx="46" fill="#FFFFFF"></rect>
+<ellipse cx="258" cy="196" rx="22" ry="40" transform="rotate(14 258 196)" fill="#C98F4E"></ellipse>
+<ellipse cx="382" cy="196" rx="22" ry="40" transform="rotate(-14 382 196)" fill="#C98F4E"></ellipse>
+<circle cx="320" cy="198" r="60" fill="#F5D6A1"></circle>
+<circle cx="299" cy="190" r="6" fill="#1F3A3D"></circle>
+<circle cx="341" cy="190" r="6" fill="#1F3A3D"></circle>
+<ellipse cx="320" cy="214" rx="11" ry="8" fill="#1F3A3D"></ellipse>
+<g fill="#FFFFFF"><circle cx="288" cy="146" r="18"></circle><circle cx="320" cy="132" r="23"></circle><circle cx="352" cy="146" r="18"></circle><circle cx="305" cy="150" r="14"></circle></g>
+<rect x="170" y="238" width="300" height="52" rx="26" fill="#9CD3EA" opacity="0.94"></rect>
+<rect x="150" y="282" width="340" height="44" rx="26" fill="#FFFFFF"></rect>
+<g fill="#FFFFFF" stroke="#8CCBE6" stroke-width="3"><circle cx="230" cy="262" r="12"></circle><circle cx="420" cy="258" r="9"></circle><circle cx="520" cy="170" r="16"></circle><circle cx="560" cy="120" r="9"></circle></g>
+</svg>
+</sc-if>
+
+<sc-if value="{{cam1}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Кошка сидит на столе для стрижки" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;">
+<rect width="640" height="360" fill="#FFE9DF"></rect>
+<rect y="272" width="640" height="88" fill="#F7D3C3"></rect>
+<path d="M500 0 V70" stroke="#1F3A3D" stroke-width="4"></path>
+<path d="M468 112 L532 112 L516 70 L484 70 Z" fill="#FFD66B"></path>
+<rect x="120" y="262" width="400" height="30" rx="15" fill="#FFFFFF"></rect>
+<rect x="170" y="290" width="14" height="60" rx="7" fill="#C9DCE5"></rect>
+<rect x="456" y="290" width="14" height="60" rx="7" fill="#C9DCE5"></rect>
+<ellipse cx="320" cy="222" rx="66" ry="56" fill="#E4EBEF"></ellipse>
+<path d="M270 130 L275 80 L314 116 Z" fill="#F4F7F9"></path>
+<path d="M370 130 L365 80 L326 116 Z" fill="#F4F7F9"></path>
+<path d="M282 118 L283 94 L301 112 Z" fill="#FFC9C4"></path>
+<path d="M358 118 L357 94 L339 112 Z" fill="#FFC9C4"></path>
+<circle cx="320" cy="150" r="54" fill="#F4F7F9"></circle>
+<path d="M296 144 q9 -10 18 0 M326 144 q9 -10 18 0" fill="none" stroke="#1F3A3D" stroke-width="4" stroke-linecap="round"></path>
+<path d="M313 162 L327 162 L320 171 Z" fill="#F29A9A"></path>
+<path d="M320 171 q-6 8 -14 4 M320 171 q6 8 14 4" fill="none" stroke="#1F3A3D" stroke-width="3" stroke-linecap="round"></path>
+<path d="M276 164 l-26 -4 M276 172 l-26 6 M364 164 l26 -4 M364 172 l26 6" fill="none" stroke="#9BB0B3" stroke-width="2.5" stroke-linecap="round"></path>
+<path d="M388 252 Q450 244 438 196" fill="none" stroke="#E4EBEF" stroke-width="20" stroke-linecap="round"></path>
+<g fill="none" stroke="#1F3A3D" stroke-width="3.5" stroke-linecap="round"><circle cx="96" cy="98" r="14"></circle><circle cx="96" cy="152" r="14"></circle><path d="M106 108 L152 150 M106 142 L152 100"></path></g>
+</svg>
+</sc-if>
+
+<sc-if value="{{cam2}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Собака спит на мягкой лежанке" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;">
+<rect width="640" height="360" fill="#E6F4EA"></rect>
+<rect y="262" width="640" height="98" fill="#CDEBDD"></rect>
+<ellipse cx="320" cy="290" rx="200" ry="56" fill="#FFD9C9"></ellipse>
+<ellipse cx="320" cy="280" rx="168" ry="38" fill="#FFEDE5"></ellipse>
+<ellipse cx="338" cy="248" rx="104" ry="46" fill="#F2C98B"></ellipse>
+<ellipse cx="402" cy="266" rx="40" ry="16" fill="#F5D6A1"></ellipse>
+<ellipse cx="238" cy="254" rx="16" ry="32" transform="rotate(22 238 254)" fill="#C98F4E"></ellipse>
+<circle cx="256" cy="250" r="42" fill="#F5D6A1"></circle>
+<ellipse cx="228" cy="276" rx="28" ry="18" fill="#FFF1D6"></ellipse>
+<ellipse cx="216" cy="270" rx="9" ry="6.5" fill="#1F3A3D"></ellipse>
+<path d="M248 244 q8 8 16 0" fill="none" stroke="#1F3A3D" stroke-width="4" stroke-linecap="round"></path>
+<text x="352" y="160" font-family="Comfortaa, sans-serif" font-weight="700" font-size="40" fill="#1E7F73">Zz</text>
+<text x="402" y="120" font-family="Comfortaa, sans-serif" font-weight="700" font-size="28" fill="#1E7F73">z</text>
+</svg>
+</sc-if>
+
+<div style="position: absolute; top: 16px; left: 16px; display: flex; align-items: center; gap: 8px; padding: 6px 14px 6px 12px; border-radius: 999px; background: #C8402C; color: #FFFFFF; font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;"><span class="pulse" style="width: 9px; height: 9px; border-radius: 50%; background: #FFFFFF; display: inline-block;"></span>В эфире</div>
+
+<sc-if value="{{paused}}" hint-placeholder-val="{{ false }}">
+<button type="button" class="hov dk" onClick="{{toggle}}" aria-label="Продолжить трансляцию" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: rgba(31, 58, 61, 0.45); display: flex; align-items: center; justify-content: center; cursor: pointer;"><span style="width: 84px; height: 84px; border-radius: 50%; background: #FFD66B; display: flex; align-items: center; justify-content: center;"><svg width="36" height="36" viewBox="0 0 24 24" fill="#1F3A3D" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"></path></svg></span></button>
+</sc-if>
+
+<div style="position: absolute; left: 14px; right: 14px; bottom: 14px; display: flex; align-items: center; gap: 12px; padding: 6px 18px 6px 6px; border-radius: 999px; background: rgba(31, 58, 61, 0.78); color: #FFFFFF;">
+<button type="button" class="hov dk" onClick="{{toggle}}" aria-label="{{toggleLabel}}" style="width: 44px; height: 44px; flex: none; border-radius: 50%; border: 0; background: #FFFFFF; color: #1F3A3D; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+<sc-if value="{{playing}}" hint-placeholder-val="{{ true }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="#1F3A3D" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2"></rect><rect x="14" y="5" width="4" height="14" rx="1.2"></rect></svg></sc-if>
+<sc-if value="{{paused}}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="#1F3A3D" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"></path></svg></sc-if>
+</button>
+<span style="min-width: 0; font-weight: 700; font-size: 15px;">{{camLabel}}</span>
+</div>
+</div>
+</div>
+
+<!-- Выбор камеры -->
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+<h3 style="margin: 0 0 4px; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">Камеры</h3>
+<sc-for list="{{camList}}" as="c" hint-placeholder-count="3">
+<button type="button" class="hov" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 16px 20px; border-radius: 24px; border: 2px solid {{c.bd}}; background: {{c.bg}}; color: #1F3A3D; font-family: Nunito, system-ui, sans-serif; text-align: left; cursor: pointer; box-sizing: border-box;"><span style="font-weight: 800; font-size: 17px;">{{c.name}}</span><span style="font-size: 14px; color: #4A6668;">{{c.desc}}</span></button>
+</sc-for>
+<p style="margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: #3B5A66;">Эфир идёт, пока в зале работает мастер. Запись трансляции не ведётся.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- КОНТАКТЫ И ОБРАТНАЯ СВЯЗЬ -->
+<section id="contacts" style="padding: clamp(56px, 8vw, 96px) clamp(16px, 4vw, 48px); display: flex; justify-content: center;">
+<div style="width: 100%; max-width: 1200px; display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 640px;">
+<h2 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; text-wrap: balance;">Контакты</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #4A6668;">Приходите в гости или напишите нам. Ответим в рабочее время.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
+
+<div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 24px;">
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px;">
+<li style="display: flex; align-items: flex-start; gap: 16px;">
+<span style="width: 48px; height: 48px; flex: none; border-radius: 50%; background: #FFE1D6; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6-7-11.5a7 7 0 0 1 14 0C19 15 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg></span>
+<div style="min-width: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; color: #4A6668;">Адрес</span><span style="font-weight: 800; font-size: 18px; line-height: 1.4;">[Город], ул. [Название улицы], [дом]</span></div>
+</li>
+<li style="display: flex; align-items: flex-start; gap: 16px;">
+<span style="width: 48px; height: 48px; flex: none; border-radius: 50%; background: #DCEEF8; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"></path></svg></span>
+<div style="min-width: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; color: #4A6668;">Телефон</span><span style="font-weight: 800; font-size: 18px; line-height: 1.4;">+7 (000) 000-00-00</span></div>
+</li>
+<li style="display: flex; align-items: flex-start; gap: 16px;">
+<span style="width: 48px; height: 48px; flex: none; border-radius: 50%; background: #FFF0C2; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>
+<div style="min-width: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; color: #4A6668;">Часы работы</span><span style="font-weight: 800; font-size: 18px; line-height: 1.4;">Ежедневно, 10:00–20:00</span></div>
+</li>
+<li style="display: flex; align-items: flex-start; gap: 16px;">
+<span style="width: 48px; height: 48px; flex: none; border-radius: 50%; background: #DDF1E8; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><path d="M4 7l8 6 8-6"></path></svg></span>
+<div style="min-width: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; color: #4A6668;">Почта</span><span style="font-weight: 800; font-size: 18px; line-height: 1.4; overflow-wrap: anywhere;">hello@[ваш-домен].ru</span></div>
+</li>
+</ul>
+<svg viewBox="0 0 520 300" role="img" aria-label="Схема расположения салона" style="width: 100%; max-width: 100%; height: auto; display: block; border-radius: 32px;">
+<rect width="520" height="300" fill="#E6F2EC"></rect>
+<path d="M-10 230 C120 190 220 270 330 220 S480 150 540 170" fill="none" stroke="#C9E4F2" stroke-width="40"></path>
+<circle cx="90" cy="80" r="52" fill="#CDEBDD"></circle>
+<rect x="330" y="30" width="150" height="80" rx="20" fill="#CDEBDD"></rect>
+<g fill="#FFFFFF"><rect x="0" y="136" width="520" height="22"></rect><rect x="236" y="0" width="22" height="300"></rect><rect x="380" y="150" width="16" height="150" transform="rotate(0)"></rect></g>
+<g fill="#F6FBF8"><rect x="268" y="40" width="48" height="36" rx="8"></rect><rect x="268" y="84" width="48" height="36" rx="8"></rect><rect x="150" y="166" width="70" height="40" rx="8"></rect><rect x="150" y="214" width="70" height="40" rx="8"></rect><rect x="410" y="170" width="70" height="40" rx="8"></rect></g>
+<path d="M247 148 C247 148 218 118 218 98 a29 29 0 0 1 58 0 C276 118 247 148 247 148 Z" fill="#C8402C"></path>
+<circle cx="247" cy="98" r="11" fill="#FFFFFF"></circle>
+</svg>
+</div>
+
+<!-- Форма обратной связи -->
+<div style="flex: 1 1 400px; min-width: 0; background: #FFFFFF; border: 2px solid #E1EFE8; border-radius: 36px; padding: clamp(22px, 3vw, 36px); display: flex; flex-direction: column; gap: 20px; box-sizing: border-box;">
+
+<sc-if value="{{fOpen}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 20px;">
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 24px;">Напишите нам</h3>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="f-name" style="font-weight: 700; font-size: 15px;">Имя</label>
+<input id="f-name" type="text" autocomplete="name" placeholder="Как к вам обращаться" value="{{fname}}" onChange="{{onFName}}" style="width: 100%; min-height: 52px; padding: 0 18px; border-radius: 16px; border: 2px solid #CFE3DA; background: #FFFFFF; color: #1F3A3D; font-family: Nunito, system-ui, sans-serif; font-size: 16px; box-sizing: border-box;">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="f-contact" style="font-weight: 700; font-size: 15px;">Телефон или e-mail</label>
+<input id="f-contact" type="text" autocomplete="email" placeholder="Куда ответить" value="{{fcontact}}" onChange="{{onFContact}}" style="width: 100%; min-height: 52px; padding: 0 18px; border-radius: 16px; border: 2px solid #CFE3DA; background: #FFFFFF; color: #1F3A3D; font-family: Nunito, system-ui, sans-serif; font-size: 16px; box-sizing: border-box;">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="f-topic" style="font-weight: 700; font-size: 15px;">Тема</label>
+<select id="f-topic" value="{{ftopic}}" onChange="{{onTopic}}" style="width: 100%; min-height: 52px; padding: 0 14px; border-radius: 16px; border: 2px solid #CFE3DA; background: #FFFFFF; color: #1F3A3D; font-family: Nunito, system-ui, sans-serif; font-size: 16px; box-sizing: border-box;">
+<option value="Вопрос об услугах">Вопрос об услугах</option>
+<option value="Изменить или отменить запись">Изменить или отменить запись</option>
+<option value="Особенности питомца">Особенности питомца</option>
+<option value="Отзыв или пожелание">Отзыв или пожелание</option>
+</select>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="f-msg" style="font-weight: 700; font-size: 15px;">Сообщение</label>
+<textarea id="f-msg" rows="4" placeholder="Расскажите, чем помочь" value="{{fmsg}}" onChange="{{onFMsg}}" style="width: 100%; min-height: 120px; padding: 14px 18px; border-radius: 16px; border: 2px solid #CFE3DA; background: #FFFFFF; color: #1F3A3D; font-family: Nunito, system-ui, sans-serif; font-size: 16px; line-height: 1.5; resize: vertical; box-sizing: border-box;"></textarea>
+</div>
+<div style="display: flex; align-items: flex-start; gap: 12px;">
+<input id="f-agree" type="checkbox" checked="{{fagree}}" onChange="{{onFAgree}}" style="width: 22px; height: 22px; margin: 2px 0 0; flex: none; accent-color: #1E7F73;">
+<label for="f-agree" style="font-size: 15px; line-height: 1.5; color: #4A6668;">Согласен на обработку персональных данных</label>
+</div>
+<sc-if value="{{hasFErr}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 0; padding: 12px 16px; border-radius: 16px; background: #FFE1D6; font-weight: 700; line-height: 1.45;">{{ferrMsg}}</p>
+</sc-if>
+<button type="button" class="hov" onClick="{{sendForm}}" style="min-height: 56px; border-radius: 999px; border: 0; background: {{accent}}; color: #FFFFFF; font-family: Nunito, system-ui, sans-serif; font-weight: 800; font-size: 17px; cursor: pointer;">Отправить сообщение</button>
+</div>
+</sc-if>
+
+<sc-if value="{{fSent}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 20px; align-items: flex-start;">
+<div style="width: 64px; height: 64px; border-radius: 50%; background: #DDF1E8; display: flex; align-items: center; justify-content: center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1F3A3D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+<h3 style="margin: 0; font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 24px;">Сообщение отправлено</h3>
+<p style="margin: 0; line-height: 1.6; color: #4A6668;">Спасибо, {{fname}}! Мы ответим вам в рабочее время на {{fcontact}}.</p>
+<button type="button" class="hov" onClick="{{formAgain}}" style="min-height: 52px; padding: 0 28px; border-radius: 999px; border: 2px solid #CFE3DA; background: #FFFFFF; color: #1F3A3D; font-family: Nunito, system-ui, sans-serif; font-weight: 800; font-size: 16px; cursor: pointer;">Написать ещё</button>
+</div>
+</sc-if>
+
+</div>
+</div>
+</div>
+</section>
+
+<!-- ПОДВАЛ -->
+<footer style="background: #1F3A3D; color: #FFFFFF; padding: 40px clamp(16px, 4vw, 48px); display: flex; justify-content: center;">
+<div style="width: 100%; max-width: 1200px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px;">
+<div style="display: flex; align-items: center; gap: 12px;">
+<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#FFD66B"></circle><g fill="#1F3A3D"><ellipse cx="20" cy="25" rx="6.5" ry="5.2"></ellipse><circle cx="11.5" cy="19" r="2.6"></circle><circle cx="16.5" cy="13.5" r="2.7"></circle><circle cx="23.5" cy="13.5" r="2.7"></circle><circle cx="28.5" cy="19" r="2.6"></circle></g></svg>
+<span style="font-family: Comfortaa, Nunito, system-ui, sans-serif; font-weight: 700; font-size: 20px;">Тёплая лапка</span>
+</div>
+<nav aria-label="Разделы в подвале" style="display: flex; flex-wrap: wrap; gap: 8px 24px; font-weight: 700; font-size: 15px;">
+<a class="lnk" href="#about" style="color: #FFFFFF; text-decoration: none;">О салоне</a>
+<a class="lnk" href="#services" style="color: #FFFFFF; text-decoration: none;">Услуги</a>
+<a class="lnk" href="#booking" style="color: #FFFFFF; text-decoration: none;">Запись</a>
+<a class="lnk" href="#live" style="color: #FFFFFF; text-decoration: none;">Трансляция</a>
+<a class="lnk" href="#contacts" style="color: #FFFFFF; text-decoration: none;">Контакты</a>
+</nav>
+<span style="font-size: 14px; color: #BFD8D2;">© Тёплая лапка</span>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1E7F73","options":["#1E7F73","#2A6FB0","#B4503F","#6B4FB0"]},"$preview":{"width":1440,"height":4900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      service: 'bath', pet: 'dog', day: 1, slot: '12:00',
+      name: '', phone: '', bookErr: '', done: false,
+      cam: 0, playing: true,
+      fname: '', fcontact: '', ftopic: 'Вопрос об услугах', fmsg: '', fagree: true, ferr: '', fsent: false
+    };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const INK = '#1F3A3D';
+    const accent = this.props.accent ?? '#1E7F73';
+    const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+    const SERVICES = [
+      { id: 'bath', name: 'Купание и сушка', price: 1800, dur: '1,5 ч' },
+      { id: 'hygiene', name: 'Гигиеническая стрижка', price: 1500, dur: '1 ч' },
+      { id: 'full', name: 'Стрижка по породе', price: 3200, dur: '3 ч' },
+      { id: 'trim', name: 'Тримминг', price: 3000, dur: '2,5 ч' },
+      { id: 'nails', name: 'Когти и уши', price: 600, dur: '30 мин' },
+      { id: 'spa', name: 'SPA-уход', price: 2200, dur: '1,5 ч' }
+    ];
+    const svc = SERVICES.find((x) => x.id === s.service) || SERVICES[0];
+    const services = SERVICES.map((x) => {
+      const on = s.service === x.id;
+      return {
+        name: x.name, dur: x.dur, on,
+        bg: on ? INK : '#FFFFFF', fg: on ? '#FFFFFF' : INK, bd: on ? INK : '#CFE3DA',
+        pick: () => this.setState({ service: x.id })
+      };
+    });
+
+    const PETS = [{ id: 'dog', name: 'Собака' }, { id: 'cat', name: 'Кошка' }];
+    const pets = PETS.map((p) => {
+      const on = s.pet === p.id;
+      return {
+        name: p.name, on,
+        bg: on ? INK : '#FFFFFF', fg: on ? '#FFFFFF' : INK, bd: on ? INK : '#CFE3DA',
+        pick: () => this.setState({ pet: p.id })
+      };
+    });
+    const petName = (PETS.find((p) => p.id === s.pet) || PETS[0]).name;
+
+    const now = new Date();
+    const WD = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+    const MON = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+      const on = s.day === i;
+      days.push({
+        wd: i === 0 ? 'сегодня' : WD[d.getDay()],
+        num: d.getDate(),
+        label: WD[d.getDay()] + ', ' + d.getDate() + ' ' + MON[d.getMonth()],
+        on,
+        bg: on ? INK : '#FFFFFF', fg: on ? '#FFFFFF' : INK, bd: on ? INK : '#CFE3DA',
+        pick: () => this.setState({ day: i, slot: null })
+      });
+    }
+    const dateText = days[s.day].label;
+
+    const TIMES = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+    const slots = TIMES.map((t, idx) => {
+      const past = s.day === 0 && (10 + idx) <= now.getHours();
+      const busy = past || ((s.day * 5 + idx * 7) % 4 === 0);
+      const on = s.slot === t && !busy;
+      return {
+        time: t, busy, on,
+        bg: busy ? '#EDF3F0' : on ? accent : '#FFFFFF',
+        fg: busy ? '#7C9390' : on ? '#FFFFFF' : INK,
+        bd: busy ? '#EDF3F0' : on ? accent : '#CFE3DA',
+        deco: busy ? 'line-through' : 'none',
+        pick: () => this.setState({ slot: t })
+      };
+    });
+
+    const CAMS = [
+      { name: 'Камера 1 · Ванная', short: 'Ванная', desc: 'Купание и сушка' },
+      { name: 'Камера 2 · Стол для стрижки', short: 'Стол для стрижки', desc: 'Стрижка и тримминг' },
+      { name: 'Камера 3 · Зона отдыха', short: 'Зона отдыха', desc: 'Отдых между процедурами' }
+    ];
+    const camList = CAMS.map((c, i) => {
+      const on = s.cam === i;
+      return {
+        name: c.short, desc: c.desc, on,
+        bg: on ? '#FFFFFF' : 'rgba(255,255,255,0.45)', bd: on ? INK : 'transparent',
+        pick: () => this.setState({ cam: i })
+      };
+    });
+
+    return {
+      accent,
+      services, pets, days, slots,
+      svcName: svc.name, svcDur: svc.dur, svcPrice: 'от ' + fmt(svc.price) + ' ₽',
+      petName, dateText, timeText: s.slot || 'выберите время',
+      name: s.name, phone: s.phone,
+      onName: (e) => this.setState({ name: e.target.value }),
+      onPhone: (e) => this.setState({ phone: e.target.value }),
+      book: () => {
+        if (!s.slot) { this.setState({ bookErr: 'Выберите свободное время визита.' }); return; }
+        if (!s.name.trim() || !s.phone.trim()) { this.setState({ bookErr: 'Укажите имя и телефон, чтобы администратор мог подтвердить запись.' }); return; }
+        this.setState({ done: true, bookErr: '' });
+      },
+      again: () => this.setState({ done: false, name: '', phone: '', slot: null, bookErr: '' }),
+      isDone: s.done, notDone: !s.done,
+      hasBookErr: !!s.bookErr, bookErr: s.bookErr,
+
+      camList, camLabel: CAMS[s.cam].name,
+      cam0: s.cam === 0, cam1: s.cam === 1, cam2: s.cam === 2,
+      playing: s.playing, paused: !s.playing,
+      toggleLabel: s.playing ? 'Поставить трансляцию на паузу' : 'Продолжить трансляцию',
+      toggle: () => this.setState({ playing: !s.playing }),
+
+      fname: s.fname, fcontact: s.fcontact, ftopic: s.ftopic, fmsg: s.fmsg, fagree: s.fagree,
+      onFName: (e) => this.setState({ fname: e.target.value }),
+      onFContact: (e) => this.setState({ fcontact: e.target.value }),
+      onTopic: (e) => this.setState({ ftopic: e.target.value }),
+      onFMsg: (e) => this.setState({ fmsg: e.target.value }),
+      onFAgree: (e) => this.setState({ fagree: e.target.checked }),
+      sendForm: () => {
+        if (!s.fname.trim() || !s.fcontact.trim() || !s.fmsg.trim()) { this.setState({ ferr: 'Заполните имя, контакт и сообщение.' }); return; }
+        if (!s.fagree) { this.setState({ ferr: 'Нужно согласие на обработку персональных данных.' }); return; }
+        this.setState({ fsent: true, ferr: '' });
+      },
+      formAgain: () => this.setState({ fsent: false, fmsg: '', ferr: '' }),
+      fSent: s.fsent, fOpen: !s.fsent,
+      hasFErr: !!s.ferr, ferrMsg: s.ferr
+    };
+  }
+}
+</script>
+</body>
+</html>
