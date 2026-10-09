@@ -46,7 +46,7 @@ import { SERVICES, formatPrice } from '../data/salon'
 .service {
   flex: 1 1 320px;
   min-width: 0;
-  background: #fff;
+  background: $white;
   border-radius: 28px;
   padding: 28px;
   display: flex;

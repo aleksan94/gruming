@@ -8,6 +8,14 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [vue(), svgLoader({ svgo: false })],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // переменные и миксины доступны во всех scss и <style lang="scss">
+          additionalData: `@use '/src/styles/variables' as *;\n@use '/src/styles/mixins' as *;\n`,
+        },
+      },
+    },
     server: {
       host: true,
       port: Number(env.PORT) || 5173,

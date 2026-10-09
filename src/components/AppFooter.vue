@@ -18,7 +18,7 @@ import { NAV } from '../data/salon'
 <style scoped lang="scss">
 .footer {
   background: var(--ink);
-  color: #fff;
+  color: $white;
   padding-block: 40px;
 }
 
@@ -51,7 +51,7 @@ nav {
 }
 
 .lnk {
-  color: #fff;
+  color: $white;
   text-decoration: none;
 }
 
@@ -66,6 +66,6 @@ nav {
 
 .copy {
   font-size: 14px;
-  color: #bfd8d2;
+  color: $border-soft;
 }
 </style>

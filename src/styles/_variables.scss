@@ -1,0 +1,20 @@
+// Палитра: попадает в :root как CSS-переменные (--ink, --sun, ...)
+$palette: (
+  'ink': #1f3a3d,
+  'muted': #4a6668,
+  'bg': #f6fbf8,
+  'border': #cfe3da,
+  'card-border': #e1efe8,
+  'accent': #1e7f73,
+  'sun': #ffd66b,
+  'mint': #ddf1e8,
+  'sky': #dceef8,
+  'peach': #ffe1d6,
+  'butter': #fff0c2,
+);
+$white: #fff;
+$border-soft: #bfd8d2;
+$font-head: comfortaa, nunito, system-ui, sans-serif;
+$font-body: nunito, system-ui, sans-serif;
+$gutter: clamp(16px, 4vw, 48px);
+$radius-pill: 999px;

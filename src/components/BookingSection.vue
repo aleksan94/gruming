@@ -326,7 +326,7 @@ function reset() {
 .pet {
   min-height: 48px;
   padding: 0 28px;
-  border-radius: 999px;
+  border-radius: $radius-pill;
   font-weight: 800;
   font-size: 16px;
 }
@@ -388,7 +388,7 @@ function reset() {
   min-width: 0;
   box-sizing: border-box;
   background: var(--ink);
-  color: #fff;
+  color: $white;
   border-radius: 36px;
   padding: clamp(22px, 3vw, 36px);
 }
@@ -424,7 +424,7 @@ dl div,
 
 dt,
 .total span {
-  color: #bfd8d2;
+  color: $border-soft;
 }
 
 dd {
@@ -455,7 +455,7 @@ hr {
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
-  color: #bfd8d2;
+  color: $border-soft;
 }
 
 .thanks {
@@ -467,7 +467,7 @@ hr {
 .submit,
 .again {
   min-height: 56px;
-  border-radius: 999px;
+  border-radius: $radius-pill;
   font-weight: 800;
   cursor: pointer;
   font-size: 17px;

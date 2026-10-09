@@ -138,9 +138,9 @@ const toggleLabel = computed(() =>
   align-items: center;
   gap: 8px;
   padding: 6px 14px 6px 12px;
-  border-radius: 999px;
+  border-radius: $radius-pill;
   background: #c8402c;
-  color: #fff;
+  color: $white;
   font-weight: 800;
   font-size: 13px;
   letter-spacing: 0.06em;
@@ -151,7 +151,7 @@ const toggleLabel = computed(() =>
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #fff;
+  background: $white;
   animation: pulse 1.6s ease-in-out infinite;
 }
 
@@ -201,9 +201,9 @@ const toggleLabel = computed(() =>
   align-items: center;
   gap: 12px;
   padding: 6px 18px 6px 6px;
-  border-radius: 999px;
+  border-radius: $radius-pill;
   background: rgb(31 58 61 / 78%);
-  color: #fff;
+  color: $white;
   font-weight: 700;
   font-size: 15px;
 }
@@ -219,7 +219,7 @@ const toggleLabel = computed(() =>
   border-radius: 50%;
   border: 0;
   cursor: pointer;
-  background: #fff;
+  background: $white;
   color: var(--ink);
   display: flex;
   align-items: center;
@@ -250,7 +250,7 @@ const toggleLabel = computed(() =>
 }
 
 .cam.active {
-  background: #fff;
+  background: $white;
   border-color: var(--ink);
   color: var(--ink);
 }
@@ -272,7 +272,7 @@ const toggleLabel = computed(() =>
   color: #3b5a66;
 }
 
-@media (prefers-reduced-motion: reduce) {
+@include reduced-motion {
   .dot {
     animation: none;
   }

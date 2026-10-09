@@ -178,7 +178,7 @@ p {
 
 .tags li {
   padding: 8px 16px;
-  border-radius: 999px;
+  border-radius: $radius-pill;
   font-weight: 700;
   font-size: 15px;
 }
