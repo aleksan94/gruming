@@ -17,7 +17,7 @@ import { SERVICES, formatPrice } from '../data/salon'
         <article v-for="s in SERVICES" :key="s.id" class="service">
           <IconBadge :icon="s.icon" :tint="s.tint" />
           <h3 class="h3">{{ s.name }}</h3>
-          <p>{{ s.text }}</p>
+          <p :title="s.text">{{ s.text }}</p>
           <div class="meta">
             <span class="price">{{ formatPrice(s.price) }}</span>
             <span class="note">{{ s.dur }} · {{ s.who }}</span>
@@ -38,13 +38,13 @@ import { SERVICES, formatPrice } from '../data/salon'
 }
 
 .grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-auto-rows: 1fr;
   gap: 24px;
 }
 
 .service {
-  flex: 1 1 320px;
   min-width: 0;
   background: $white;
   border-radius: 28px;
@@ -60,6 +60,11 @@ import { SERVICES, formatPrice } from '../data/salon'
   flex: 1;
   line-height: 1.55;
   color: var(--muted);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
 }
 
 .meta {
