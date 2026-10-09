@@ -2,6 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import AppSelect from './ui-kit/AppSelect.vue'
+import AppTooltip from './ui-kit/AppTooltip.vue'
 import { bookingRequest } from '../composables/bookingRequest'
 import { type PetId, SERVICES, PETS, EMPLOYEES, TIMES, FIRST_HOUR, worksAt, formatPrice } from '../data/salon'
 
@@ -207,14 +208,7 @@ function reset() {
           <div class="step">
             <h3 class="step-title"><span class="num">4</span>День</h3>
             <div class="row gap-8">
-              <span
-                v-for="(d, i) in days"
-                :key="i"
-                class="tip-wrap day-wrap"
-                :class="{ 'has-tip': dayStates[i] !== 'ok' }"
-                :data-tip="DAY_TIPS[dayStates[i]]"
-                :tabindex="dayStates[i] !== 'ok' ? 0 : undefined"
-              >
+              <AppTooltip v-for="(d, i) in days" :key="i" class="day-wrap" :text="DAY_TIPS[dayStates[i]]">
                 <button
                   type="button"
                   class="choice hov day"
@@ -227,20 +221,18 @@ function reset() {
                   <span class="day-wd">{{ d.wd }}</span>
                   <span class="day-num">{{ d.num }}</span>
                 </button>
-              </span>
+              </AppTooltip>
             </div>
           </div>
 
           <div class="step">
             <h3 class="step-title"><span class="num">5</span>Время</h3>
             <div class="row gap-8">
-              <span
+              <AppTooltip
                 v-for="s in slots"
                 :key="s.time"
-                class="tip-wrap slot-wrap"
-                :class="{ 'has-tip': s.busy || s.off }"
-                :data-tip="s.off ? 'Мастер в это время не работает' : s.busy ? 'Время занято' : undefined"
-                :tabindex="s.busy || s.off ? 0 : undefined"
+                class="slot-wrap"
+                :text="s.off ? 'Мастер в это время не работает' : s.busy ? 'Время занято' : undefined"
               >
                 <button
                   type="button"
@@ -252,7 +244,7 @@ function reset() {
                 >
                   {{ s.time }}
                 </button>
-              </span>
+              </AppTooltip>
             </div>
             <p class="hint">
               Зачёркнутое время или день уже заняты, серое с пунктиром — мастер в это время не работает.
@@ -482,45 +474,8 @@ function reset() {
   line-height: 1.2;
 }
 
-.tip-wrap {
-  position: relative;
-  min-width: 0;
-  display: flex;
-  outline: none;
-}
-
 .slot-wrap {
   flex: 1 1 92px;
-}
-
-.tip-wrap.has-tip::after {
-  content: attr(data-tip);
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  width: max-content;
-  max-width: 220px;
-  padding: 8px 12px;
-  border-radius: 12px;
-  background: var(--ink);
-  color: $white;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.3;
-  text-align: center;
-  text-decoration: none;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.15s;
-}
-
-.tip-wrap.has-tip:hover::after,
-.tip-wrap.has-tip:focus-visible::after {
-  opacity: 1;
-  visibility: visible;
 }
 
 .slot {
