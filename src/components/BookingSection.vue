@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { SERVICES, PETS, TIMES, FIRST_HOUR, formatPrice } from '../data/salon'
+import { SERVICES, PETS, EMPLOYEES, TIMES, FIRST_HOUR, formatPrice } from '../data/salon'
 
 const WEEKDAYS = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб']
 const MONTHS = [
@@ -33,6 +33,7 @@ const days = Array.from({ length: DAYS_AHEAD }, (_, i) => {
 
 const serviceId = ref('bath')
 const petId = ref('dog')
+const masterId = ref('any')
 const dayIndex = ref(1)
 const time = ref<string | null>('12:00')
 const contact = reactive({ name: '', phone: '' })
@@ -41,13 +42,16 @@ const done = ref(false)
 
 const service = computed(() => SERVICES.find((s) => s.id === serviceId.value)!)
 const pet = computed(() => PETS.find((p) => p.id === petId.value)!)
+const master = computed(() => EMPLOYEES.find((e) => e.id === masterId.value))
+const masterText = computed(() => master.value?.name ?? 'Любой мастер')
 const dateText = computed(() => days[dayIndex.value].label)
 
 // Часть слотов «занята» (имитация расписания); сегодня прошедшие часы тоже недоступны.
 const slots = computed(() =>
   TIMES.map((t, i) => {
     const past = dayIndex.value === 0 && FIRST_HOUR + i <= now.getHours()
-    const busy = past || (dayIndex.value * 5 + i * 7) % 4 === 0
+    const shift = EMPLOYEES.findIndex((e) => e.id === masterId.value) + 1
+    const busy = past || (dayIndex.value * 5 + i * 7 + shift * 3) % 4 === 0
     return { time: t, busy }
   }),
 )
@@ -121,7 +125,25 @@ function reset() {
           </div>
 
           <div class="step">
-            <h3 class="step-title"><span class="num">3</span>День</h3>
+            <h3 class="step-title"><span class="num">3</span>Мастер</h3>
+            <div class="field">
+              <select
+                id="b-master"
+                v-model="masterId"
+                class="input"
+                aria-label="Мастер"
+                @change="time = null"
+              >
+                <option value="any">Любой мастер</option>
+                <option v-for="e in EMPLOYEES" :key="e.id" :value="e.id">
+                  {{ e.name }} — {{ e.role }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="step">
+            <h3 class="step-title"><span class="num">4</span>День</h3>
             <div class="row gap-8">
               <button
                 v-for="(d, i) in days"
@@ -139,7 +161,7 @@ function reset() {
           </div>
 
           <div class="step">
-            <h3 class="step-title"><span class="num">4</span>Время</h3>
+            <h3 class="step-title"><span class="num">5</span>Время</h3>
             <div class="row gap-8">
               <button
                 v-for="s in slots"
@@ -158,7 +180,7 @@ function reset() {
           </div>
 
           <div class="step">
-            <h3 class="step-title"><span class="num">5</span>Ваши контакты</h3>
+            <h3 class="step-title"><span class="num">6</span>Ваши контакты</h3>
             <div class="row gap-16">
               <div class="field contact">
                 <label for="b-name">Имя</label>
@@ -199,6 +221,10 @@ function reset() {
                 <dd>{{ pet.name }}</dd>
               </div>
               <div>
+                <dt>Мастер</dt>
+                <dd>{{ masterText }}</dd>
+              </div>
+              <div>
                 <dt>Дата</dt>
                 <dd>{{ dateText }}</dd>
               </div>
@@ -226,7 +252,7 @@ function reset() {
             <span class="done-icon"><AppIcon name="check" :size="32" /></span>
             <h3>Заявка принята</h3>
             <p class="thanks">
-              Ждём вас: {{ dateText }}, {{ time }}. Услуга: {{ service.name }}. Администратор
+              Ждём вас: {{ dateText }}, {{ time }}. Услуга: {{ service.name }}. Мастер: {{ masterText }}. Администратор
               позвонит по номеру {{ contact.phone }} и подтвердит запись.
             </p>
             <button type="button" class="again hov on-dark" @click="reset">Новая запись</button>
