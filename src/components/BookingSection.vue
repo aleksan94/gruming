@@ -102,7 +102,8 @@ function slotState(dIdx: number, i: number, mId: string) {
   const works = staff.some((e) => worksAt(e, days[dIdx].weekday, hour))
   const shift = EMPLOYEES.findIndex((e) => e.id === mId) + 1
   const off = !past && !works
-  const busy = past || (works && (dIdx * 5 + i * 7 + shift * 3) % 4 === 0)
+  const booked = !!m?.bookedAheadDays && dIdx < m.bookedAheadDays
+  const busy = past || (works && (booked || (dIdx * 5 + i * 7 + shift * 3) % 4 === 0))
   return { busy, off }
 }
 
@@ -170,6 +171,7 @@ watch(bookingRequest, (r) => r && selectMaster(r.masterId))
 
 function pickDay(i: number) {
   dayIndex.value = i
+  week.value = Math.floor(i / WEEK)
   time.value = null
 }
 

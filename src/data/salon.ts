@@ -55,6 +55,8 @@ export interface Employee {
   pets: PetId[]
   /** Один или несколько интервалов работы (например, пн–вт и чт–пт в разное время). */
   schedule: ScheduleSlot[]
+  /** Мок: все рабочие слоты первых N дней от сегодняшнего заняты (для проверки «ближайшей свободной даты»). */
+  bookedAheadDays?: number
 }
 export interface Pet {
   id: string
@@ -215,6 +217,16 @@ export const EMPLOYEES: Employee[] = [
       { days: 'Пн–Ср', hours: '12:00–19:00' },
       { days: 'Сб', hours: '10:00–16:00' },
     ],
+  },
+  {
+    id: 'igor',
+    name: 'Орлов Игорь Павлович',
+    role: 'Грумер',
+    tint: 'green',
+    experience: 'Опыт 7 лет. Гигиенические стрижки и экспресс-линька, работает без выходных.',
+    pets: ['dog', 'cat'],
+    schedule: [{ days: 'Пн–Вс', hours: '10:00–20:00' }],
+    bookedAheadDays: 7,
   },
 ]
 
