@@ -8,6 +8,14 @@
   --gutter: #{$gutter};
 }
 
+html {
+  scroll-behavior: smooth;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);
