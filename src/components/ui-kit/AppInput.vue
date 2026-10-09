@@ -1,8 +1,20 @@
 <script setup lang="ts">
+import { computed, useAttrs } from 'vue'
+import AppIcon from '../AppIcon.vue'
+import type { IconName } from '../../data/salon'
+
 defineOptions({ inheritAttrs: false })
 
-const props = defineProps<{ format?: (value: string) => string }>()
+const props = defineProps<{ format?: (value: string) => string; icon?: IconName }>()
 const model = defineModel<string>({ required: true })
+
+// С иконкой корнем становится обёртка: class и style относятся к ней, остальные атрибуты — к самому input.
+const attrs = useAttrs()
+const wrapAttrs = computed(() => ({ class: attrs.class, style: attrs.style }))
+const inputAttrs = computed(() => {
+  const { class: _class, style: _style, ...rest } = attrs
+  return rest
+})
 
 function onInput(e: Event) {
   const el = e.target as HTMLInputElement
@@ -14,5 +26,29 @@ function onInput(e: Event) {
 </script>
 
 <template>
-  <input v-bind="$attrs" :value="model" class="input" @input="onInput" />
+  <span v-if="icon" class="input-wrap" v-bind="wrapAttrs">
+    <AppIcon :name="icon" :size="20" class="input-icon" />
+    <input v-bind="inputAttrs" :value="model" class="input input--icon" @input="onInput" />
+  </span>
+  <input v-else v-bind="$attrs" :value="model" class="input" @input="onInput" />
 </template>
+
+<style scoped lang="scss">
+.input-wrap {
+  position: relative;
+  display: block;
+}
+
+.input-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.input--icon {
+  padding-left: 44px;
+}
+</style>

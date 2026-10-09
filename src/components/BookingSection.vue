@@ -227,16 +227,15 @@ function reset() {
           <div class="step">
             <div class="step-head">
               <h3 class="step-title"><span class="num">1</span>Услуга</h3>
-              <label class="service-search">
-                <AppIcon name="search" :size="20" />
-                <AppInput
-                  v-model="serviceQuery"
-                  type="search"
-                  placeholder="Найти услугу"
-                  aria-label="Поиск услуги"
-                  autocomplete="off"
-                />
-              </label>
+              <AppInput
+                v-model="serviceQuery"
+                icon="search"
+                type="search"
+                class="service-search"
+                placeholder="Найти услугу"
+                aria-label="Поиск услуги"
+                autocomplete="off"
+              />
             </div>
             <p v-if="searching && !shownServices.length" class="hint">Ничего не найдено — попробуйте другое слово.</p>
             <div v-else class="services">
@@ -483,22 +482,8 @@ function reset() {
 }
 
 .service-search {
-  position: relative;
   flex: 0 1 260px;
   min-width: 0;
-
-  > svg {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    pointer-events: none;
-  }
-
-  :deep(.input) {
-    padding-left: 44px;
-  }
 }
 
 .week-nav {
