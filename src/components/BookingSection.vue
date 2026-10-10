@@ -3,16 +3,24 @@ import { computed, reactive, ref, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import AppInput from './ui-kit/AppInput.vue'
 import AppModal from './ui-kit/AppModal.vue'
+import CatalogStatus from './CatalogStatus.vue'
 import EmptyState from './EmptyState.vue'
 import AppPhoneInput from './ui-kit/AppPhoneInput.vue'
 import AppSelect from './ui-kit/AppSelect.vue'
 import AppTooltip from './ui-kit/AppTooltip.vue'
 import { bookingRequest } from '../composables/bookingRequest'
 import {
+  catalogStatus,
+  employees,
+  isBusy,
+  loadCatalog,
+  services,
+  submitBooking,
+} from '../data/catalog'
+import {
+  type Employee,
   type PetId,
-  SERVICES,
   PETS,
-  EMPLOYEES,
   TIMES,
   FIRST_HOUR,
   worksAt,
@@ -44,6 +52,7 @@ const days = Array.from({ length: DAYS_AHEAD }, (_, i) => {
   const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i)
   const wd = WEEKDAYS[d.getDay()]
   return {
+    iso: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`,
     weekday: d.getDay(),
     wd: i === 0 ? 'сегодня' : wd,
     num: d.getDate(),
@@ -52,7 +61,8 @@ const days = Array.from({ length: DAYS_AHEAD }, (_, i) => {
   }
 })
 
-const serviceId = ref('bath')
+// Пока пользователь не выбрал услугу, берём первую из каталога.
+const serviceId = ref('')
 const petId = ref('dog')
 const masterId = ref('any')
 const dayIndex = ref(1)
@@ -63,6 +73,9 @@ const error = ref('')
 const contactError = ref('')
 const confirmOpen = ref(false)
 const done = ref(false)
+const submitting = ref(false)
+// Мастер, которого назначили, если пользователь выбрал «Любой мастер».
+const bookedMaster = ref<string | null>(null)
 
 // Услуг много: по умолчанию показываем первые, остальные раскрываются кнопкой.
 const SERVICES_COLLAPSED = 6
@@ -72,27 +85,30 @@ const searching = computed(() => serviceQuery.value.trim() !== '')
 const shownServices = computed(() => {
   if (searching.value) {
     const q = serviceQuery.value.trim().toLowerCase()
-    return SERVICES.filter((s) => s.name.toLowerCase().includes(q))
+    return services.value.filter((s) => s.name.toLowerCase().includes(q))
   }
-  const idx = SERVICES.findIndex((s) => s.id === serviceId.value)
-  return servicesOpen.value || idx >= SERVICES_COLLAPSED
-    ? SERVICES
-    : SERVICES.slice(0, SERVICES_COLLAPSED)
+  return servicesOpen.value || serviceIndex.value >= SERVICES_COLLAPSED
+    ? services.value
+    : services.value.slice(0, SERVICES_COLLAPSED)
 })
-const canCollapse = computed(
-  () => SERVICES.findIndex((s) => s.id === serviceId.value) < SERVICES_COLLAPSED,
-)
+const canCollapse = computed(() => serviceIndex.value < SERVICES_COLLAPSED)
 
-const service = computed(() => SERVICES.find((s) => s.id === serviceId.value)!)
+// Форма показывается только после загрузки каталога, поэтому услуга всегда есть.
+const service = computed(
+  () => services.value.find((s) => s.id === serviceId.value) ?? services.value[0],
+)
+const serviceIndex = computed(() => services.value.indexOf(service.value))
 const pet = computed(() => PETS.find((p) => p.id === petId.value)!)
-const master = computed(() => EMPLOYEES.find((e) => e.id === masterId.value))
+const master = computed(() => employees.value.find((e) => e.id === masterId.value))
 // Мастера, которые работают с выбранным животным.
-const suitable = computed(() => EMPLOYEES.filter((e) => e.pets.includes(petId.value as PetId)))
+const suitable = computed(() =>
+  employees.value.filter((e) => e.pets.includes(petId.value as PetId)),
+)
 const masterOptions = computed(() => [
   { value: 'any', label: 'Любой мастер' },
   ...suitable.value.map((e) => ({ value: e.id, label: e.name, hint: e.role })),
 ])
-const masterText = computed(() => master.value?.name ?? 'Любой мастер')
+const masterText = computed(() => master.value?.name ?? bookedMaster.value ?? 'Любой мастер')
 const dateText = computed(() => days[dayIndex.value].label)
 
 // Неделя, в которой лежит выбранный день, всегда показана (мастер, заявка, «ближайшая дата»).
@@ -126,18 +142,22 @@ function onTouchEnd(e: TouchEvent) {
   if (Math.abs(dx) > 50) shiftWeek(dx < 0 ? 1 : -1)
 }
 
-// Часть слотов «занята» (имитация расписания); сегодня прошедшие часы тоже недоступны.
+// Мастер может принять запись, если работает все часы услуги и они не заняты чужими записями.
+function masterSlot(e: Employee, dIdx: number, hour: number): 'ok' | 'busy' | 'off' {
+  const day = days[dIdx]
+  const hours = Array.from({ length: Math.ceil(service.value.mins / 60) }, (_, k) => hour + k)
+  if (!hours.every((h) => worksAt(e, day.weekday, h))) return 'off'
+  return hours.some((h) => isBusy(e.name, day.iso, h)) ? 'busy' : 'ok'
+}
+
+// Сегодня прошедшие часы недоступны. Для «любого мастера» слот свободен, если свободен хоть один.
 function slotState(dIdx: number, i: number, mId: string) {
   const hour = FIRST_HOUR + i
-  const m = EMPLOYEES.find((e) => e.id === mId)
-  const past = dIdx === 0 && hour <= now.getHours()
-  const staff = m ? [m] : suitable.value
-  const works = staff.some((e) => worksAt(e, days[dIdx].weekday, hour))
-  const shift = EMPLOYEES.findIndex((e) => e.id === mId) + 1
-  const off = !past && !works
-  const booked = !!m?.bookedAheadDays && dIdx < m.bookedAheadDays
-  const busy = past || (works && (booked || (dIdx * 5 + i * 7 + shift * 3) % 4 === 0))
-  return { busy, off }
+  if (dIdx === 0 && hour <= now.getHours()) return { busy: true, off: false }
+  const m = employees.value.find((e) => e.id === mId)
+  const states = (m ? [m] : suitable.value).map((e) => masterSlot(e, dIdx, hour))
+  const free = states.includes('ok')
+  return { busy: !free && states.includes('busy'), off: !free && !states.includes('busy') }
 }
 
 const slots = computed(() =>
@@ -182,7 +202,7 @@ function pickMaster() {
 
 // Выбирает мастера и ближайшие свободные день и время.
 function selectMaster(id: string) {
-  const m = EMPLOYEES.find((e) => e.id === id)
+  const m = employees.value.find((e) => e.id === id)
   if (!m) return
   if (!m.pets.includes(petId.value as PetId)) petId.value = m.pets[0]
   masterId.value = id
@@ -202,8 +222,14 @@ function selectMaster(id: string) {
 
 watch(bookingRequest, (r) => {
   if (!r) return
-  if (r.serviceId && SERVICES.some((s) => s.id === r.serviceId)) serviceId.value = r.serviceId
+  if (r.serviceId && services.value.some((s) => s.id === r.serviceId)) serviceId.value = r.serviceId
   if (r.masterId) selectMaster(r.masterId)
+})
+
+// Другая услуга может занимать больше часов: выбранное время могло перестать подходить.
+watch(serviceId, () => {
+  const slot = slots.value.find((s) => s.time === time.value)
+  if (!slot || slot.busy || slot.off) pickMaster()
 })
 
 function pickDay(i: number) {
@@ -223,7 +249,7 @@ function book() {
   confirmOpen.value = true
 }
 
-function confirm() {
+async function confirm() {
   if (!contact.name.trim()) {
     contactError.value = 'Укажите имя, чтобы администратор знал, как к вам обращаться.'
     return
@@ -233,12 +259,43 @@ function confirm() {
     return
   }
   contactError.value = ''
+  const hour = FIRST_HOUR + TIMES.indexOf(time.value!)
+  const assigned =
+    master.value ?? suitable.value.find((e) => masterSlot(e, dayIndex.value, hour) === 'ok')
+  if (!assigned) return slotTaken()
+
+  submitting.value = true
+  const result = await submitBooking({
+    service: service.value.name,
+    master: assigned.name,
+    pet: petId.value as PetId,
+    date: days[dayIndex.value].iso,
+    time: time.value!,
+    name: contact.name.trim(),
+    phone: contact.phone,
+  })
+  submitting.value = false
+
+  if (result.ok) {
+    bookedMaster.value = assigned.name
+    confirmOpen.value = false
+    done.value = true
+  } else if (result.error === 'slot_taken') {
+    slotTaken()
+  } else {
+    contactError.value = 'Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам.'
+  }
+}
+
+function slotTaken() {
   confirmOpen.value = false
-  done.value = true
+  time.value = null
+  error.value = 'Это время только что заняли. Выберите другое.'
 }
 
 function reset() {
   done.value = false
+  bookedMaster.value = null
   contact.name = ''
   contact.phone = ''
   time.value = null
@@ -254,7 +311,12 @@ function reset() {
         <p>Выберите услугу и свободное время. Администратор перезвонит и подтвердит визит.</p>
       </div>
 
-      <div class="layout">
+      <CatalogStatus
+        v-if="catalogStatus !== 'ready'"
+        :status="catalogStatus"
+        @retry="loadCatalog"
+      />
+      <div v-else class="layout">
         <div class="card steps">
           <div class="step">
             <div class="step-head">
@@ -281,7 +343,7 @@ function reset() {
                 :key="s.id"
                 type="button"
                 class="choice hov service"
-                :aria-pressed="s.id === serviceId"
+                :aria-pressed="s.id === service.id"
                 @click="serviceId = s.id"
               >
                 <span class="service-name">{{ s.name }}</span>
@@ -298,7 +360,7 @@ function reset() {
               :aria-expanded="servicesOpen"
               @click="servicesOpen = !servicesOpen"
             >
-              {{ servicesOpen ? 'Свернуть' : `Показать все услуги (${SERVICES.length})` }}
+              {{ servicesOpen ? 'Свернуть' : `Показать все услуги (${services.length})` }}
             </button>
           </div>
 
@@ -517,7 +579,9 @@ function reset() {
           <AppPhoneInput id="b-phone" v-model="contact.phone" />
         </div>
         <p v-if="contactError" role="alert" class="confirm-error">{{ contactError }}</p>
-        <button type="submit" class="confirm-btn hov">Подтвердить запись</button>
+        <button type="submit" class="confirm-btn hov" :disabled="submitting">
+          {{ submitting ? 'Отправляем…' : 'Подтвердить запись' }}
+        </button>
         <p class="confirm-fine">Администратор перезвонит и подтвердит запись.</p>
       </form>
     </AppModal>
@@ -852,6 +916,11 @@ function reset() {
   font-weight: 800;
   font-size: 17px;
   cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
 }
 
 /* Сводка */

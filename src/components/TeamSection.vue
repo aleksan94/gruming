@@ -8,15 +8,17 @@ import MasterDetails from './MasterDetails.vue'
 import AppSlider from './ui-kit/AppSlider.vue'
 import { requestBooking } from '../composables/bookingRequest'
 import { textMatch } from '../composables/textMatch'
-import { EMPLOYEES, petsLabel } from '../data/salon'
+import CatalogStatus from './CatalogStatus.vue'
+import { catalogStatus, employees, loadCatalog } from '../data/catalog'
+import { petsLabel } from '../data/salon'
 
 const query = ref('')
 const shown = computed(() =>
-  EMPLOYEES.filter((e) => textMatch(query.value, e.name, e.role, e.experience)),
+  employees.value.filter((e) => textMatch(query.value, e.name, e.role, e.experience)),
 )
 
 const selectedId = ref<string | null>(null)
-const selected = computed(() => EMPLOYEES.find((e) => e.id === selectedId.value))
+const selected = computed(() => employees.value.find((e) => e.id === selectedId.value))
 const isOpen = computed({
   get: () => !!selected.value,
   set: (v) => {
@@ -48,7 +50,12 @@ function book(id: string) {
           autocomplete="off"
         />
       </div>
-      <EmptyState v-if="!shown.length" :query="query" @reset="query = ''" />
+      <CatalogStatus
+        v-if="catalogStatus !== 'ready'"
+        :status="catalogStatus"
+        @retry="loadCatalog"
+      />
+      <EmptyState v-else-if="!shown.length" :query="query" @reset="query = ''" />
       <AppSlider v-else arrows="bottom" :loop="false">
         <article v-for="e in shown" :key="e.id" class="person">
           <div class="photo" :class="`tint-${e.tint}`">

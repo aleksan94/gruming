@@ -7,6 +7,8 @@ export default defineConfig(({ mode }) => {
   const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env }
 
   return {
+    // относительные пути: сайт открывается и из корня домена, и из подпапки (GitHub Pages)
+    base: './',
     plugins: [vue(), svgLoader({ svgo: false })],
     css: {
       preprocessorOptions: {

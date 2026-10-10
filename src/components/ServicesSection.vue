@@ -8,13 +8,15 @@ import ServiceDetails from './ServiceDetails.vue'
 import AppSlider from './ui-kit/AppSlider.vue'
 import { requestBooking } from '../composables/bookingRequest'
 import { textMatch } from '../composables/textMatch'
-import { SERVICES, formatPrice } from '../data/salon'
+import CatalogStatus from './CatalogStatus.vue'
+import { catalogStatus, loadCatalog, services } from '../data/catalog'
+import { formatPrice } from '../data/salon'
 
 const query = ref('')
-const shown = computed(() => SERVICES.filter((s) => textMatch(query.value, s.name, s.text)))
+const shown = computed(() => services.value.filter((s) => textMatch(query.value, s.name, s.text)))
 
 const selectedId = ref<string | null>(null)
-const selected = computed(() => SERVICES.find((s) => s.id === selectedId.value))
+const selected = computed(() => services.value.find((s) => s.id === selectedId.value))
 const isOpen = computed({
   get: () => !!selected.value,
   set: (v) => {
@@ -50,7 +52,12 @@ function book() {
           autocomplete="off"
         />
       </div>
-      <EmptyState v-if="!shown.length" :query="query" @reset="query = ''" />
+      <CatalogStatus
+        v-if="catalogStatus !== 'ready'"
+        :status="catalogStatus"
+        @retry="loadCatalog"
+      />
+      <EmptyState v-else-if="!shown.length" :query="query" @reset="query = ''" />
       <AppSlider v-else arrows="bottom" :loop="false" :rows="2">
         <article
           v-for="s in shown"

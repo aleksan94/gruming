@@ -50,5 +50,8 @@ Vue 3 + Vite. Исходный дизайн-макет (React-рантайм) с
 
 ## Структура
 
-`src/components/` — секции страницы, `src/data/salon.ts` — услуги, камеры, контакты,
+Данные мастеров, услуг и записи живут в Google Sheets: см. [google-sheets/README.md](google-sheets/README.md)
+(без `VITE_API_URL` показываются демо-данные из `src/data/demo.ts`).
+
+`src/components/` — секции страницы, `src/data/salon.ts` — камеры, контакты, типы,
 `src/style.css` — дизайн-токены (цвета, шрифты) и общие классы. Акцентный цвет — `--accent`.
