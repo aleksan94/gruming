@@ -12,7 +12,7 @@ const model = defineModel<string>({ required: true })
 const attrs = useAttrs()
 const wrapAttrs = computed(() => ({ class: attrs.class, style: attrs.style }))
 const inputAttrs = computed(() => {
-  const { class: _class, style: _style, ...rest } = attrs
+  const { ...rest } = attrs
   return rest
 })
 
@@ -28,7 +28,7 @@ function onInput(e: Event) {
 <template>
   <span v-if="icon" class="input-wrap" v-bind="wrapAttrs">
     <AppIcon :name="icon" :size="20" class="input-icon" />
-    <input v-bind="inputAttrs" :value="model" class="input input--icon" @input="onInput" />
+    <input v-bind="inputAttrs" :value="model" class="input" @input="onInput" />
   </span>
   <input v-else v-bind="$attrs" :value="model" class="input" @input="onInput" />
 </template>
@@ -37,6 +37,10 @@ function onInput(e: Event) {
 .input-wrap {
   position: relative;
   display: block;
+
+  .input {
+    padding-left: 44px;
+  }
 }
 
 .input-icon {
@@ -46,9 +50,5 @@ function onInput(e: Event) {
   transform: translateY(-50%);
   color: var(--muted);
   pointer-events: none;
-}
-
-.input--icon {
-  padding-left: 44px;
 }
 </style>
