@@ -7,6 +7,8 @@ export default defineConfig(({ mode }) => {
   const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env }
 
   return {
+    // относительные пути, чтобы сайт работал на github.io/<repo>/
+    base: './',
     plugins: [vue(), svgLoader({ svgo: false })],
     css: {
       preprocessorOptions: {
