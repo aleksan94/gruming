@@ -3,6 +3,7 @@ import AppHeader from './components/AppHeader.vue'
 import HeroSection from './components/HeroSection.vue'
 import AboutSection from './components/AboutSection.vue'
 import ServicesSection from './components/ServicesSection.vue'
+import DaycareSection from './components/DaycareSection.vue'
 import TeamSection from './components/TeamSection.vue'
 import BookingSection from './components/BookingSection.vue'
 import LiveSection from './components/LiveSection.vue'
@@ -19,6 +20,7 @@ import CallbackWidget from './components/CallbackWidget.vue'
       <HeroSection />
       <AboutSection />
       <ServicesSection />
+      <DaycareSection />
       <TeamSection />
       <BookingSection />
       <LiveSection />
