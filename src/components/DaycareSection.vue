@@ -17,7 +17,7 @@ import {
 </script>
 
 <template>
-  <section id="daycare" class="section section--panel panel">
+  <section id="daycare" class="section">
     <div class="container stack-40">
       <div class="hero">
         <div class="section-head">
@@ -166,10 +166,6 @@ import {
 </template>
 
 <style scoped lang="scss">
-.panel {
-  background: var(--butter);
-}
-
 .hero {
   display: flex;
   flex-wrap: wrap;

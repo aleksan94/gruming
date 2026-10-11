@@ -31,7 +31,7 @@ function book(id: string) {
 </script>
 
 <template>
-  <section id="team" class="section">
+  <section id="team" class="section section--panel panel">
     <div class="container stack-40">
       <div class="section-bar">
         <div class="section-head">
@@ -91,6 +91,10 @@ function book(id: string) {
 </template>
 
 <style scoped lang="scss">
+.panel {
+  background: var(--butter);
+}
+
 .person {
   min-width: 0;
   background: $white;
