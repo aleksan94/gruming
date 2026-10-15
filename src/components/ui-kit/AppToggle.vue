@@ -14,6 +14,9 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
+$chevron-accent: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231e7f73' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E";
+$chevron-white: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E";
+
 .toggle {
   padding: 0 22px;
   border-radius: 20px;
@@ -39,21 +42,20 @@ defineProps<{
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E")
-        center / 18px no-repeat,
-        rgb(0 0 0 / 6%);
+      background: var(--mint) url($chevron-accent) center / 18px no-repeat;
       transition:
         transform 0.25s ease,
         background-color 0.25s ease;
     }
 
     &:hover::after {
-      background-color: rgb(0 0 0 / 12%);
+      background-color: var(--sun);
     }
   }
 
   &[open] > summary::after {
+    background-color: var(--accent);
+    background-image: url($chevron-white);
     transform: rotate(180deg);
   }
 
