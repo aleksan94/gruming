@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { useScrollLock } from '../../composables/scrollLock'
 
 const props = withDefaults(defineProps<{ modelValue: boolean; title?: string; width?: number }>(), {
   title: '',
@@ -7,6 +8,7 @@ const props = withDefaults(defineProps<{ modelValue: boolean; title?: string; wi
 })
 const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
 
+const { lock, unlock } = useScrollLock()
 const dialog = ref<HTMLElement | null>(null)
 let opener: HTMLElement | null = null
 
@@ -23,12 +25,12 @@ watch(
   async (open) => {
     if (open) {
       opener = document.activeElement as HTMLElement | null
-      document.body.style.overflow = 'hidden'
+      lock()
       document.addEventListener('keydown', onKey)
       await nextTick()
       dialog.value?.focus()
     } else {
-      document.body.style.overflow = ''
+      unlock()
       document.removeEventListener('keydown', onKey)
       opener?.focus()
     }
@@ -36,7 +38,6 @@ watch(
 )
 
 onBeforeUnmount(() => {
-  document.body.style.overflow = ''
   document.removeEventListener('keydown', onKey)
 })
 </script>
@@ -128,6 +129,7 @@ onBeforeUnmount(() => {
 
 .body {
   overflow-y: auto;
+  overscroll-behavior: contain;
   min-height: 0;
 }
 

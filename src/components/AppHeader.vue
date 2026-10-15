@@ -2,7 +2,9 @@
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import PawLogo from './PawLogo.vue'
 import { NAV } from '../data/salon'
+import { useScrollLock } from '../composables/scrollLock'
 
+const { lock, unlock } = useScrollLock()
 const open = ref(false)
 const hidden = ref(false)
 const scrolled = ref(false)
@@ -17,8 +19,13 @@ const onKey = (e: KeyboardEvent) => {
 }
 
 watch(open, (v) => {
-  if (v) document.addEventListener('keydown', onKey)
-  else document.removeEventListener('keydown', onKey)
+  if (v) {
+    lock()
+    document.addEventListener('keydown', onKey)
+  } else {
+    unlock()
+    document.removeEventListener('keydown', onKey)
+  }
 })
 
 // Шапка прячется при скролле вниз и возвращается при скролле вверх
