@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppIcon from './AppIcon.vue'
 import IconBadge from './IconBadge.vue'
+import AppToggle from './ui-kit/AppToggle.vue'
 import {
   DAYCARE_BRING,
   DAYCARE_DAY,
@@ -149,10 +150,7 @@ import {
       <div class="block">
         <h3 class="h3 title">Частые вопросы</h3>
         <div class="faq">
-          <details v-for="f in DAYCARE_FAQ" :key="f.q">
-            <summary>{{ f.q }}</summary>
-            <p>{{ f.a }}</p>
-          </details>
+          <AppToggle v-for="f in DAYCARE_FAQ" :key="f.q" :title="f.q">{{ f.a }}</AppToggle>
         </div>
       </div>
 
@@ -507,57 +505,6 @@ import {
   flex-direction: column;
   gap: 10px;
   max-width: 820px;
-
-  details {
-    padding: 0 22px;
-    border-radius: 20px;
-    background: $white;
-  }
-
-  summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 18px 0;
-    font-weight: 800;
-    cursor: pointer;
-    list-style: none;
-
-    &::-webkit-details-marker {
-      display: none;
-    }
-
-    &::after {
-      content: '';
-      flex: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E")
-        center / 18px no-repeat,
-        rgb(0 0 0 / 6%);
-      transition:
-        transform 0.25s ease,
-        background-color 0.25s ease;
-    }
-
-    &:hover::after {
-      background-color: rgb(0 0 0 / 12%);
-    }
-  }
-
-  details[open] > summary::after {
-    transform: rotate(180deg);
-  }
-
-  p {
-    margin: 0;
-    padding-bottom: 18px;
-    line-height: 1.55;
-    color: var(--muted);
-  }
 }
 
 .final {
